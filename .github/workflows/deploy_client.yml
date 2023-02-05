@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'releases/**'
+      - 'github_action_test'
 
 env:
   AWS_REGION: us-east-2
