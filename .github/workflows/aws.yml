@@ -28,7 +28,7 @@ name: Deploy to Amazon ECR
 
 on:
   push:
-    branches: [ "master", "github_action_test" ]
+    branches: [ "github_action_test" ]
 
 env:
   AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
