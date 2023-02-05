@@ -17,16 +17,16 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
+    defaults:
+      run:
+        working-directory: ./server
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
     - name: Generate deployment package
-      run: |
-      cd ./server \
-      zip -r deploy.zip . -x '*.git*' \
-      ls
+      run: zip -r deploy.zip . -x '*.git*'
     
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v20
