@@ -1,0 +1,50 @@
+name: Deploy Server
+
+on:
+  push:
+    branches: [ "github_action_test" ]
+
+env:
+  AWS_REGION: us-east-2
+  APPLICATION_NAME: test-webapp 
+  ENVIRONMENT_NAME: Testwebapp-env
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Generate deployment package
+      working-directory: ./server
+      run: zip -r deploy.zip . -x '*.git*'
+
+    - name: Configure AWS credentials
+      working-directory: ./server
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    
+    - name: Deploy to EB
+      working-directory: ./server
+      uses: einaregilsson/beanstalk-deploy@v20
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        
+        application_name: ${{ env.APPLICATION_NAME }}
+        environment_name: ${{ env.ENVIRONMENT_NAME }}
+        
+        version_label: 12348
+        region: ${{ env.AWS_REGION }}
+        deployment_package: deploy.zip
