@@ -1,4 +1,4 @@
-name: Deploy Server to AWS
+name: Deploy Client to AWS
 
 on:
   push:
@@ -7,9 +7,9 @@ on:
 
 env:
   AWS_REGION: us-east-2
-  APP_COMPONENT: server
-  APPLICATION_NAME: purdue-geochallenge-server
-  ENVIRONMENT_NAME: Purduegeochallengeserver-env
+  APP_COMPONENT: client
+  APPLICATION_NAME: purdue-geochallenge-client
+  ENVIRONMENT_NAME: Purduegeochallengeclient-env
 
 permissions:
   contents: read
