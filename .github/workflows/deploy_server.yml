@@ -24,8 +24,8 @@ jobs:
 
     - name: Generate deployment package
       run: |
-      cd ./server
-      zip -r deploy.zip . -x '*.git*'
+      cd ./server \
+      zip -r deploy.zip . -x '*.git*' \
       ls
     
     - name: Deploy to EB
