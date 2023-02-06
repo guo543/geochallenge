@@ -1,10 +1,9 @@
 name: Deploy Server to AWS
 
 on:
-  push:
-    branches:
-      - 'releases/**'
-
+  release:
+    types: [created]
+    
 env:
   AWS_REGION: us-east-2
   APP_COMPONENT: server
