@@ -3,7 +3,7 @@ name: Deploy Server to AWS
 on:
   release:
     types: [created]
-    
+
 env:
   AWS_REGION: us-east-2
   APP_COMPONENT: server
@@ -38,6 +38,6 @@ jobs:
         application_name: ${{ env.APPLICATION_NAME }}
         environment_name: ${{ env.ENVIRONMENT_NAME }}
         
-        version_label: ${{ github.event.head_commit.id }}
+        version_label: ${{ github.event.release.name }}
         region: ${{ env.AWS_REGION }}
         deployment_package: ./${{ env.APP_COMPONENT }}/deploy.zip
