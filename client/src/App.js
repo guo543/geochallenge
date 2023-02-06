@@ -10,6 +10,7 @@ const MainPage = () => {
             The Ultimate Purdue Geography Gaming
           </h3>
           <p style={{ color: "white", fontSize: 17 }}>
+            Testtext
             Test your knowledge and explore the world with Purdue's street view
             and in door pictures. Navigate the map, find clues, and guess your
             location. Join now and see how well you know the Purdue campus!
