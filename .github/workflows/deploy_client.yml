@@ -1,0 +1,36 @@
+name: Deploy Client to AWS
+
+on:
+  release:
+    types: [created]
+
+env:
+  AWS_REGION: us-east-2
+  APP_COMPONENT: client
+  APPLICATION_NAME: purdue-geochallenge-client
+  ENVIRONMENT_NAME: Purduegeochallengeclient-env
+
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./${{ env.APP_COMPONENT }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install
+      - run: npm run build
+
+      - uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: purduegeochallenge
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ env.AWS_REGION }}
+          SOURCE_DIR: './${{ env.APP_COMPONENT }}/build'
+          
