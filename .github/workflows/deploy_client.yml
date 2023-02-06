@@ -16,28 +16,19 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
-    name: Deploy
+
+  upload:
     runs-on: ubuntu-latest
-    environment: production
     defaults:
       run:
         working-directory: ./${{ env.APP_COMPONENT }}
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    
-    - name: install
-      run: npm install
-
-    - name: Build
-      run: npm run build
-
-    - name: Generate deployment package
-    - uses: shallwefootball/s3-upload-action@master
-      with:
-        aws_key_id: ${{ secrets.AWS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-        aws_bucket: testwebhostkatpu
-        source_dir: './client/build'
+      - uses: actions/checkout@v3
+      - run: npm install
+      - run: npm run build
+      - uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: testwebhostkatpu
+          source_dir: './client/build'
