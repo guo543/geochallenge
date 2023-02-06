@@ -28,10 +28,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     
+    - name: install
+      run: npm install
+
     - name: Build
-      run: |
-        npm install \
-        npm run build
+      run: npm run build
 
     - name: Generate deployment package
     - uses: shallwefootball/s3-upload-action@master
