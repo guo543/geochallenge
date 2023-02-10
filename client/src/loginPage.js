@@ -6,9 +6,10 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
-  const forgotpassword = ()=>{
-    
-  }
+  const forgotpassword = () => {
+    console.log("Sending email to", email);
+    alert(`Sending email to ${email}`);
+  };
   useEffect(() => {
     setFadeIn(true);
   }, []);
