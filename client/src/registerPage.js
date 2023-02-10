@@ -1,42 +1,97 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [fadeIn, setFadeIn] = useState(false);
+
+  useEffect(() => {
+    setFadeIn(true);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
+    if (!showPassword) {
+      setFadeIn(false);
+      setTimeout(() => {
+        if (!showPassword) {
+          setShowPassword(true);
+        } else {
+          console.log("Email:", email);
+          console.log("Password:", password);
+          console.log("Confirm Password:", confirmPassword);
+        }
+        setFadeIn(true);
+      }, 500);
+    }
   };
 
   return (
-    <div className="LoginPage" style={{ backgroundColor: "#1A1A2E" }}>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+    <div className="LoginPage">
+      <div className="rectangle">
+        <div className="icon-container">
+          <img
+            className="globe-icon"
+            src={require("./assets/globe.png")}
+            alt="globe"
           />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <br />
-        <button type="submit">Login</button>
-      </form>
+        </div>
+        <div className="welcome">Welcome !</div>
+        <form onSubmit={handleSubmit}>
+          {!showPassword ? (
+            <label>
+              <input
+                type="email"
+                value={email}
+                placeholder="you@yourmail.com"
+                onChange={(e) => setEmail(e.target.value)}
+                style={{
+                  opacity: fadeIn ? 1 : 0,
+                  transition: "opacity 0.2s ease-in",
+                }}
+              />
+            </label>
+          ) : (
+            <>
+              <label>
+                <input
+                  type="password"
+                  value={password}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{
+                    opacity: fadeIn ? 1 : 0,
+                    transition: "opacity 0.2s ease-in",
+                  }}
+                />
+              </label>
+              <br />
+              <label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  placeholder="Confirm Password"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  style={{
+                    opacity: fadeIn ? 1 : 0,
+                    transition: "opacity 0.2s ease-in",
+                  }}
+                />
+              </label>
+            </>
+          )}
+          <br />
+          <button className="next-button" type="submit">
+            {showPassword ? "Register" : "Next >"}
+          </button>
+         
+        </form>
+      </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

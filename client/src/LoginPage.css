@@ -9,10 +9,11 @@
 
 .rectangle {
   background-color: #333333;
-  width: 30%;
+  width: 25%;
   height: 50%;
   display: flex;
   flex-direction: column;
+  box-shadow: 0px 0px 10px #888888;
   align-items: center;
   justify-content: center;
   border-radius: 32px;
@@ -22,12 +23,13 @@
   margin-bottom: 20px;
 }
 .globe-icon {
-  margin-left: 202px;
-  width: 20%;
+  margin-left: 138px;
+  width: 30%;
   height: auto;
 }
 .welcome {
   margin-bottom: 20px;
+  margin-left: 18px;
   font-size: 24px;
   color: #eeeeee;
   font-weight: bolder;
@@ -38,8 +40,9 @@ input[type="email"] {
   color: #eeeeee;
   padding: 10px;
   border-color: #eeeeee;
-  border-radius: 5px;
+  border-radius: 8px;
   margin-bottom: 20px;
+  
   width: 100%;
 }
 input[type="password"] {
@@ -47,7 +50,7 @@ input[type="password"] {
   color: #eeeeee;
   padding: 10px;
   border-color: #eeeeee;
-  border-radius: 5px;
+  border-radius: 8px;
   margin-bottom: 20px;
   width: 100%;
 }
@@ -61,4 +64,52 @@ input[type="password"] {
   font-size: 14px;
   cursor: pointer;
   font-weight: bolder;
+}
+.forgot-password-button{
+  background-color: #333333;
+  margin-left: 14px;
+  cursor: pointer;
+  color:#BFBFBF;
+  border:none
+}
+.modal {
+  position: fixed;
+  z-index: 1;
+  bottom: 250px ;
+  width: 40%;
+  height: 50%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  height: 50%;
+  text-align: center;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {
+  padding: 2px 16px;
+}
+
+.close-button {
+  float: right;
+  color: #000;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: red;
 }
