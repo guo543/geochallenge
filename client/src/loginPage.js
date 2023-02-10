@@ -6,7 +6,9 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
-
+  const forgotpassword = ()=>{
+    
+  }
   useEffect(() => {
     setFadeIn(true);
   }, []);
@@ -37,7 +39,7 @@ const LoginPage = () => {
             alt="globe"
           />
         </div>
-        <div className="welcome">Welcome!</div>
+        <div className="welcome">Welcome Back!</div>
         <form onSubmit={handleSubmit}>
           {!showPassword ? (
             <label>
@@ -70,6 +72,11 @@ const LoginPage = () => {
           <button className="next-button" type="submit">
             {showPassword ? "Login" : "Next >"}
           </button>
+          <button className="forgot-password-button"
+          type="button"
+            onClick={forgotpassword}>
+              Forgot Password
+            </button>
         </form>
       </div>
     </div>
