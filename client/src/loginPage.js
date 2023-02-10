@@ -31,7 +31,11 @@ const LoginPage = () => {
     <div className="LoginPage">
       <div className="rectangle">
         <div className="icon-container">
-          <i className="fa fa-globe fa-3x"></i>
+          <img
+            className="globe-icon"
+            src={require("./assets/globe.png")}
+            alt="globe"
+          />
         </div>
         <div className="welcome">Welcome!</div>
         <form onSubmit={handleSubmit}>

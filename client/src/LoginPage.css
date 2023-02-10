@@ -9,8 +9,8 @@
 
 .rectangle {
   background-color: #333333;
-  width: 40%;
-  height: 60%;
+  width: 30%;
+  height: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,10 +21,14 @@
 .icon-container {
   margin-bottom: 20px;
 }
-
+.globe-icon {
+  margin-left: 202px;
+  width: 20%;
+  height: auto;
+}
 .welcome {
   margin-bottom: 20px;
-  font-size: 28px;
+  font-size: 24px;
   color: #eeeeee;
   font-weight: bolder;
 }
