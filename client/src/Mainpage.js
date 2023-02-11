@@ -1,7 +1,9 @@
 import React from "react";
 import "./MainPage.css";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
+  const handleStartClick = () => {};
   return (
     <div className="main-page-container">
       <div className="middle-container">
@@ -14,7 +16,9 @@ const MainPage = () => {
             and in door pictures. Navigate the map, find clues, and guess your
             location. Join now and see how well you know the Purdue campus!
           </p>
-          <button className="start-button">Start</button>
+          <button className="start-button" onClick={handleStartClick}>
+            Start
+          </button>
         </div>
         <div className="right-side">
           <img
