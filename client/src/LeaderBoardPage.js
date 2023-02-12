@@ -12,7 +12,7 @@ const MainPage = () => {
             The Ultimate Purdue Geography Gaming
           </h3>
           <p style={{ color: "white", fontSize: 17 }}>
-            This will be the upload page.
+            This will be the leaderboard page.
           </p>
           <button className="start-button" onClick={handleStartClick}>
             Start
@@ -21,7 +21,7 @@ const MainPage = () => {
         <div className="right-side">
           <img
             className="purdue-campus"
-            src={require("../assets/Purdue Campus.jpg")}
+            src={require("./assets/Purdue Campus.jpg")}
             alt="Purdue Campus"
           />
         </div>

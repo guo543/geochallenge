@@ -2,15 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./pages/Navbar";
-import MainPage from "./pages/Mainpage";
-import LoginPage from "./pages/loginPage";
-import RegisterPage  from "./pages/registerPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import GamePage from "./pages/GamePage";
-import LeaderBoardPage from "./pages/LeaderBoardPage";
-import UploadPage from "./pages/UploadPage";
-import ProfilePage from "./pages/ProfilePage";
+import Navbar from "./Navbar";
+import MainPage from "./Mainpage";
+import LoginPage from "./loginPage";
+import RegisterPage  from "./registerPage";
+import ForgotPasswordPage from "./ForgotPasswordPage";
+import GamePage from "./GamePage";
+import LeaderBoardPage from "./LeaderBoardPage";
+import UploadPage from "./UploadPage";
+import ProfilePage from "./ProfilePage";
 import reportWebVitals from "./reportWebVitals";
 
 export default function App() {

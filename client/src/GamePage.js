@@ -21,7 +21,7 @@ const MainPage = () => {
         <div className="right-side">
           <img
             className="purdue-campus"
-            src={require("../assets/Purdue Campus.jpg")}
+            src={require("./assets/Purdue Campus.jpg")}
             alt="Purdue Campus"
           />
         </div>
