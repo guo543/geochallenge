@@ -36,7 +36,7 @@ const LoginPage = () => {
         <div className="icon-container">
           <img
             className="globe-icon"
-            src={require("./assets/globe.png")}
+            src={require("../assets/globe.png")}
             alt="globe"
           />
         </div>
