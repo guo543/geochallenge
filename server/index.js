@@ -4,6 +4,7 @@ import cors from 'cors';
 import userRoutes from './routes/user.js'
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import auth from './middleware/auth.js';
 
 const app = express();
 dotenv.config();
@@ -14,7 +15,7 @@ app.use(cors());
 
 app.use('/user', userRoutes);
 
-app.get('/hello', (req, res) => {
+app.get('/hello', auth,(req, res) => {
     res.send("hello");
 });
 
@@ -22,7 +23,7 @@ let PORT = process.env.PORT || 8000;
 const CONNECTION_URL = process.env.CONNECTION_URL;
 
 if (CONNECTION_URL === undefined) {
-    console.log("Please specify the mongodb connection string in .env");
+    console.log("Please specify the MongoDB connection string in .env");
     process.exit(-1);
 }
 
