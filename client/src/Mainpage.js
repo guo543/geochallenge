@@ -1,11 +1,17 @@
 import React from "react";
 import "./MainPage.css";
 import { useNavigate } from "react-router-dom";
+import TitleBar from './titleBar.js'
 
 const MainPage = () => {
-  const handleStartClick = () => {};
+  const navigate = useNavigate();
+  const handleStartClick = () => {
+    navigate("/gamePage")
+  };
+
   return (
     <div className="main-page-container">
+      <TitleBar />
       <div className="middle-container">
         <div className="left-side">
           <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
