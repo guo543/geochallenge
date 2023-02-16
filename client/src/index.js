@@ -7,7 +7,7 @@ import MainPage from "./Mainpage";
 import LoginPage from "./loginPage";
 import RegisterPage  from "./registerPage";
 import ForgotPasswordPage from "./ForgotPasswordPage";
-import GamePage from "./GamePage";
+import GamePage from "./Game/GamePage";
 import LeaderBoardPage from "./LeaderBoardPage";
 import UploadPage from "./UploadPage";
 import ProfilePage from "./ProfilePage";
