@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+// import { render } from 'react-dom';
 
 class Map extends Component {
     componentDidMount() {
+        // eslint-disable-next-line
         const map = new window.google.maps.Map(document.getElementById('map'), {
             center: { lat: 40.4237054, lng: -86.9233833 },
             zoom: 14,
