@@ -1,0 +1,77 @@
+.parent {
+  display: flex;
+  width: 100%;
+  height: 10%;
+  background-color: #1a191f;
+  justify-content: space-between;
+}
+
+.title-text {
+margin-left: 3%;
+}
+
+.button-group {
+margin-right: 1%;
+justify-content: center;
+}
+
+.home-button {
+background-color: #1a191f;
+color: #fff;
+padding: 10px 20px;
+border-radius: 5px;
+text-align: center;
+cursor: pointer;
+margin: 20px;
+border: 0px;
+}
+
+
+.leaderboard-button {
+background-color: #1a191f;
+color: #fff;
+padding: 10px 20px;
+border-radius: 5px;
+text-align: center;
+cursor: pointer;
+margin: 20px;
+border: 0px;
+}
+
+.upload-button {
+background-color: #1a191f;
+color: #fff;
+padding: 10px 20px;
+border-radius: 5px;
+text-align: center;
+cursor: pointer;
+margin: 20px;
+border: 0px;
+}
+
+.profile-button {
+background-color: #1a191f;
+color: #fff;
+padding: 10px 20px;
+border-radius: 5px;
+text-align: center;
+cursor: pointer;
+margin: 20px;
+border: 0px;
+}
+
+.home-button:hover {
+background-color: #e5a102;
+}
+
+.leaderboard-button:hover {
+background-color: #e5a102;
+}
+
+.upload-button:hover {
+background-color: #e5a102;
+}
+
+.profile-button:hover {
+background-color: #e5a102;
+}

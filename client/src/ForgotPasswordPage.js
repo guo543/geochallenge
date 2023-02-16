@@ -29,7 +29,7 @@ const ForgotPasswordPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsCode(true);
-    setDescription("Enter the code you received from your email，check the spam box if you did not received");
+    setDescription("Enter the code you received from your email, check the spam box if you did not received");
   };
 
   return (
