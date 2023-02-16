@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+// import { render } from 'react-dom';
 
 class StreetView extends Component {
     componentDidMount() {
+        // eslint-disable-next-line
         const panorama = new window.google.maps.StreetViewPanorama(
             document.getElementById('streetViewMap'),
             {
