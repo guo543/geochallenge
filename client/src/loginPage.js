@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
-
+import { Link } from "react-router-dom";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
   const forgotpassword = () => {
-    console.log("Sending email to", email);
-    alert(`Sending email to ${email}`);
+   
   };
   useEffect(() => {
     setFadeIn(true);
@@ -73,11 +72,13 @@ const LoginPage = () => {
           <button className="next-button" type="submit">
             {showPassword ? "Login" : "Next >"}
           </button>
+          <Link to="/forgotPasswordPage">
           <button className="forgot-password-button"
           type="button"
             onClick={forgotpassword}>
               Forgot Password
             </button>
+            </Link>
         </form>
       </div>
     </div>

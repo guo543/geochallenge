@@ -1,12 +1,12 @@
 import React from "react";
 import "./MainPage.css";
 import { useNavigate } from "react-router-dom";
-import TitleBar from './titleBar.js'
+import TitleBar from "./titleBar.js";
 
 const MainPage = () => {
   const navigate = useNavigate();
   const handleStartClick = () => {
-    navigate("/gamePage")
+    navigate("/gamePage");
   };
 
   return (
@@ -32,6 +32,26 @@ const MainPage = () => {
             src={require("./assets/Purdue Campus.jpg")}
             alt="Purdue Campus"
           />
+          <div className="contact">
+            <h3 style={{ color: "#F2ECEC", fontSize: 24 }}>Contact us</h3>
+            <div className="icon-container">
+              <img
+                className="clickable-icon"
+                src={require("./assets/reddit.png")}
+                alt="Purdue Campus"
+              />
+              <img
+                className="clickable-icon"
+                src={require("./assets/discord.png")}
+                alt="Purdue Campus"
+              />
+              <img
+                className="clickable-icon"
+                src={require("./assets/twitter.png")}
+                alt="Purdue Campus"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
