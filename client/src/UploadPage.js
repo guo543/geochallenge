@@ -1,6 +1,5 @@
 import React from "react";
 import "./MainPage.css";
-import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const handleStartClick = () => {};
