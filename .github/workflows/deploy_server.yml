@@ -3,9 +3,6 @@ name: Deploy Server to AWS
 on:
   release:
     types: [created]
-  push:
-    branches: ['fetch-secret-upon-deployment']
-  
 
 env:
   AWS_REGION: us-east-2
@@ -38,8 +35,6 @@ jobs:
         MONGODB_CONNECTION_URL: ${{secrets.MONGODB_CONNECTION_URL}}
         MONGODB_PORT: ${{secrets.MONGODB_PORT}}
 
-    - run: cat ./.env
-    
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v20
       with:
