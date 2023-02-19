@@ -1,57 +1,69 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-import User from '../models/user.js';
+import User from "../models/user.js";
 
-import nodemailer from 'nodemailer'
+import nodemailer from "nodemailer";
 const verificationMap = new Map();
 
 export const signin = async (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    try {
-        const existingUser = await User.findOne({ email });
-        
-        if (!existingUser) return res.status(404).json({ message: "User doesn't exist." });
+  try {
+    const existingUser = await User.findOne({ email });
 
-        const isPasswordCorrect = await bcrypt.compare(password, existingUser.password);
-        if (!isPasswordCorrect) return res.status(404).json({ message: "Invalid credentials." });
-        const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, 'test', { expiresIn: "1h" });
+    if (!existingUser)
+      return res.status(404).json({ message: "User doesn't exist." });
 
-        res.status(200).json({ result: existingUser, token })
-    } catch (error) {
-        res.status(500).json({ message: "Something went wrong." })
-    }
-}
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+    if (!isPasswordCorrect)
+      return res.status(404).json({ message: "Invalid credentials." });
+    const token = jwt.sign(
+      { email: existingUser.email, id: existingUser._id },
+      "test",
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({ result: existingUser, token });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
 
 export const signup = async (req, res) => {
-    const { email, password } = req.body;
-    //console.log(password);
+  const { email, password } = req.body;
+  //console.log(password);
 
-    try {
-        const existingUser = await User.findOne({ email });
+  try {
+    const existingUser = await User.findOne({ email });
 
-        if (existingUser) return res.status(400).json({ message: "User already exist." });
+    if (existingUser)
+      return res.status(400).json({ message: "User already exist." });
 
-        const hashedPassword = await bcrypt.hash(password, 12);
-        const result = await User.create({ email, password: hashedPassword });
-        const token = jwt.sign({ email: result.email, id: result._id }, 'test', { expiresIn: "1h" });
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const result = await User.create({ email, password: hashedPassword });
+    const token = jwt.sign({ email: result.email, id: result._id }, "test", {
+      expiresIn: "1h",
+    });
 
-        res.status(200).json({ result, token });
-    } catch (error) {
-        res.status(500).json({ message: "Something went wrong." })
-    }
-    res.send("signup");
-}
+    res.status(200).json({ result, token });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+  //res.json("signup");
+};
 
-export const verification = async() =>{
-    console.log(req.body.email);
+export const verification = async () => {
+  console.log(req.body.email);
   if (req.body.email == false) {
     res.json(false);
     return;
   } else {
     var val = Math.floor(1000 + Math.random() * 9000);
-    verificationMap.set(req.body.email,val)
+    verificationMap.set(req.body.email, val);
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -75,6 +87,6 @@ export const verification = async() =>{
         console.log("Email sent: " + info.response);
       }
     });
-    res.json("send email")
+    res.json("send email");
   }
-}
+};
