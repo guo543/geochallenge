@@ -29,14 +29,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Generate deployment package
-      run: zip -r deploy.zip . -x '*.git*'
-    
     - run: ./scripts/create_env.sh
       shell: bash
       env:
         MONGODB_CONNECTION_URL: ${{secrets.MONGODB_CONNECTION_URL}}
         MONGODB_PORT: ${{secrets.MONGODB_PORT}}
+
+    - run: cat .env
+
+    - name: Generate deployment package
+      run: zip -r deploy.zip . -x '*.git*'
 
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v20
@@ -47,6 +49,6 @@ jobs:
         application_name: ${{ env.APPLICATION_NAME }}
         environment_name: ${{ env.ENVIRONMENT_NAME }}
         
-        version_label: ${{ github.event.release.name || env.GITHUB_SHA_SHORT }}
+        version_label: ${{ github.event.release.name || github.event.head_commit.id }}
         region: ${{ env.AWS_REGION }}
         deployment_package: ./${{ env.APP_COMPONENT }}/deploy.zip
