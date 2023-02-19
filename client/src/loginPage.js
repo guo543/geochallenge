@@ -1,31 +1,40 @@
 import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
-  const forgotpassword = () => {
-   
-  };
+  const history = useNavigate();
+  const forgotpassword = () => {};
   useEffect(() => {
     setFadeIn(true);
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!showPassword) {
       setFadeIn(false);
       setTimeout(() => {
         if (!showPassword) {
           setShowPassword(true);
-        } else {
-          console.log("Email:", email);
-          console.log("Password:", password);
         }
         setFadeIn(true);
       }, 500);
+    } else {
+      try {
+        const response = await axios.post("http://localhost:8000/user/signin", {
+          email: email,
+          password: password,
+        });
+        console.log(response.data);
+        localStorage.setItem("userCredentials", JSON.stringify(response.data));
+        history("/");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -73,12 +82,14 @@ const LoginPage = () => {
             {showPassword ? "Login" : "Next >"}
           </button>
           <Link to="/forgotPasswordPage">
-          <button className="forgot-password-button"
-          type="button"
-            onClick={forgotpassword}>
+            <button
+              className="forgot-password-button"
+              type="button"
+              onClick={forgotpassword}
+            >
               Forgot Password
             </button>
-            </Link>
+          </Link>
         </form>
       </div>
     </div>

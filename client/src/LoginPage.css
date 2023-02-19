@@ -23,7 +23,7 @@
   margin-bottom: 20px;
 }
 .globe-icon {
-  margin-left: 138px;
+  margin-left: 115px;
   width: 30%;
   height: auto;
 }
@@ -42,7 +42,7 @@ input[type="email"] {
   border-color: #eeeeee;
   border-radius: 8px;
   margin-bottom: 20px;
-  
+
   width: 100%;
 }
 input[type="password"] {
@@ -65,21 +65,21 @@ input[type="password"] {
   cursor: pointer;
   font-weight: bolder;
 }
-.forgot-password-button{
+.forgot-password-button {
   background-color: #333333;
   margin-left: 14px;
   cursor: pointer;
-  color:#BFBFBF;
-  border:none
+  color: #bfbfbf;
+  border: none;
 }
 .modal {
   position: fixed;
   z-index: 1;
-  bottom: 250px ;
+  bottom: 250px;
   width: 40%;
   height: 50%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
