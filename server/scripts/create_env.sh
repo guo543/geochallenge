@@ -9,11 +9,11 @@ write_secret_to_env() {
         status=1
     fi
 
-    secret_name=$1
-    eval secret_content=\$$secret_name
-    env_name=$2
+    secret_name="$1"
+    eval secret_content="\$$secret_name"
+    env_name="$2"
 
-    if [[ "$secret_content" -eq "" || "$secret_content" -eq null ]]; then
+    if [[ "$secret_content" != "" && "$secret_content" != null ]]; then
         echo "$env_name = $secret_content" >> .env
         echo "Secret $secret_name written to .env"
     else
@@ -26,7 +26,7 @@ write_secret_to_env() {
 write_secret_to_env "MONGODB_CONNECTION_URL" "CONNECTION_URL"
 
 # Not required
-if [[ $MONGODB_PORT -ne "" && $MONGODB_PORT -ne null ]]; then
+if [[ $MONGODB_PORT != "" && $MONGODB_PORT != null ]]; then
     write_secret_to_env "MONGODB_PORT" "PORT"
 fi
 
