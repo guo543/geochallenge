@@ -3,6 +3,9 @@ name: Deploy Server to AWS
 on:
   release:
     types: [created]
+  push:
+    branches: ['master']
+  
 
 env:
   AWS_REGION: us-east-2
