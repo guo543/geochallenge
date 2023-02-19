@@ -3,6 +3,7 @@ name: Deploy Server to AWS
 on:
   release:
     types: [created]
+  
 
 env:
   AWS_REGION: us-east-2
@@ -29,15 +30,23 @@ jobs:
     - name: Generate deployment package
       run: zip -r deploy.zip . -x '*.git*'
     
-    - name: Deploy to EB
-      uses: einaregilsson/beanstalk-deploy@v20
-      with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - run: ./scripts/create_env.sh
+      shell: bash
+      env:
+        MONGODB_CONNECTION_URL: ${{secrets.MONGODB_CONNECTION_URL}}
+        MONGODB_PORT: ${{secrets.MONGODB_PORT}}
+
+    - run: cat ./.env
+    
+    # - name: Deploy to EB
+    #   uses: einaregilsson/beanstalk-deploy@v20
+    #   with:
+    #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         
-        application_name: ${{ env.APPLICATION_NAME }}
-        environment_name: ${{ env.ENVIRONMENT_NAME }}
+    #     application_name: ${{ env.APPLICATION_NAME }}
+    #     environment_name: ${{ env.ENVIRONMENT_NAME }}
         
-        version_label: ${{ github.event.release.name }}
-        region: ${{ env.AWS_REGION }}
-        deployment_package: ./${{ env.APP_COMPONENT }}/deploy.zip
+    #     version_label: ${{ github.event.release.name }}
+    #     region: ${{ env.AWS_REGION }}
+    #     deployment_package: ./${{ env.APP_COMPONENT }}/deploy.zip
