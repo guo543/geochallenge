@@ -29,6 +29,12 @@ jobs:
     - name: Generate deployment package
       run: zip -r deploy.zip . -x '*.git*'
     
+    - run: ./scripts/create_env.sh
+      shell: bash
+      env:
+        MONGODB_CONNECTION_URL: ${{secrets.MONGODB_CONNECTION_URL}}
+        MONGODB_PORT: ${{secrets.MONGODB_PORT}}
+
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v20
       with:
