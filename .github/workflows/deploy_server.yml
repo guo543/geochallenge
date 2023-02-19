@@ -26,6 +26,8 @@ jobs:
         working-directory: ./${{ env.APP_COMPONENT }}
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v3
 
     - run: ./scripts/create_env.sh
       shell: bash
@@ -34,13 +36,9 @@ jobs:
         MONGODB_PORT: ${{secrets.MONGODB_PORT}}
 
     - run: cat .env
-    
-    - name: Checkout
-      uses: actions/checkout@v3
 
     - name: Generate deployment package
       run: zip -r deploy.zip . -x '*.git*'
-    
 
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v20
