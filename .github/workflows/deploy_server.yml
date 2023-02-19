@@ -4,7 +4,7 @@ on:
   release:
     types: [created]
   push:
-    branches: ['master', 'fix-workflow']
+    branches: ['master']
   
 
 env:
@@ -49,6 +49,6 @@ jobs:
         application_name: ${{ env.APPLICATION_NAME }}
         environment_name: ${{ env.ENVIRONMENT_NAME }}
         
-        version_label: ${{ github.event.head_commit.id }}
+        version_label: ${{ github.event.release.name || github.event.head_commit.id }}
         region: ${{ env.AWS_REGION }}
         deployment_package: ./${{ env.APP_COMPONENT }}/deploy.zip
