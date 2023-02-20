@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./ForgotPasswordPage.css";
+import axios from "axios";
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
@@ -9,6 +10,12 @@ const ForgotPasswordPage = () => {
     "Enter the email address associated with your account and we’ll send you a code to reset your password."
   );
   const [isCode, setIsCode] = useState(false);
+  const [counter, setCounter] = useState(0);
+  const [codematched, setCodematched] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const passRegex = new RegExp(/^.{8,}$/);
+  const [passwordValid, setPasswordValid] = useState(true);
+  const [passwordChanged, setPasswordChanged] = useState(false);
 
   useEffect(() => {
     let interval = null;
@@ -24,12 +31,74 @@ const ForgotPasswordPage = () => {
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [isCode]);
+  }, [counter, isCode]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsCode(true);
-    setDescription("Enter the code you received from your email, check the spam box if you did not received");
+    if (!isCode) {
+      try {
+        const response = await axios.post(
+          "http://localhost:8000/user/verification",
+          {
+            email: email,
+          }
+        );
+        if (response.status === 200) {
+          setIsCode(true);
+          setCounter(counter + 1);
+          setDescription(
+            "Enter the code you received from your email, check the spam box if you did not received"
+          );
+        }
+      } catch (error) {
+        setIsCode(true);
+        console.log(error);
+      }
+    } else if (!codematched) {
+      try {
+        const response = await axios.post(
+          "http://localhost:8000/user/checkcode",
+          {
+            email: email,
+            code: code,
+          }
+        );
+        if (response.status === 200) {
+          setCodematched(true);
+          setDescription("Enter your new password");
+        }
+      } catch (error) {
+        if (error.response.status === 400) {
+          console.log("bad request");
+          setDescription("Code is not matched, please try again");
+        }
+        console.log(error);
+      }
+    }
+
+    if (codematched) {
+      try {
+        if (passRegex.test(newPassword)) {
+          setPasswordValid(true);
+        } else {
+          setPasswordValid(false);
+        }
+        const response = await axios.post(
+          "http://localhost:8000/user/resetpassword",
+          {
+            email: email,
+            newPassword: newPassword,
+          }
+        );
+        if (response.status === 200) {
+          console.log("password is reset");
+          setPasswordChanged(true);
+          setDescription("Password changed successfully!");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -38,7 +107,24 @@ const ForgotPasswordPage = () => {
         <div className="brand">GeoChallenge</div>
         <div className="description">{description}</div>
         <form onSubmit={handleSubmit}>
-          {isCode ? (
+          {codematched ? (
+            <label>
+              <input
+                type="password"
+                value={newPassword}
+                placeholder="Password"
+                onChange={(e) => setNewPassword(e.target.value)}
+                style={{
+                  border: passwordValid ? "" : "2px solid red",
+                }}
+              />
+              {!passwordValid && (
+                <div style={{ color: "red" }}>
+                  Password must be at least 8 characters long
+                </div>
+              )}
+            </label>
+          ) : isCode ? (
             <label>
               <input
                 type="text"
@@ -46,9 +132,7 @@ const ForgotPasswordPage = () => {
                 placeholder={`Countdown: ${timer}`}
                 onChange={(e) => setCode(e.target.value)}
               />
-              
             </label>
-            
           ) : (
             <label>
               <input
@@ -63,6 +147,30 @@ const ForgotPasswordPage = () => {
           <button className="continue-button" type="submit">
             Continue
           </button>
+          {isCode && !codematched && (
+            <button
+              className="resend-button"
+              type="button"
+              onClick={async () => {
+                setCounter(counter + 1);
+                setTimer(60);
+                const response = await axios.post(
+                  "http://localhost:8000/user/verification",
+                  {
+                    email: email,
+                  }
+                );
+                if (response.status === 200) {
+                }
+              }}
+              disabled={timer !== 0}
+            >
+              {timer === 0 ? "Resend" : `Resend (${timer})`}
+            </button>
+          )}
+          {passwordChanged && (
+            <div style={{ color: "green" }}>Password changed successfully!</div>
+          )}
         </form>
       </div>
     </div>
