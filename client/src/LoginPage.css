@@ -113,3 +113,9 @@ input[type="password"] {
 .close-button:hover {
   color: red;
 }
+.error-message {
+  color: red;
+
+  font-size: 16px;
+  margin-top: 10px;
+}

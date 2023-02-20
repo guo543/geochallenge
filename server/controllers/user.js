@@ -56,37 +56,72 @@ export const signup = async (req, res) => {
   //res.json("signup");
 };
 
-export const verification = async () => {
-  console.log(req.body.email);
-  if (req.body.email == false) {
-    res.json(false);
-    return;
+export const verification = async (req, res) => {
+  try {
+    const email = req.body.email;
+    if (req.body.email == false) {
+      res.json(false);
+      return;
+    } else {
+      var val = Math.floor(1000 + Math.random() * 9000);
+      verificationMap.set(req.body.email, val);
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "boilercard1@gmail.com",
+          pass: "hwgprezcxqzkxexk",
+        },
+      });
+      const mailOptions = {
+        from: "boilercard1@gmail.com",
+        to: email,
+        subject: "Verification code",
+        text:
+          "Your code for recover password is: " +
+          val +
+          ", Do not send it to anyone.",
+      };
+      transporter.sendMail(mailOptions, async function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: code is " + val);
+        }
+      });
+      res.status(200).json({ message: "Verification code sent." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong." });
+  }
+};
+export const checkcode = async (req, res) => {
+  const email = req.body.email;
+  const code = req.body.code;
+  const realcode = verificationMap.get(email);
+  if (code == realcode) {
+    res.status(200).json({ message: "Code is matched." });
   } else {
-    var val = Math.floor(1000 + Math.random() * 9000);
-    verificationMap.set(req.body.email, val);
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "boilercard1@gmail.com",
-        pass: "hwgprezcxqzkxexk",
-      },
-    });
-    const mailOptions = {
-      from: "boilercard1@gmail.com",
-      to: user.email,
-      subject: "Verification code",
-      text:
-        "Your code for recover password is: " +
-        val +
-        ", Do not send it to anyone.",
-    };
-    transporter.sendMail(mailOptions, async function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
-    res.json("send email");
+    res.status(400).json({ message: "Code is not matched." });
+  }
+};
+export const resetpassword = async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 12);
+
+    user.password = hashedNewPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successful." });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong." });
   }
 };

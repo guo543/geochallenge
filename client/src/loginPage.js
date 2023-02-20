@@ -7,6 +7,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const history = useNavigate();
   const forgotpassword = () => {};
   useEffect(() => {
@@ -34,6 +35,9 @@ const LoginPage = () => {
         history("/");
       } catch (err) {
         console.log(err);
+        if (err.response.status === 404) {
+          setErrorMessage("Invalid email or password. Please try again.");
+        }
       }
     }
   };
@@ -90,6 +94,8 @@ const LoginPage = () => {
               Forgot Password
             </button>
           </Link>
+
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
         </form>
       </div>
     </div>
