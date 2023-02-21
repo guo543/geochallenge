@@ -15,8 +15,10 @@ function GuestEnterGameModal({ closeModal }) {
                 <p>Your scores will not be saved and your progress can be lost. </p>
             </div>
             <div className="footer">
-                <button onClick={() => closeModal(false)}>Cancel</button>
-                <button onClick={() => navigate("/gamePage")}>Continue</button>
+                <button onClick={() => navigate("/")}>Cancel</button>
+                <button onClick={() => {
+                    console.log("close");
+                    closeModal(false)}}>Continue</button>
             </div>
         </div>
     </div>)

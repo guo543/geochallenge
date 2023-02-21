@@ -1,28 +1,16 @@
-import React, {useState} from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./MainPage.css";
 
 import TitleBar from "./components/titleBar.js";
-import GuestEnterGameModal from "./components/guestEnterGameModal";
 
 const MainPage = () => {
-  
-  const navigate = useNavigate();
-  const [openModal, setOpenModal] = useState(false)
 
-  const handleStartClick = () => {
-    if (localStorage.getItem("userCredentials") === null) {
-      setOpenModal(true);
-    } else {
-      navigate("/gamePage");
-    }
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="main-page-container">
-      {openModal && <GuestEnterGameModal closeModal={setOpenModal}/>}
-
       <TitleBar />
       <div className="middle-container">
         <div className="left-side">
@@ -34,7 +22,7 @@ const MainPage = () => {
             and in door pictures. Navigate the map, find clues, and guess your
             location. Join now and see how well you know the Purdue campus!
           </p>
-          <button className="start-button" onClick={handleStartClick}>
+          <button className="start-button" onClick={() => {navigate("/gamePage");}}>
             Start
           </button>
         </div>
