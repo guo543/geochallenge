@@ -1,16 +1,28 @@
-import React from "react";
-import "./MainPage.css";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import TitleBar from "./titleBar.js";
+
+import "./MainPage.css";
+
+import TitleBar from "./components/titleBar.js";
+import GuestEnterGameModal from "./components/guestEnterGameModal";
 
 const MainPage = () => {
+  
   const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false)
+
   const handleStartClick = () => {
-    navigate("/gamePage");
+    if (localStorage.getItem("userCredentials") === null) {
+      setOpenModal(true);
+    } else {
+      navigate("/gamePage");
+    }
   };
 
   return (
     <div className="main-page-container">
+      {openModal && <GuestEnterGameModal closeModal={setOpenModal}/>}
+
       <TitleBar />
       <div className="middle-container">
         <div className="left-side">
