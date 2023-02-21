@@ -25,6 +25,8 @@
 }
 
 .footer>button {
+    color: white;
+    padding: 2%;
     background-color: #e5a102;
     border: 0px;
     border-radius: 5px;
