@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import User from '../models/user.js';
 
-import nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer';
 const verificationMap = new Map();
 
 export const signin = async (req, res) => {
