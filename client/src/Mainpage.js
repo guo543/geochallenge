@@ -1,13 +1,13 @@
 import React from "react";
-import "./MainPage.css";
 import { useNavigate } from "react-router-dom";
-import TitleBar from "./titleBar.js";
+
+import "./MainPage.css";
+
+import TitleBar from "./components/titleBar.js";
 
 const MainPage = () => {
+
   const navigate = useNavigate();
-  const handleStartClick = () => {
-    navigate("/gamePage");
-  };
 
   return (
     <div className="main-page-container">
@@ -22,7 +22,7 @@ const MainPage = () => {
             and in door pictures. Navigate the map, find clues, and guess your
             location. Join now and see how well you know the Purdue campus!
           </p>
-          <button className="start-button" onClick={handleStartClick}>
+          <button className="start-button" onClick={() => {navigate("/gamePage");}}>
             Start
           </button>
         </div>

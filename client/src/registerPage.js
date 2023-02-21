@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
-import localstorage from "local-storage";
+// import localstorage from "local-storage";
 import axios from "axios";
 
 const RegisterPage = () => {
