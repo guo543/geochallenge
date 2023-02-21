@@ -7,28 +7,16 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
-<<<<<<< HEAD
   const [isPurdueEmail, setIsPurdueEmail] = useState(true);
 
-  const forgotpassword = () => {
-   
-  };
-=======
   const [errorMessage, setErrorMessage] = useState("");
   const history = useNavigate();
   const forgotpassword = () => {};
->>>>>>> c0075b8bda37ee2afc64221ff4e3ebe371813188
   useEffect(() => {
     setFadeIn(true);
   }, []);
 
-<<<<<<< HEAD
-  const handleSubmit = (e) => {
-    console.log('click');
-
-=======
   const handleSubmit = async (e) => {
->>>>>>> c0075b8bda37ee2afc64221ff4e3ebe371813188
     e.preventDefault();
     if (!showPassword) {
       // entering email
@@ -54,12 +42,6 @@ const LoginPage = () => {
         setFadeIn(true);
       }, 500);
     } else {
-<<<<<<< HEAD
-      // log in here
-      console.log('logging in');
-      console.log("Email:", email);
-      console.log("Password:", password);
-=======
       try {
         const response = await axios.post("http://localhost:8000/user/signin", {
           email: email,
@@ -74,7 +56,6 @@ const LoginPage = () => {
           setErrorMessage("Invalid email or password. Please try again.");
         }
       }
->>>>>>> c0075b8bda37ee2afc64221ff4e3ebe371813188
     }
   };
 
