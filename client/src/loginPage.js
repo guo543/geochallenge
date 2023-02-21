@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
+<<<<<<< HEAD
   const [isPurdueEmail, setIsPurdueEmail] = useState(true);
 
   const forgotpassword = () => {
    
   };
+=======
+  const [errorMessage, setErrorMessage] = useState("");
+  const history = useNavigate();
+  const forgotpassword = () => {};
+>>>>>>> c0075b8bda37ee2afc64221ff4e3ebe371813188
   useEffect(() => {
     setFadeIn(true);
   }, []);
 
+<<<<<<< HEAD
   const handleSubmit = (e) => {
     console.log('click');
 
+=======
+  const handleSubmit = async (e) => {
+>>>>>>> c0075b8bda37ee2afc64221ff4e3ebe371813188
     e.preventDefault();
     if (!showPassword) {
       // entering email
@@ -39,17 +50,31 @@ const LoginPage = () => {
       setTimeout(() => {
         if (!showPassword) {
           setShowPassword(true);
-        } else {
-          console.log("Email:", email);
-          console.log("Password:", password);
         }
         setFadeIn(true);
       }, 500);
     } else {
+<<<<<<< HEAD
       // log in here
       console.log('logging in');
       console.log("Email:", email);
       console.log("Password:", password);
+=======
+      try {
+        const response = await axios.post("http://localhost:8000/user/signin", {
+          email: email,
+          password: password,
+        });
+        console.log(response.data);
+        localStorage.setItem("userCredentials", JSON.stringify(response.data));
+        history("/");
+      } catch (err) {
+        console.log(err);
+        if (err.response.status === 404) {
+          setErrorMessage("Invalid email or password. Please try again.");
+        }
+      }
+>>>>>>> c0075b8bda37ee2afc64221ff4e3ebe371813188
     }
   };
 
@@ -100,12 +125,16 @@ const LoginPage = () => {
             {showPassword ? "Login" : "Next >"}
           </button>
           <Link to="/forgotPasswordPage">
-          <button className="forgot-password-button"
-          type="button"
-            onClick={forgotpassword}>
+            <button
+              className="forgot-password-button"
+              type="button"
+              onClick={forgotpassword}
+            >
               Forgot Password
             </button>
-            </Link>
+          </Link>
+
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
         </form>
       </div>
     </div>
