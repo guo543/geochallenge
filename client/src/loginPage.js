@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +14,8 @@ const LoginPage = () => {
   useEffect(() => {
     setFadeIn(true);
   }, []);
+
+  const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +29,7 @@ const LoginPage = () => {
       }, 500);
     } else {
       try {
-        const response = await axios.post("http://localhost:8000/user/signin", {
+        const response = await axios.post(BACKEND_ENDPOINT + "/user/signin", {
           email: email,
           password: password,
         });
