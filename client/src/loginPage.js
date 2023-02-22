@@ -8,6 +8,8 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
+  const [isPurdueEmail, setIsPurdueEmail] = useState(true);
+
   const [errorMessage, setErrorMessage] = useState("");
   const history = useNavigate();
   const forgotpassword = () => {};
@@ -20,6 +22,21 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!showPassword) {
+      // entering email
+      
+      // check if email is a purdue email
+      const regex = /^[^%$]+@purdue.edu$/;
+      const res = regex.exec(email);
+
+      if (res === null) {
+        // show error message on mismatch
+        setIsPurdueEmail(false);
+        return;
+      } else {
+        // reset to true for the error message to not show next time
+        setIsPurdueEmail(true);
+      }
+
       setFadeIn(false);
       setTimeout(() => {
         if (!showPassword) {
@@ -85,6 +102,9 @@ const LoginPage = () => {
                 }}
               />
             </label>
+          )}
+          {!showPassword && !isPurdueEmail && (
+            <label style={{color: "red"}}>Invalid email address, please use a Purdue email</label>
           )}
           <br />
           <button className="next-button" type="submit">
