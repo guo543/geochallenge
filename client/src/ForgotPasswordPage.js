@@ -17,6 +17,8 @@ const ForgotPasswordPage = () => {
   const [passwordValid, setPasswordValid] = useState(true);
   const [passwordChanged, setPasswordChanged] = useState(false);
 
+  const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
+
   useEffect(() => {
     let interval = null;
     if (isCode) {
@@ -38,7 +40,7 @@ const ForgotPasswordPage = () => {
     if (!isCode) {
       try {
         const response = await axios.post(
-          "http://localhost:8000/user/verification",
+          BACKEND_ENDPOINT + "/user/verification",
           {
             email: email,
           }
@@ -57,7 +59,7 @@ const ForgotPasswordPage = () => {
     } else if (!codematched) {
       try {
         const response = await axios.post(
-          "http://localhost:8000/user/checkcode",
+          BACKEND_ENDPOINT + "/user/checkcode",
           {
             email: email,
             code: code,
@@ -84,7 +86,7 @@ const ForgotPasswordPage = () => {
           setPasswordValid(false);
         }
         const response = await axios.post(
-          "http://localhost:8000/user/resetpassword",
+          BACKEND_ENDPOINT + "/user/resetpassword",
           {
             email: email,
             newPassword: newPassword,
@@ -155,7 +157,7 @@ const ForgotPasswordPage = () => {
                 setCounter(counter + 1);
                 setTimer(60);
                 const response = await axios.post(
-                  "http://localhost:8000/user/verification",
+                  BACKEND_ENDPOINT + "/user/verification",
                   {
                     email: email,
                   }

@@ -35,8 +35,6 @@ jobs:
         MONGODB_CONNECTION_URL: ${{secrets.MONGODB_CONNECTION_URL}}
         MONGODB_PORT: ${{secrets.MONGODB_PORT}}
 
-    - run: cat .env
-
     - name: Generate deployment package
       run: zip -r deploy.zip . -x '*.git*'
 

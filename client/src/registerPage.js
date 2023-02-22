@@ -13,6 +13,9 @@ const RegisterPage = () => {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [isPurdueEmail, setIsPurdueEmail] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
+
+  const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
+  
   useEffect(() => {
     setFadeIn(true);
   }, []);
@@ -54,7 +57,7 @@ const RegisterPage = () => {
 
           try {
             const response = await axios.post(
-              "http://localhost:8000/user/signup",
+              BACKEND_ENDPOINT + "/user/signup",
               {
                 email: email,
                 password: password,
