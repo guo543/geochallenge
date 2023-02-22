@@ -10,13 +10,21 @@ function Navbar() {
   return (
     <>
       <nav className="Navbar">
-        <a href="/" onClick={handleLogout}>
-          Logout
-        </a>
-        <Link to="/registerPage">Register</Link>
-        <Link to="/loginPage">Login</Link>
-        <Link to="/profilePage">Profile</Link>
-        <Link to="/uploadPage">Upload</Link>
+        {localStorage.getItem("userCredentials") != null && (
+            <>
+                <a href="/" onClick={handleLogout}>
+                  Logout
+                </a>
+                <Link to="/profilePage">Profile</Link>
+                <Link to="/uploadPage">Upload</Link>
+            </>
+        )}
+        {localStorage.getItem("userCredentials") == null && (
+            <>
+                <Link to="/registerPage">Register</Link>
+                <Link to="/loginPage">Login</Link>
+            </>
+        )}
         <Link to="/leaderboardPage">Leaderboard</Link>
         <Link to="/gamePage">Game</Link>
         <a href="/">Home</a>

@@ -33,6 +33,8 @@ const LoginPage = () => {
         console.log(response.data);
         localStorage.setItem("userCredentials", JSON.stringify(response.data));
         history("/");
+        //navbar doesn't reflect being logged in without a refresh
+        window.location.reload(false);
       } catch (err) {
         console.log(err);
         if (err.response.status === 404) {
