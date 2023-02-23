@@ -119,3 +119,14 @@ input[type="password"] {
   font-size: 16px;
   margin-top: 10px;
 }
+
+
+.continueAsGuestBut {
+  background-color: #333333;
+  color: #bfbfbf;
+  cursor: pointer;
+  border: none;
+  font-size: 12px;
+  margin-top: 15%;
+  margin-bottom: 5%;
+}

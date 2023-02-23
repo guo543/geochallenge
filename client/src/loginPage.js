@@ -122,6 +122,16 @@ const LoginPage = () => {
 
           {errorMessage && <div className="error-message">{errorMessage}</div>}
         </form>
+
+        {localStorage.getItem("userCredentials") == null && (
+          <Link to="/gamePage">
+            <button className="continueAsGuestBut">
+                Continue as guest...
+            </button>
+  
+          </Link>
+        )}
+        
       </div>
     </div>
   );
