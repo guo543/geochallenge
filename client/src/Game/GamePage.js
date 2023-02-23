@@ -52,44 +52,45 @@ class GamePage extends Component {
         return (
             <div className="main-page-container">
                 {this.state.openModal && <GuestEnterGameModal closeModal={this.setOpenModal}/>}
-                <div className="middle-container">
-                    <div className="left-side">
-                        <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
-                        The Ultimate Purdue Geography Gaming
-                        </h3>
-                        { !this.state.showGame ? 
-                            <button className="start-button" onClick={ this.startGame }>
-                                Start
-                            </button>
+                {
+                    this.state.showGame ?
+                    <div className="game-container">
+                        <div id="streetview-container">
+                            <StreetView setStreetViewLocation = { this.setStreetViewLocation } />
+                            <Map setMarkerLocation = { this.setMarkerLocation }/>
+                        </div>
+
+                        { this.state.distanceFromGuess > 0 ? 
+                            <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
+                                Miles away: {this.state.distanceFromGuess}
+                            </h3>
                             :
-                            <button className="start-button" onClick={this.handleGuess}>
+                            <button className="guess-button" onClick={this.handleGuess}>
                                 Guess
                             </button>
                         }
                     </div>
-                    <div className="right-side">
-                        { this.state.showGame ?
-                            <div id="streetview-container">
-                                <StreetView setStreetViewLocation = { this.setStreetViewLocation } />
-                                <Map setMarkerLocation = { this.setMarkerLocation }/>
-                            </div>
-                            : 
-                            <img
-                                className="purdue-campus"
-                                src={require("../assets/Purdue Campus.jpg")}
-                                alt="Purdue Campus"
-                            />
-                        }
-                        { this.state.distanceFromGuess > 0 ? 
-                            <h3>
-                                Miles away: {this.state.distanceFromGuess}
+                    :
+                    <div className="middle-container">
+                        <div className="left-side">
+                            <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
+                            The Ultimate Purdue Geography Gaming
                             </h3>
-                            :
-                            null
-                        }
+                            <button className="start-button" onClick={ this.startGame }>
+                                    Start
+                            </button>
+                        </div>
+                        <div className="right-side">
+                            <img
+                                    className="purdue-campus"
+                                    src={require("../assets/Purdue Campus.jpg")}
+                                    alt="Purdue Campus"
+                                />
+                        </div>
                     </div>
-                </div>
-        </div>
+
+                }
+            </div>
         );
     };
 }

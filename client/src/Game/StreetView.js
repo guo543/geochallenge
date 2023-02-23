@@ -23,7 +23,7 @@ class StreetView extends Component {
         console.log(randomCoordinate);
 
         const panorama = new window.google.maps.StreetViewPanorama(
-            document.getElementById('streetViewMap'),
+            document.getElementById('streetview-map'),
             {
                 position: randomCoordinate,
                 disableDefaultUI: true,
@@ -39,7 +39,7 @@ class StreetView extends Component {
     }
     render() {
         return (
-          <div id="streetViewMap" />
+          <div id="streetview-map" />
         );
     }
 }
