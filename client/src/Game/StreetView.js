@@ -30,6 +30,7 @@ class StreetView extends Component {
                 zoomControl: true,
                 panControl: true,
                 clickToGo: false,
+                showRoadLabels: false,
                 zoom: 0
             }
         )

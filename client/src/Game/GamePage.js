@@ -5,7 +5,7 @@ import StreetView from './StreetView'
 import "../MainPage.css";
 import GuestEnterGameModal from "../components/guestEnterGameModal";
 
-
+const MILE_PER_METER = 0.000621371;
 
 class GamePage extends Component {
     constructor(props) {
@@ -16,33 +16,32 @@ class GamePage extends Component {
             streetViewLocation : null,
             openModal : false,
             modalOpened : false,
+            distanceFromGuess : -1
         }
     }
 
     componentDidMount() {
-        if (!modalOpened && localStorage.getItem("userCredentials") === null) {
-            setModalOpened(true);
-            setOpenModal(true);
+        if (!this.state.modalOpened && localStorage.getItem("userCredentials") === null) {
+            this.setState({ modalOpened : true });
+            this.setState({ openModal : true });
         }
     }
     setOpenModal = (state) => { this.setState({ openModal : state })}
     startGame = () => { this.setState({ showGame : true }) }
 
     setMarkerLocation = (latLng) => { 
-        console.log("MARKER COORDINATES = " + latLng)
         this.setState ({ markerLocation : latLng }) 
     }
 
     setStreetViewLocation = (latLng) => { 
-        console.log("STREET VIEW COORDINATES = " + latLng)
         this.setState ({ streetViewLocation : latLng })
     }
 
     handleGuess = () => {
-        console.log("TEST")
-        console.log(this.state.markerLocation)
-        console.log(this.state.streetViewLocation)
         let distance = window.google.maps.geometry.spherical.computeDistanceBetween(this.state.markerLocation, this.state.streetViewLocation);
+        distance = distance * MILE_PER_METER; //convert to miles
+        distance = distance.toFixed(2);
+        this.setState({ distanceFromGuess : distance })
         console.log(distance)
         // get position on street view
         // get marker position
@@ -52,7 +51,7 @@ class GamePage extends Component {
     render () {
         return (
             <div className="main-page-container">
-                {openModal && <GuestEnterGameModal closeModal={this.setOpenModal}/>}
+                {this.state.openModal && <GuestEnterGameModal closeModal={this.setOpenModal}/>}
                 <div className="middle-container">
                     <div className="left-side">
                         <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
@@ -80,6 +79,13 @@ class GamePage extends Component {
                                 src={require("../assets/Purdue Campus.jpg")}
                                 alt="Purdue Campus"
                             />
+                        }
+                        { this.state.distanceFromGuess > 0 ? 
+                            <h3>
+                                Miles away: {this.state.distanceFromGuess}
+                            </h3>
+                            :
+                            null
                         }
                     </div>
                 </div>
