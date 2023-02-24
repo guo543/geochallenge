@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
 // import localstorage from "local-storage";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
