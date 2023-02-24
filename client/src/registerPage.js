@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
 // import localstorage from "local-storage";
 import axios from "axios";
-
+import { Link, useNavigate } from "react-router-dom";
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,9 +13,9 @@ const RegisterPage = () => {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [isPurdueEmail, setIsPurdueEmail] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
-
+  const history = useNavigate();
   const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
-  
+
   useEffect(() => {
     setFadeIn(true);
   }, []);
@@ -67,6 +67,9 @@ const RegisterPage = () => {
               "userCredentials",
               JSON.stringify(response.data)
             );
+            history("/");
+            //navbar doesn't reflect being logged in without a refresh
+            window.location.reload(false);
           } catch (error) {
             if (error.response.status === 400) {
               alert("User already exists");
