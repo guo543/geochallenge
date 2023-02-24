@@ -56,7 +56,7 @@ const ForgotPasswordPage = () => {
         setIsCode(true);
         console.log(error);
       }
-    } else if (!codematched) {
+    } else if (!codematched && !passwordChanged) {
       try {
         const response = await axios.post(
           BACKEND_ENDPOINT + "/user/checkcode",
@@ -94,7 +94,7 @@ const ForgotPasswordPage = () => {
             setPasswordChanged(true);
             setDescription("Password changed successfully!");
           }
-        } else {
+        } else if (!passwordChanged) {
           setPasswordValid(false);
         }
       } catch (error) {
