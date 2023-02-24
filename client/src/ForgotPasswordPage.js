@@ -80,22 +80,22 @@ const ForgotPasswordPage = () => {
 
     if (codematched) {
       try {
-        if (passRegex.test(newPassword)) {
+        if (passRegex.test(newPassword) && !passwordChanged) {
           setPasswordValid(true);
+          const response = await axios.post(
+            BACKEND_ENDPOINT + "/user/resetpassword",
+            {
+              email: email,
+              newPassword: newPassword,
+            }
+          );
+          if (response.status === 200) {
+            console.log("password is reset");
+            setPasswordChanged(true);
+            setDescription("Password changed successfully!");
+          }
         } else {
           setPasswordValid(false);
-        }
-        const response = await axios.post(
-          BACKEND_ENDPOINT + "/user/resetpassword",
-          {
-            email: email,
-            newPassword: newPassword,
-          }
-        );
-        if (response.status === 200) {
-          console.log("password is reset");
-          setPasswordChanged(true);
-          setDescription("Password changed successfully!");
         }
       } catch (error) {
         console.log(error);
