@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import './Game.css';
 import Map from './Map'
 import StreetView from './StreetView'
