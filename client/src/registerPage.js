@@ -10,9 +10,11 @@ const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
   const passRegex = new RegExp(/^.{8,}$/);
+  const emailRgex = new RegExp(/^[^%$]+@purdue.edu$/);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [isPurdueEmail, setIsPurdueEmail] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
+  const [clicked, saveClicked] = useState(false);
   const history = useNavigate();
   const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
 
@@ -22,19 +24,12 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const regex = /^[^%$]+@purdue.edu$/;
-    const res = regex.exec(email);
 
-    if (res === null) {
-      // show error message on mismatch
+
+    if (!emailRgex.test(email)) {
       setIsPurdueEmail(false);
       return;
     } else {
-      // reset to true for the error message to not show next time
-      setIsPurdueEmail(true);
-    }
-
-    if (!showPassword && isPurdueEmail) {
       setFadeIn(false);
       setTimeout(() => {
         if (!showPassword) {
@@ -42,41 +37,48 @@ const RegisterPage = () => {
         }
         setFadeIn(true);
       }, 500);
+      setIsPurdueEmail(true);
+    }
+    if (passwordValid && passwordsMatch && !clicked) {
+      saveClicked(true);
     } else {
-      if (!passRegex.test(password) && isPurdueEmail) {
+      const test = passRegex.test(password);
+      if (!test && clicked) {
         setPasswordValid(false);
         setPasswordsMatch(true);
         return;
       } else {
+
         setPasswordValid(true);
         if (password !== confirmPassword) {
           setPasswordsMatch(false);
           return;
         } else {
           setPasswordsMatch(true);
-
-          try {
-            const response = await axios.post(
-              BACKEND_ENDPOINT + "/user/signup",
-              {
-                email: email,
-                password: password,
+          if (passwordValid && passwordsMatch) {
+            try {
+              const response = await axios.post(
+                BACKEND_ENDPOINT + "/user/signup",
+                {
+                  email: email,
+                  password: password,
+                }
+              );
+              localStorage.setItem(
+                "userCredentials",
+                JSON.stringify(response.data)
+              );
+              history("/");
+              window.location.reload(false);
+            } catch (error) {
+              if (error.response.status === 400) {
+                alert("User already exists");
+              } else {
+                console.log(error);
               }
-            );
-            localStorage.setItem(
-              "userCredentials",
-              JSON.stringify(response.data)
-            );
-            history("/");
-            //navbar doesn't reflect being logged in without a refresh
-            window.location.reload(false);
-          } catch (error) {
-            if (error.response.status === 400) {
-              alert("User already exists");
-            } else {
-              console.log(error);
             }
           }
+
         }
       }
     }
