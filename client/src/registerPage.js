@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
-// import localstorage from "local-storage";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [fadeIn, setFadeIn] = useState(false);
-  const passRegex = new RegExp(/^.{8,}$/);
-  const emailRgex = new RegExp(/^[^%$]+@purdue.edu$/);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [isPurdueEmail, setIsPurdueEmail] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
-  const [clicked, saveClicked] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const [duplicateEmail, setDuplicateEmail] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const history = useNavigate();
   const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
 
@@ -22,68 +22,74 @@ const RegisterPage = () => {
     setFadeIn(true);
   }, []);
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    if (!emailRgex.test(email)) {
-      setIsPurdueEmail(false);
-      return;
-    } else {
+    if (!showPassword) {
+      // validate email input
+      if (!email.match(/^[^%$]+@purdue.edu$/)) {
+        setIsPurdueEmail(false);
+        setErrorMessage("Please enter a valid @purdue.edu email address");
+        return;
+      }
+      setIsPurdueEmail(true);
+      setErrorMessage("");
+      // show password input
       setFadeIn(false);
       setTimeout(() => {
-        if (!showPassword) {
-          setShowPassword(true);
-        }
+        setShowPassword(true);
         setFadeIn(true);
       }, 500);
-      setIsPurdueEmail(true);
-    }
-    if (passwordValid && passwordsMatch && !clicked) {
-      saveClicked(true);
     } else {
-      const test = passRegex.test(password);
-      if (!test && clicked) {
-        setPasswordValid(false);
-        setPasswordsMatch(true);
+      // validate password and confirm password inputs
+      if (password !== confirmPassword) {
+        setPasswordsMatch(false);
+        setErrorMessage("Passwords do not match");
         return;
-      } else {
-
-        setPasswordValid(true);
-        if (password !== confirmPassword) {
-          setPasswordsMatch(false);
-          return;
-        } else {
-          setPasswordsMatch(true);
-          if (passwordValid && passwordsMatch) {
-            try {
-              const response = await axios.post(
-                BACKEND_ENDPOINT + "/user/signup",
-                {
-                  email: email,
-                  password: password,
-                }
-              );
-              localStorage.setItem(
-                "userCredentials",
-                JSON.stringify(response.data)
-              );
-              history("/");
-              window.location.reload(false);
-            } catch (error) {
-              if (error.response.status === 400) {
-                alert("User already exists");
-              } else {
-                console.log(error);
-              }
-            }
+      }
+      setPasswordsMatch(true);
+      if (!password.match(/^.{8,}$/)) {
+        setPasswordValid(false);
+        setErrorMessage("Password must be at least 8 characters long");
+        return;
+      }
+      setPasswordValid(true);
+      setErrorMessage("");
+      // register user
+      if (!clicked) {
+        setClicked(true);
+        try {
+          const response = await axios.post(BACKEND_ENDPOINT + "/user/signup", {
+            email: email,
+            password: password,
+          });
+          localStorage.setItem("userCredentials", JSON.stringify(response.data));
+          history("/");
+          window.location.reload(false);
+        } catch (error) {
+          if (error.response.status === 400) {
+            setErrorMessage("User already exists");
+            setDuplicateEmail(true);
+          } else {
+            console.log(error);
           }
-
         }
       }
     }
   };
-
   return (
     <div className="LoginPage">
       <div className="rectangle">
@@ -102,17 +108,15 @@ const RegisterPage = () => {
                 type="email"
                 value={email}
                 placeholder="you@yourmail.com"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
                 style={{
                   opacity: fadeIn ? 1 : 0,
                   transition: "opacity 0.2s ease-in",
                   border: isPurdueEmail ? "" : "2px solid red",
                 }}
               />
-              {!isPurdueEmail && (
-                <div style={{ color: "red" }}>
-                  Please enter a valid @purdue.edu email address
-                </div>
+              {errorMessage && (
+                <div style={{ color: "red" }}>{errorMessage}</div>
               )}
             </label>
           ) : (
@@ -122,7 +126,7 @@ const RegisterPage = () => {
                   type="password"
                   value={password}
                   placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handlePasswordChange}
                   style={{
                     opacity: fadeIn ? 1 : 0,
                     transition: "opacity 0.2s ease-in",
@@ -141,7 +145,7 @@ const RegisterPage = () => {
                   type="password"
                   value={confirmPassword}
                   placeholder="Confirm Password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={handleConfirmPasswordChange}
                   style={{
                     opacity: fadeIn ? 1 : 0,
                     transition: "opacity 0.2s ease-in",
@@ -150,6 +154,9 @@ const RegisterPage = () => {
                 />
                 {!passwordsMatch && (
                   <div style={{ color: "red" }}>Passwords do not match</div>
+                )}
+                {duplicateEmail && (
+                  <div style={{ color: "red" }}>Duplicate Email</div>
                 )}
               </label>
             </>
@@ -162,6 +169,6 @@ const RegisterPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default RegisterPage;
