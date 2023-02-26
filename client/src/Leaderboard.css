@@ -1,0 +1,87 @@
+.Leaderboard {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  width: auto;
+  align-items: center;
+  background-color: #1a191f;
+}
+
+h1 {
+  margin-top: 20;
+  color: #e5a102;
+}
+
+table {
+  width: 90%;
+  border-collapse: collapse;
+  background-color: #e5e5e5;
+  color: #2b3246;
+}
+
+.RankIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #444444;
+}
+
+.JumpButton {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #e5a102;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.UserIcon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+th {
+  background-color: #1a191f;
+  color: #6b6f7e;
+}
+
+tr.highlighted {
+  background-color: #adadad;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button {
+  margin: 0 8px;
+  padding: 5px 10px;
+  background-color: #e5a102;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: black;
+}
+.pagination button.active {
+  background-color: black;
+  color: white;
+}
