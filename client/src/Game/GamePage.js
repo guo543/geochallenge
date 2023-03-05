@@ -69,6 +69,9 @@ class GamePage extends Component {
                                 Guess
                             </button>
                         }
+                        <button className="game-report-button">
+                            Report Image
+                        </button>
                     </div>
                     :
                     <div className="middle-container">
