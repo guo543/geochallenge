@@ -1,0 +1,33 @@
+
+.profile-page-container {
+    height: 100vh;
+    width: 100%;
+    background-color: #1a191f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.profile-mid-container {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    background-color: #1a191f;
+}
+
+.buttons>button{
+  background-color: #e5a102;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
