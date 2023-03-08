@@ -1,30 +1,17 @@
 import React from "react";
-import "./MainPage.css";
+import "./UploadPage.css";
 
 const MainPage = () => {
   const handleStartClick = () => {};
   return (
-    <div className="main-page-container">
-      <div className="middle-container">
-        <div className="left-side">
-          <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
-            The Ultimate Purdue Geography Gaming
-          </h3>
-          <p style={{ color: "white", fontSize: 17 }}>
-            This will be the upload page.
-          </p>
-          <button className="start-button" onClick={handleStartClick}>
-            Start
-          </button>
-        </div>
-        <div className="right-side">
-          <img
-            className="purdue-campus"
-            src={require("./assets/Purdue Campus.jpg")}
-            alt="Purdue Campus"
-          />
-        </div>
-      </div>
+    <div className="upload-page-main-container">
+      <h3 style={{ color: "#e5a102", fontSize: 30 }}>
+        Upload Page
+      </h3>
+
+      <text style={{ color: "white", fontSize: 17 }}>
+        Share your Purdue campus images with other players!
+      </text>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import userRoutes from './routes/user.js'
+import imageRoutes from './routes/image.js'
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import auth from './middleware/auth.js';
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use('/user', userRoutes);
+app.use('/image', imageRoutes);
 
 app.get('/hello', auth,(req, res) => {
     res.send("hello");
