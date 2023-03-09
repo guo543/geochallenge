@@ -7,6 +7,4 @@ const imageSchema = mongoose.Schema({
     id: { type: String }
 });
 
-const Image = mongoose.model('Image', imageSchema);
-
-export default Image;
+export default mongoose.model('Image', imageSchema);
