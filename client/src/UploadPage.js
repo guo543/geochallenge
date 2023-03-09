@@ -76,7 +76,7 @@ const UploadPage = () => {
         formData.append('imageLat', lat);
         formData.append('imageLon', long);
         try {
-          const response = await axios.post(`${BACKEND_ENDPOINT}+/image/${userID}/upload`, formData, {
+          const response = await axios.post(`${BACKEND_ENDPOINT}/image/${userID}/upload`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
               'Authorization': `Bearer ${userCredentials.token}`,
