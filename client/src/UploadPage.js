@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./UploadPage.css";
 import EXIF from 'exif-js';
+import axios from "axios";
 const UploadPage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const MAP_BOUNDS = {
@@ -47,9 +48,9 @@ const UploadPage = () => {
     }
   };
 
-  const handleUpload = () => {
+  const handleUpload =  () => {
     if (selectedFile) {
-      EXIF.getData(selectedFile, function () {
+      EXIF.getData(selectedFile, async function () {
         var allMetaData = EXIF.getAllTags(this);
         if (allMetaData.GPSLatitude == null || allMetaData.GPSLongitude == null) {
           alert("Please upload an image with GPS coordinates.");
@@ -65,7 +66,28 @@ const UploadPage = () => {
           alert("Please upload an image with GPS coordinates within the bounds of Purdue University.");
           return;
         }
-        alert("Successfully uploaded image!");
+        const formData = new FormData();
+        const userCredentials = JSON.parse(localStorage.getItem('userCredentials'))
+        const userID = userCredentials.result._id
+        console.log(userID)
+        formData.append('image', selectedFile);
+        formData.append('userID', userID);
+        formData.append('imageLat', lat);
+        formData.append('imageLon', long);
+        try {
+          const response = await axios.post(`http://localhost:8000/image/${userID}/upload`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${userCredentials.token}`,
+            },
+          });
+          console.log(response.data);
+        } catch (err) {
+          console.log(err);
+        }
+
+
+
       });
       setSelectedFile(null);
     }
