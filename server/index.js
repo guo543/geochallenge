@@ -1,10 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import userRoutes from './routes/user.js'
-import imageRoutes from './routes/image.js'
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import userRoutes from './routes/user.js'
+import imageRoutes from './routes/image.js'
 import auth from './middleware/auth.js';
 
 const app = express();

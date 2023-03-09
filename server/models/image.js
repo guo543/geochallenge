@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 
 const imageSchema = mongoose.Schema({
-    name: String,
-    numReports: Number,
-    location: String
-})
+    name: { type: String, required: true },
+    location: { type: String, required: true },
+    numReports: { type: Number, required: true },
+    id: { type: String }
+});
 
 const Image = mongoose.model('Image', imageSchema);
 
