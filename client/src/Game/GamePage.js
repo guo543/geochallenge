@@ -8,11 +8,13 @@ import GuestEnterGameModal from "../components/guestEnterGameModal";
 const MILE_PER_METER = 0.000621371;
 
 function scoreCalculation(distance) {
-    if (distance < 0.1) {
-        return 1000;
+    let score = (1000 - (500 * distance**(1/2))).toFixed(0);
+    if (score < 0) {
+        return 0;
     }
-    return (1 / distance)
+    return score;
 }
+
 class GamePage extends Component {
     constructor(props) {
         super(props)
