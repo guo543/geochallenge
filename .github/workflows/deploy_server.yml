@@ -34,6 +34,8 @@ jobs:
       env:
         MONGODB_CONNECTION_URL: ${{secrets.MONGODB_CONNECTION_URL}}
         MONGODB_PORT: ${{secrets.MONGODB_PORT}}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: Generate deployment package
       run: zip -r deploy.zip . -x '*.git*'
