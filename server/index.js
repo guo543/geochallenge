@@ -1,10 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import userRoutes from './routes/user.js'
-import imageRoutes from './routes/image.js'
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import userRoutes from './routes/user.js'
+import imageRoutes from './routes/image.js'
 import auth from './middleware/auth.js';
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(cors());
 app.use('/user', userRoutes);
 app.use('/image', imageRoutes);
 
-app.get('/hello', auth,(req, res) => {
+app.get('/hello', auth, (req, res) => {
     res.send("hello");
 });
 
@@ -34,5 +34,5 @@ mongoose.set('strictQuery', true);
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
     .catch((error) => console.log(error.message));
-
+    
 export default app;

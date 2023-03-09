@@ -82,7 +82,7 @@ const ForgotPasswordPage = () => {
       try {
         if (passRegex.test(newPassword) && !passwordChanged) {
           setPasswordValid(true);
-          const response = await axios.post(
+          const response = await axios.patch(
             BACKEND_ENDPOINT + "/user/resetpassword",
             {
               email: email,

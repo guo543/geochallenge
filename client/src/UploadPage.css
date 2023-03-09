@@ -1,12 +1,126 @@
-
-.upload-page-main-container {
-
+.UploadPage {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100vh;
+  align-items: center;
+  padding: 2rem;
   background-color: #1a191f;
+}
+
+.upload-header {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.upload-subheader {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #eeeeee;
+}
+.file-img {
+  width: 200px;
+  height: 200px;
+}
+
+.upload-container {
+  border: 2px dashed gray;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  width: 80%;
+  min-height: 200px;
+}
+
+.upload-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.upload-input input[type="file"] {
+  display: none;
+}
+
+.upload-input button {
+  background-color: #e5a102;
   color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.upload-input button:hover {
+  background-color: #3669b8;
+}
+
+.uploaded-files {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.file-container {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.file-container.empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed gray;
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+  color: gray;
+  height: 100%;
+}
+.upload-header {
+  color: #e5a102;
+}
+.file-container.empty p {
+  margin: 0;
+}
+
+.file-name {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: white;
+}
+
+.all-uploaded-files {
+  margin-top: 2rem;
+  width: 80%;
+}
+
+.all-uploaded-files h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.file-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.file-row .file-container2 {
+  margin: 1rem;
+}
+.file-container2 {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 1rem;
 }
