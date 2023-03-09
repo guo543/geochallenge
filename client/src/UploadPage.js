@@ -4,6 +4,7 @@ import EXIF from 'exif-js';
 import axios from "axios";
 const UploadPage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
   const MAP_BOUNDS = {
     north: 40.580957,
     west: -87.095784,
@@ -75,7 +76,7 @@ const UploadPage = () => {
         formData.append('imageLat', lat);
         formData.append('imageLon', long);
         try {
-          const response = await axios.post(`http://localhost:8000/image/${userID}/upload`, formData, {
+          const response = await axios.post(`${BACKEND_ENDPOINT}+/image/${userID}/upload`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
               'Authorization': `Bearer ${userCredentials.token}`,
