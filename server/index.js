@@ -21,23 +21,35 @@ app.get('/hello', auth, (req, res) => {
     res.send("hello");
 });
 
-let PORT = process.env.PORT || 8000;
-const CONNECTION_URL = process.env.CONNECTION_URL;
-
-if (CONNECTION_URL === undefined) {
-    console.log("Please specify the MongoDB connection string in .env");
-    process.exit(-1);
-}
-
-mongoose.set('strictQuery', true);
-
-mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then()
-    .catch((error) => console.log(error.message));
-
-// don't listen for unit tests 
+// don't create db connection for unit tests
 if (process.env.NODE_ENV !== 'test') {
+    let PORT = process.env.PORT || 8000;
+    const CONNECTION_URL = process.env.CONNECTION_URL;
+
+    if (CONNECTION_URL === undefined) {
+        console.log("Please specify the MongoDB connection string in .env");
+        process.exit(-1);
+    }
+
+    mongoose.set('strictQuery', true);
+
+    mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+        .then()
+        .catch((error) => console.log(error.message));
+
+    // don't listen for unit tests 
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
 }
 
 export default app;
+
+
+// import database from './database.js'
+// import makeApp from './app.js'
+
+// const app = makeApp(database);
+
+// // don't listen for unit tests 
+// if (process.env.NODE_ENV !== 'test') {
+//     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+// }
