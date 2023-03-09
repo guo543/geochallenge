@@ -26,11 +26,7 @@ export const reportImage = async (req, res) => {
     res.json(updatedImage);
 }
 export const uploadImage = async (req, res) => {
-  const s3 = new AWS.S3({
-    accessKeyId: 'AKIAZT7OQ54TJP6NCYG3',
-    secretAccessKey: '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',
-    region:'us-east-2'
-  });
+
   const upload = multer();
   upload.single('image')(req, res, async (err) => {
     if (err) {

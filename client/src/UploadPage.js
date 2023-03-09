@@ -87,8 +87,6 @@ const UploadPage = () => {
           console.log(err);
         }
 
-
-
       });
       setSelectedFile(null);
     }
