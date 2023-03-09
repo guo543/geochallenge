@@ -6,7 +6,7 @@ const router = express.Router();
 
 // router.get("/", getImages);
 // router.get("/rand", getRandomImage);
-router.post("/:id/upload",auth, uploadImage);
+router.post("/upload",auth, uploadImage);
 router.patch("/:id/report", auth, reportImage);
 // router.delete("/:id", deleteImage);
 

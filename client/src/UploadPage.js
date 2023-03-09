@@ -70,13 +70,12 @@ const UploadPage = () => {
         const formData = new FormData();
         const userCredentials = JSON.parse(localStorage.getItem('userCredentials'))
         const userID = userCredentials.result._id
-        console.log(userID)
         formData.append('image', selectedFile);
         formData.append('userID', userID);
         formData.append('imageLat', lat);
         formData.append('imageLon', long);
         try {
-          const response = await axios.post(`${BACKEND_ENDPOINT}/image/${userID}/upload`, formData, {
+          const response = await axios.post(`${BACKEND_ENDPOINT}/image/upload`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
               'Authorization': `Bearer ${userCredentials.token}`,

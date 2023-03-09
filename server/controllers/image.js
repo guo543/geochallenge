@@ -38,9 +38,7 @@ export const uploadImage = async (req, res) => {
       return res.status(400).json({ message: 'Error uploading image' });
     }
     const file = req.file;
-    const { imageLat, imageLon } = req.body;
-    console.log(req.params)
-    const userID = req.params.id;
+    const { imageLat, imageLon,userID } = req.body;
     const key = `${userID}/${Date.now()}-${file.originalname}`;
     const bucketName = 'useruploadedimages';
     const imageName = file.originalname
