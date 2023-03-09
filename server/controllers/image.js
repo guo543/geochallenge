@@ -1,19 +1,7 @@
-import Image from "../models/image.js";
+import AWS from 'aws-sdk';
+import Image from '../models/image.js';
+import multer from 'multer';
 import mongoose from "mongoose";
-
-export const uploadImage = async (req, res) => {
-    const { uploader } = req.body;
-
-    const result = await Image.create({
-        name: "test",
-        location: "test location",
-        uploader: uploader,
-        numReports: 0
-    });
-
-    res.status(200).json({ result: result });
-}
-
 export const reportImage = async (req, res) => {
     const { id } = req.params;
 
@@ -22,7 +10,7 @@ export const reportImage = async (req, res) => {
     const image = await Image.findById(id);
 
     console.log(image);
-    
+
     const threshold = 5;
     const newNumReport = image.numReports + 1;
 
@@ -37,3 +25,50 @@ export const reportImage = async (req, res) => {
 
     res.json(updatedImage);
 }
+
+export const uploadImage = async (req, res) => {
+    const s3 = new AWS.S3({
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        region: 'us-east-2'
+    });
+    const upload = multer();
+    upload.single('image')(req, res, async (err) => {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({ message: 'Error uploading image' });
+        }
+        const file = req.file;
+        const { imageLat, imageLon, userID } = req.body;
+        const key = `${userID}/${Date.now()}-${file.originalname}`;
+        const bucketName = 'useruploadedimages';
+        const imageName = file.originalname
+        const params = {
+            Bucket: bucketName,
+            Key: key,
+            Body: file.buffer,
+            ACL: 'public-read',
+            ContentType: file.mimetype
+        };
+        s3.upload(params, async (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ message: 'Error uploading image to S3' });
+            }
+            try {
+                const result = await Image.create({
+                    name: imageName,
+                    imageLat: imageLat,
+                    imageLon: imageLon,
+                    uploader: userID,
+                    numReports: 0,
+                    imageURL: data.Location
+                });
+                res.status(200).json({ message: 'Image uploaded successfully', image: result });
+            } catch (err) {
+                console.log(err);
+                res.status(500).json({ message: 'Error saving image to database' });
+            }
+        });
+    });
+};
