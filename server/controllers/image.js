@@ -2,6 +2,7 @@ import AWS from 'aws-sdk';
 import Image from '../models/image.js';
 import multer from 'multer';
 import mongoose from "mongoose";
+
 export const reportImage = async (req, res) => {
     const { id } = req.params;
 
