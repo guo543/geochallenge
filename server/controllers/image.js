@@ -2,9 +2,12 @@ import Image from "../models/image.js";
 import mongoose from "mongoose";
 
 export const uploadImage = async (req, res) => {
+    const { uploader } = req.body;
+
     const result = await Image.create({
         name: "test",
         location: "test location",
+        uploader: uploader,
         numReports: 0
     });
 
@@ -20,8 +23,17 @@ export const reportImage = async (req, res) => {
 
     console.log(image);
     
-    image.numReports = image.numReports + 1;
+    const threshold = 5;
+    const newNumReport = image.numReports + 1;
+
+    if (newNumReport > threshold) {
+        await Image.findByIdAndRemove(id);
+        res.json({ result: "image deleted" });
+        return;
+    }
+
+    image.numReports = newNumReport;
     const updatedImage = await Image.findByIdAndUpdate(id, image, { new: true });
 
-    res.send(updatedImage);
+    res.json(updatedImage);
 }

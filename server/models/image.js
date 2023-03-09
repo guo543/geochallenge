@@ -4,6 +4,7 @@ const imageSchema = mongoose.Schema({
     name: { type: String, required: true },
     location: { type: String, required: true },
     numReports: { type: Number, required: true },
+    uploader: { type: String, required: true },
     id: { type: String }
 });
 
