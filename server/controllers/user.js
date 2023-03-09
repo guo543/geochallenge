@@ -125,3 +125,22 @@ export const resetpassword = async (req, res) => {
     res.status(500).json({ message: "Something went wrong." });
   }
 };
+
+export const getScoreRecords = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const existingUser = await User.findOne({ email });
+
+        if (!existingUser)
+            return res.status(404).json({ message: "User doesn't exist." });
+
+        //Have some query that gets all score record data
+        //const scoreRecords = existingUser
+        console.log(existingUser);
+
+        res.status(200).json({ result: existingUser });
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong." });
+    }
+};
