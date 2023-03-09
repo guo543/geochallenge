@@ -7,6 +7,12 @@ import GuestEnterGameModal from "../components/guestEnterGameModal";
 
 const MILE_PER_METER = 0.000621371;
 
+function scoreCalculation(distance) {
+    if (distance < 0.1) {
+        return 1000;
+    }
+    return (1 / distance)
+}
 class GamePage extends Component {
     constructor(props) {
         super(props)
@@ -16,7 +22,8 @@ class GamePage extends Component {
             streetViewLocation : null,
             openModal : false,
             modalOpened : false,
-            distanceFromGuess : -1
+            distanceFromGuess : -1,
+            score: 0
         }
     }
 
@@ -41,8 +48,9 @@ class GamePage extends Component {
         let distance = window.google.maps.geometry.spherical.computeDistanceBetween(this.state.markerLocation, this.state.streetViewLocation);
         distance = distance * MILE_PER_METER; //convert to miles
         distance = distance.toFixed(2);
-        this.setState({ distanceFromGuess : distance })
-        console.log(distance)
+        this.setState({ distanceFromGuess : distance });
+        console.log(distance);
+        this.setState({ score : scoreCalculation(distance)});
         // get position on street view
         // get marker position
         // calculate distance 
@@ -60,9 +68,9 @@ class GamePage extends Component {
                             <Map setMarkerLocation = { this.setMarkerLocation }/>
                         </div>
 
-                        { this.state.distanceFromGuess > 0 ? 
+                        { this.state.score > 0 ? 
                             <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
-                                Miles away: {this.state.distanceFromGuess}
+                                Score: {this.state.score}
                             </h3>
                             :
                             <button className="guess-button" onClick={this.handleGuess}>
