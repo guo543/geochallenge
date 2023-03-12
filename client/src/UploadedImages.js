@@ -4,7 +4,6 @@ import axios from "axios";
 const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
 
 const UploadedImages = () => {
-    const imageFiles = [];
 
     let [getImageFiles, setImageFiles] = useState(null)
     
@@ -13,6 +12,8 @@ const UploadedImages = () => {
             if (!localStorage.getItem('userCredentials')) {
               return;
             }
+
+            const imageFiles = [];
             const userCredentials = JSON.parse(localStorage.getItem('userCredentials'))
             try {
                 const response = await axios.get(`${BACKEND_ENDPOINT}/image/`, {
