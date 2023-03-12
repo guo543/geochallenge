@@ -1,10 +1,15 @@
 import React, { Component } from "react";
+import axios from "axios";
+
 import './Game.css';
 import Map from './Map'
 import StreetView from './StreetView'
 import "../MainPage.css";
 import GuestEnterGameModal from "../components/guestEnterGameModal";
 
+const userCredentials = JSON.parse(localStorage.getItem('userCredentials'))
+
+const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
 const MILE_PER_METER = 0.000621371;
 
 function scoreCalculation(distance) {
@@ -27,6 +32,7 @@ class GamePage extends Component {
             distanceFromGuess : -1,
             score: 0
         }
+        this.imageId = null;
     }
 
     componentDidMount() {
@@ -58,6 +64,41 @@ class GamePage extends Component {
         // calculate distance 
     };
 
+    handleReport = async () => {
+        // TODO: this image id is hard coded for now for testing purposes.
+        // remove this once games w/ images are implemented
+        this.imageId = "640d1ca8f9691be1de1e0ec3";
+        
+        if (this.imageId === null) {
+            alert("Unfortunately you cannot report a streetview.");
+            return;   
+        }
+
+        const formData = new FormData();
+        formData.append('id', this.imageId);
+
+        try {
+            const response = await axios.patch(`${BACKEND_ENDPOINT}/image/${this.imageId}/report`,
+                formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${userCredentials.token}`,
+                },
+            });
+            console.log(response.data);
+
+            if (response.status === 200) {
+                alert("Thank you for feedback. We will be looking into this issue. ")
+                window.location.reload(false);
+                return;
+            }
+        } catch (err) {
+          console.log(err);
+        }
+
+
+    }
+
     render () {
         return (
             <div className="main-page-container">
@@ -79,6 +120,10 @@ class GamePage extends Component {
                                 Guess
                             </button>
                         }
+                        
+                        <button className="report-button" onClick={this.handleReport}>
+                            Report Image
+                        </button>
                     </div>
                     :
                     <div className="middle-container">
@@ -92,13 +137,12 @@ class GamePage extends Component {
                         </div>
                         <div className="right-side">
                             <img
-                                    className="purdue-campus"
-                                    src={require("../assets/Purdue Campus.jpg")}
-                                    alt="Purdue Campus"
-                                />
+                                className="purdue-campus"
+                                src={require("../assets/Purdue Campus.jpg")}
+                                alt="Purdue Campus"
+                            />
                         </div>
                     </div>
-
                 }
             </div>
         );

@@ -98,10 +98,14 @@ const UploadPage = () => {
       return; 
     }
   };
+
+  // function for pulling images to display under Uploaded images
   const imageFiles = Array.from(Array(50), (_, index) => ({
+    // TODO: ask backend to get images for the current user. 
     name: `filename${index + 1}.jpg`,
     url: `https://via.placeholder.com/150?text=Image${index + 1}`
   }));
+
   return (
     <div className="UploadPage">
       <h1 className="upload-header">Upload Page</h1>
