@@ -50,6 +50,11 @@ const UploadPage = () => {
   };
 
   const handleUpload =  () => {
+    if (!localStorage.getItem('userCredentials')) {
+      alert("Please login to upload pictures. ");
+      return;
+    }
+
     if (selectedFile) {
       EXIF.getData(selectedFile, async function () {
         var allMetaData = EXIF.getAllTags(this);
@@ -75,7 +80,7 @@ const UploadPage = () => {
         formData.append('imageLat', lat);
         formData.append('imageLon', long);
         try {
-          const response = await axios.post(`${BACKEND_ENDPOINT}/image/upload`, formData, {
+          const response = await axios.post(`${BACKEND_ENDPOINT}/image/`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
               'Authorization': `Bearer ${userCredentials.token}`,
@@ -88,6 +93,9 @@ const UploadPage = () => {
 
       });
       setSelectedFile(null);
+    } else {
+      alert("Please select the photo you want to upload. ");
+      return; 
     }
   };
   const imageFiles = Array.from(Array(50), (_, index) => ({
