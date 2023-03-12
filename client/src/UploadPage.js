@@ -99,7 +99,7 @@ const UploadPage = () => {
       return; 
     }
   };
-
+  
   return (
     <div className="UploadPage">
       <h1 className="upload-header">Upload Page</h1>
