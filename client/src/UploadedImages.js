@@ -51,9 +51,9 @@ const UploadedImages = () => {
                     {getImageFiles.slice(index, index + 5).map((file, index) => (
                     <div className="file-container2" key={index}>
                         <img width={"100px"} height={"100px"} src={file.url} alt="" />
-                        <div className="file-name">
+                        {/* <div className="file-name">
                         {file.name}
-                        </div>
+                        </div> */}
                     </div>
                     ))}
                 </div>
