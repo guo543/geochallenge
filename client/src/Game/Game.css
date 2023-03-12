@@ -36,3 +36,15 @@
     margin-top: 45px;
     height: 5%;
 }
+.report-button {
+    background-color: transparent;
+    color: #767676;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 45px;
+    height: 5%;
+}
+
+.report-button:hover {
+    color: #ab3b3b;
+}

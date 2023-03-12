@@ -21,17 +21,17 @@ export const signin = async (req, res) => {
             password,
             existingUser.password
         );
-        console.log('test before')
+        // console.log('test before')
         if (!isPasswordCorrect)
             return res.status(404).json({ message: "Invalid credentials." });
-        console.log('test before')
+        // console.log('test before')
 
         const token = jwt.sign(
             { email: existingUser.email, id: existingUser._id },
             "test",
             { expiresIn: "1h" }
         );
-        console.log('test after')
+        // console.log('test after')
 
         res.status(200).json({ result: existingUser, token });
     } catch (error) {
