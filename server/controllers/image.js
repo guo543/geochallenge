@@ -15,7 +15,7 @@ export const reportImage = async (req, res) => {
 
     const image = await Image.findById(id);
 
-    console.log(image);
+    console.log("Image reported: " + image);
 
     const threshold = 5;
     const newNumReport = image.numReports + 1;
@@ -86,3 +86,21 @@ export const uploadImage = async (req, res) => {
         });
     });
 };
+
+// 
+export const getImages = async (req, res) => {
+    const userId = req.query.userID;
+    
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(404).send('User with id ' + userId + ' does not exist.');
+    }
+    
+    const images = await Image.find({uploader: userId});
+    // const imageUrls = [];
+
+    // images.forEach(function (item, index) {
+    //     imageUrls.push(item.imageURL);
+    // });
+
+    res.status(200).json({ message: 'success', images: images });
+}

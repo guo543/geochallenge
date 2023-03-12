@@ -8,8 +8,8 @@ import "../MainPage.css";
 import GuestEnterGameModal from "../components/guestEnterGameModal";
 
 const userCredentials = JSON.parse(localStorage.getItem('userCredentials'))
-
 const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
+
 const MILE_PER_METER = 0.000621371;
 
 function scoreCalculation(distance) {

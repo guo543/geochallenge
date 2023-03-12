@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken';
 // Middleware for JWT
 const auth = async (req, res, next) => {
     try {
-        //console.log(req.headers);
         const authorization = req.headers.authorization;
+        console.log(authorization);
 
         if (authorization) {
             const token = req.headers.authorization.split(" ")[1];
@@ -20,10 +20,7 @@ const auth = async (req, res, next) => {
 
         next();
     } catch (error) {
-        // console.log("Error", error.stack);
-        // console.log("Error", error.name);
-        // console.log("Error", error.message);
-        res.status(401).json({ message: "Unauthorized" });
+        res.status(401).json({ message: "Unauthorized: auth error." });
     }
 }
 
