@@ -3,6 +3,11 @@ import Image from '../models/image.js';
 import multer from 'multer';
 import mongoose from "mongoose";
 
+const corsWhitelist = [
+    'http://purduegeochallenge.s3-website.us-east-2.amazonaws.com',
+    'https://localhost:3000',
+];
+
 export const reportImage = async (req, res) => {
     const { id } = req.params;
 
@@ -51,6 +56,14 @@ export const uploadImage = async (req, res) => {
             ACL: 'public-read',
             ContentType: file.mimetype
         };
+
+        // set Access-Control-Allow-Origin header 
+
+        if (corsWhitelist.indexOf() != -1) {
+            res.set('Access-Control-Allow-Origin', req.headers.origin)
+        }
+
+
         s3.upload(params, async (err, data) => {
             if (err) {
                 console.log(err);
