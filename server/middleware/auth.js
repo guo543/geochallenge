@@ -1,9 +1,8 @@
-import jwt, { decode } from 'jsonwebtoken';
-
+import jwt from 'jsonwebtoken';
 // Middleware for JWT
 const auth = async (req, res, next) => {
     try {
-        // console.log(req.headers);
+        //console.log(req.headers);
         const authorization = req.headers.authorization;
 
         if (authorization) {

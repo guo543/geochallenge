@@ -24,6 +24,8 @@ write_secret_to_env() {
 
 # Required
 write_secret_to_env "MONGODB_CONNECTION_URL" "CONNECTION_URL"
+write_secret_to_env "AWS_ACCESS_KEY_ID" "AWS_ACCESS_KEY_ID"
+write_secret_to_env "AWS_SECRET_ACCESS_KEY" "AWS_SECRET_ACCESS_KEY"
 
 # Not required
 if [[ $MONGODB_PORT != "" && $MONGODB_PORT != null ]]; then
