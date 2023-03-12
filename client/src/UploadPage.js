@@ -100,14 +100,6 @@ const UploadPage = () => {
     }
   };
 
-  // function for pulling images to display under Uploaded images
-  // var imageFiles = Array.from(Array(50), (_, index) => ({
-  //   // TODO: ask backend to get images for the current user. 
-  //   name: `filename${index + 1}.jpg`,
-  //   url: `https://via.placeholder.com/150?text=Image${index + 1}`
-  // }));
-
-
   return (
     <div className="UploadPage">
       <h1 className="upload-header">Upload Page</h1>
@@ -115,7 +107,7 @@ const UploadPage = () => {
       <div className="upload-container" onDragOver={handleDragOver} onDrop={handleDrop}>
         <div className="upload-input">
           <input type="file" accept="image/jpeg, image/png" onChange={handleFileInput} />
-          <button onClick={handleUpload}>Upload</button>
+          {selectedFile && <button onClick={handleUpload}>Upload</button>}
           {selectedFile && <button onClick={() => setSelectedFile(null)}>Clear</button>}
         </div>
         <div className="uploaded-files">

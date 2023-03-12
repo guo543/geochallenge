@@ -87,7 +87,6 @@ export const uploadImage = async (req, res) => {
     });
 };
 
-// 
 export const getImages = async (req, res) => {
     const userId = req.query.userID;
     
@@ -96,11 +95,5 @@ export const getImages = async (req, res) => {
     }
     
     const images = await Image.find({uploader: userId});
-    // const imageUrls = [];
-
-    // images.forEach(function (item, index) {
-    //     imageUrls.push(item.imageURL);
-    // });
-
     res.status(200).json({ message: 'success', images: images });
 }
