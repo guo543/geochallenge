@@ -141,10 +141,12 @@ export const changeProfilePicture = async (req, res) => {
 
     const user = await User.findById(id);
 
-    console.log(user);
+    console.log("Before User: " + user);
     
     user.profilePicture = profilePicture;
     const updatedUser = await User.findByIdAndUpdate(id, user, { new: true });
+
+    console.log("Updated User: " + updatedUser)
 
     res.json(updatedUser);
 }
@@ -158,8 +160,7 @@ export const getScoreRecords = async (req, res) => {
         if (!existingUser)
             return res.status(404).json({ message: "User doesn't exist." });
 
-        //Have some query that gets all score record data
-        //const scoreRecords = existingUser
+        //TODO: Have some query that gets all score record data for the user with the given email
         console.log(existingUser);
 
         res.status(200).json({ result: existingUser });
