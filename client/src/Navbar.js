@@ -4,6 +4,7 @@ import { Outlet, Link } from "react-router-dom";
 function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem("userCredentials");
+    localStorage.removeItem("profilePicture");
     console.log("Logged out");
   };
 
