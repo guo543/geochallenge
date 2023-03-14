@@ -3,8 +3,12 @@
     "",
     "\\client",
     "\\client\\src",
-    "\\client\\src\\pages"
+    "\\server",
+    "\\server\\controllers",
+    "\\server\\middleware",
+    "\\server\\models",
+    "\\server\\routes"
   ],
-  "SelectedNode": "\\client\\src\\App.css",
+  "SelectedNode": "\\server\\controllers\\image.js",
   "PreviewInSolutionExplorer": false
 }
