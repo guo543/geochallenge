@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 const corsWhitelist = [
     'http://purduegeochallenge.s3-website.us-east-2.amazonaws.com',
-    'https://localhost:3000',
+    'http://localhost:3000',
 ];
 
 export const reportImage = async (req, res) => {
@@ -59,7 +59,7 @@ export const uploadImage = async (req, res) => {
 
         // set Access-Control-Allow-Origin header 
 
-        if (corsWhitelist.indexOf() != -1) {
+        if (corsWhitelist.indexOf(req.headers.origin) != -1) {
             res.set('Access-Control-Allow-Origin', req.headers.origin)
         }
 
