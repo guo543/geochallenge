@@ -3,12 +3,8 @@ import Image from '../models/image.js';
 import multer from 'multer';
 import mongoose from "mongoose";
 
-const corsWhitelist = [
-    'http://purduegeochallenge.s3-website.us-east-2.amazonaws.com',
-    'http://localhost:3000',
-];
-
 export const reportImage = async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*')
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No image with that id');
@@ -33,6 +29,8 @@ export const reportImage = async (req, res) => {
 }
 
 export const uploadImage = async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*')
+
     const s3 = new AWS.S3({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -56,13 +54,6 @@ export const uploadImage = async (req, res) => {
             ACL: 'public-read',
             ContentType: file.mimetype
         };
-
-        // set Access-Control-Allow-Origin header 
-
-        if (corsWhitelist.indexOf(req.headers.origin) != -1) {
-            res.set('Access-Control-Allow-Origin', req.headers.origin)
-        }
-
 
         s3.upload(params, async (err, data) => {
             if (err) {
@@ -88,6 +79,7 @@ export const uploadImage = async (req, res) => {
 };
 
 export const getImages = async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*')
     const userId = req.query.userID;
     
     if (!mongoose.Types.ObjectId.isValid(userId)) {
