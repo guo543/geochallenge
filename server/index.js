@@ -10,9 +10,9 @@ import auth from './middleware/auth.js';
 const app = express();
 dotenv.config();
 
+app.use(cors());
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
 
 app.use('/user', userRoutes);
 app.use('/image', imageRoutes);
@@ -40,14 +40,6 @@ if (process.env.NODE_ENV !== 'test') {
     // don't listen for unit tests 
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
 }
-
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Credentials', true)
-    res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-    next();
-  });
 
 export default app;
 

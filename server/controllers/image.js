@@ -4,7 +4,6 @@ import multer from 'multer';
 import mongoose from "mongoose";
 
 export const reportImage = async (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*')
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No image with that id');
@@ -29,8 +28,6 @@ export const reportImage = async (req, res) => {
 }
 
 export const uploadImage = async (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*')
-
     const s3 = new AWS.S3({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -79,7 +76,6 @@ export const uploadImage = async (req, res) => {
 };
 
 export const getImagesByUserId = async (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*')
     const userId = req.query.userID;
     
     if (!mongoose.Types.ObjectId.isValid(userId)) {
