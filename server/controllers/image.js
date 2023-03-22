@@ -78,7 +78,7 @@ export const uploadImage = async (req, res) => {
     });
 };
 
-export const getImages = async (req, res) => {
+export const getImagesByUserId = async (req, res) => {
     res.set('Access-Control-Allow-Origin', '*')
     const userId = req.query.userID;
     
