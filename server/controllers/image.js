@@ -75,7 +75,7 @@ export const uploadImage = async (req, res) => {
     });
 };
 
-export const getImages = async (req, res) => {
+export const getImagesByUserId = async (req, res) => {
     const userId = req.query.userID;
     
     if (!mongoose.Types.ObjectId.isValid(userId)) {
