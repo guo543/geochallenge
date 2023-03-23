@@ -41,7 +41,7 @@ const MainPage = () => {
     };
 
     //this should only be used for testing purposes
-    const handleClearProfilePicture = async (e) => {
+    /*const handleClearProfilePicture = async (e) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('profilePicture', "");
@@ -55,7 +55,7 @@ const MainPage = () => {
         console.log(testresponse);
         localStorage.setItem("profilePicture", "");
         window.location.reload(false);
-    }
+    }*/
 
     const handleFileInput = (e) => {
         const file = e.target.files[0];
@@ -112,25 +112,28 @@ const MainPage = () => {
             formData.append('userID', userID);
             formData.append('imageLat', lat);
             formData.append('imageLon', long);
-            //THIS IS COMMENTED OUT FOR NOW SINCE I'M NOT SURE IF WE WANT PROFILE IMAGES AND LOCATION IMAGES GOING TO THE SAME PLACE
-            /*try {
-                const response = await axios.post(`${BACKEND_ENDPOINT}/image/`, formData, {
+            let pfpURL = "";
+            try {
+                const response = await axios.post(`${BACKEND_ENDPOINT}/image/uploadProfilePicture`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${userCredentials.token}`,
                     },
                 });
-                console.log(response.data);
+                //console.log(response.data);
+                //console.log(response.data.image);
+                pfpURL = response.data.image;
+                formData.append('profilePicture', pfpURL);
             } catch (err) {
                 console.log(err);
-            }*/
+            }
 
             formData.delete('image');
             formData.delete('userID');
             formData.delete('imageLat');
             formData.delete('imageLon');
             //may have to use the id of image later on instead of its name, so that it can reference the actual image file itself, and because the file name may allow for a 1 to many mapping
-            formData.append('profilePicture', selectedFile.name);
+            //formData.append('profilePicture', selectedFile.name);
             const testresponse = await axios.patch(BACKEND_ENDPOINT + "/user/" + JSON.parse(localStorage.getItem('userCredentials')).result._id + "/profilePic",
                 formData, {
                 headers: {
@@ -139,7 +142,7 @@ const MainPage = () => {
                 },
             });
             console.log(testresponse);
-            localStorage.setItem("profilePicture", selectedFile.name);
+            localStorage.setItem("profilePicture", pfpURL);
 
             setSelectedFile(null);
         } else {
@@ -191,10 +194,11 @@ const MainPage = () => {
                             alt="Default"
                         />
                     )}
-                    {(localStorage.getItem('profilePicture') !== null || JSON.parse(localStorage.getItem('userCredentials')).result.profilePicture !== "") && (
-                        <p style={{ color: "white", fontSize: 17 }}>
-                            This is where the profile picture will be shown.
-                        </p>
+                    {(localStorage.getItem('profilePicture') !== null) && (
+                        <img className="profile-picture" src={localStorage.getItem('profilePicture')} alt="" />
+                    )}
+                    {(localStorage.getItem('profilePicture') === null && JSON.parse(localStorage.getItem('userCredentials')).result.profilePicture !== "") && (
+                        <img className="profile-picture" src={JSON.parse(localStorage.getItem('userCredentials')).result.profilePicture} alt="" />
                     )}
                     {!showUpload && (
                         <button
@@ -235,13 +239,13 @@ const MainPage = () => {
                             </div>
                         </>
                     )}
-                    <button
+                    {/*<button
                         className="button"
                         type="button"
                         onClick={handleClearProfilePicture}
                     >
                         Clear Profile Picture (for testing purposes only; remove later; this will not take immediate effect, you'll have to logout and login again to refresh credentials; if you tinker with profile pictures, please use this to leave your account without a profile picture so that you won't run into issues later)
-                    </button>
+                    </button>*/}
                 </div>
             </div>
         </div>

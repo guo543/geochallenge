@@ -141,12 +141,12 @@ export const changeProfilePicture = async (req, res) => {
 
     const user = await User.findById(id);
 
-    console.log("Before User: " + user);
+    //console.log("Before User: " + user);
     
     user.profilePicture = profilePicture;
     const updatedUser = await User.findByIdAndUpdate(id, user, { new: true });
 
-    console.log("Updated User: " + updatedUser)
+    //console.log("Updated User: " + updatedUser)
 
     res.json(updatedUser);
 }
