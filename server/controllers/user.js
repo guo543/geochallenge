@@ -16,15 +16,13 @@ export const signin = async (req, res) => {
         if (!existingUser)
             return res.status(404).json({ message: "User doesn't exist." });
 
-        console.log(existingUser.password)
         const isPasswordCorrect = await bcrypt.compare(
             password,
             existingUser.password
         );
-        // console.log('test before')
+
         if (!isPasswordCorrect)
             return res.status(404).json({ message: "Invalid credentials." });
-        // console.log('test before')
 
         const token = jwt.sign(
             { email: existingUser.email, id: existingUser._id },

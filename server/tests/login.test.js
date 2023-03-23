@@ -4,60 +4,54 @@ import request from 'supertest'
 import {jest} from '@jest/globals'
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
+import bcrypt from "bcryptjs";
 
 
 describe("POST /user/signin", () => {
-    // describe("given incorrect password", () => {
-    //     let mockUser = {
-    //         email: "xiong109@purdue.edu",
-    //         password: "ajsdofpasdf",
-    //         _id: 1
-    //     }
-    //     jest.spyOn(User, 'findOne')
-    //         .mockImplementationOnce(() => Promise.resolve( mockUser ))
+    let mockUser = {
+        email: "abc@purdue.edu",
+        password: bcrypt.hashSync("123", 12),
+        _id: 1
+    }
 
-    //     test("Return status: 404", async () => {
-    //         const response = await request(app).post("/user/signin").send(
-    //             {
-    //                 email: "xiong109@purdue.edu",
-    //                 password: "asd"
-    //             }
-    //         )
+    jest.spyOn(User, 'findOne')
+        .mockImplementation(() => Promise.resolve( mockUser ))
+    jest.spyOn(jwt, 'sign')
+        .mockReturnValue(null);
 
-    //         expect(response.statusCode).toBe(404);
-    //     })
-    // })
+    describe("given incorrect password", () => {
+        test("Return status: 404", async () => {
+            const response = await request(app).post("/user/signin").send(
+                {
+                    email: "abc@purdue.edu",
+                    password: "asd"
+                }
+            )
+            expect(response.statusCode).toBe(404);
+        })
+    })
 
-    // describe("username and password missing", () => {
-    //     test("Return status: 500", async () => {
-    //         const response = await request(app).post("/user/signin").send(
-    //             {}
-    //         )
-    //         expect(response.statusCode).toBe(500);
-    //     })
+    describe("username and password missing", () => {
+        test("Return status: 500", async () => {
+            const response = await request(app).post("/user/signin").send(
+                {}
+            )
+            expect(response.statusCode).toBe(500);
+        })
         
-    // })
+    })
 
     describe("correct username and password", () => {
-        let mockUser = {
-            email: "xiong109@purdue.edu",
-            password: "12345678",
-            _id: 1
-        }
-
-        jest.spyOn(User, 'findOne')
-            .mockImplementationOnce(() => Promise.resolve( mockUser ))
-        jest.spyOn(jwt, 'sign')
-            .mockReturnValue(null);
-
         test("Return status: 200", async () => {
             const response = await request(app).post("/user/signin").send(
                 {
-                    email: "xiong109@purdue.edu",
-                    password: "12345678"
+                    email: "abc@purdue.edu",
+                    password: "123"
                 }
             )
             expect(response.statusCode).toBe(200);
         })
     })
+
+    afterAll(() => jest.restoreAllMocks());
 })
