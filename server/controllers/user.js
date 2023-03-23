@@ -12,26 +12,21 @@ export const signin = async (req, res) => {
 
     try {
         const existingUser = await User.findOne({ email });
-
         if (!existingUser)
             return res.status(404).json({ message: "User doesn't exist." });
 
-        console.log(existingUser.password)
         const isPasswordCorrect = await bcrypt.compare(
             password,
             existingUser.password
         );
-        // console.log('test before')
         if (!isPasswordCorrect)
             return res.status(404).json({ message: "Invalid credentials." });
-        // console.log('test before')
 
         const token = jwt.sign(
             { email: existingUser.email, id: existingUser._id },
             "test",
             { expiresIn: "1h" }
         );
-        // console.log('test after')
 
         res.status(200).json({ result: existingUser, token });
     } catch (error) {
@@ -50,7 +45,10 @@ export const signup = async (req, res) => {
             return res.status(400).json({ message: "User already exist." });
 
         const hashedPassword = await bcrypt.hash(password, 12);
+
         const result = await User.create({ email, password: hashedPassword, profilePicture: "" });
+        console.log('test after')
+
         const token = jwt.sign({ email: result.email, id: result._id }, "test", {
             expiresIn: "1h",
         });
