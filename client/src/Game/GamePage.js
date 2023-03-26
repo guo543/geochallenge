@@ -113,7 +113,7 @@ class GamePage extends Component {
 
                         { this.state.score > 0 ? 
                             <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
-                                Score: {this.state.score}
+                                Score: {this.state.score} / 1000
                             </h3>
                             :
                             <button className="guess-button" onClick={this.handleGuess}>
