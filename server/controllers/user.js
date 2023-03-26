@@ -19,6 +19,8 @@ export const signin = async (req, res) => {
             password,
             existingUser.password
         );
+
+
         if (!isPasswordCorrect)
             return res.status(404).json({ message: "Invalid credentials." });
 

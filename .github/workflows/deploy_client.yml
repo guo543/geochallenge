@@ -3,8 +3,8 @@ name: Deploy Client to AWS
 on:
   release:
     types: [created]
-  push:
-    branches: ['master']
+  # push:
+  #   branches: ['master']
   
 
 env:

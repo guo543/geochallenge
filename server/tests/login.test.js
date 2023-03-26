@@ -27,6 +27,7 @@ describe("POST /user/signin", () => {
 
             expect(response.statusCode).toBe(404);
         })
+
     })
 
     describe("correct username and password", () => {
@@ -48,9 +49,12 @@ describe("POST /user/signin", () => {
                 {
                     email: "xiong109@purdue.edu",
                     password: password
+
                 }
             )
             expect(response.statusCode).toBe(200);
         })
     })
+
+    afterAll(() => jest.restoreAllMocks());
 })
