@@ -2,12 +2,11 @@
 import app from '../index.js'
 import request from 'supertest'
 import {jest} from '@jest/globals'
-import jwt from "jsonwebtoken";
 import Image from "../models/image.js";
 import User from "../models/user.js";
 import bcrypt from "bcryptjs";
 import { ObjectId } from 'mongodb'
-import AWS from 'aws-sdk'
+import path from 'path'
 
 describe("Test: /image/", () => {
     let token = '';
@@ -33,7 +32,6 @@ describe("Test: /image/", () => {
     jest.spyOn(Image, 'find')
         .mockImplementation(() => Promise.resolve( mockImage ))
 
-    
     // signin and get auth token
     beforeAll(async () => {
         const response = await request(app).post("/user/signin").send(
@@ -71,34 +69,68 @@ describe("Test: /image/", () => {
         afterAll(() => jest.restoreAllMocks());
     })
 
-    describe("POST /image/", () => {
+    describe("POST /image/ : intentionally fail with code 500 (InvalidAccessKeyId) to avoid accessing S3 buckets and timing out", () => {
+        const OLD_ENV = process.env;
+
+        beforeAll(() => {
+            // fail aws APIs intentionally to avoid time out
+            process.env.AWS_ACCESS_KEY_ID = 'fake';
+            process.env.AWS_SECRET_ACCESS_KEY = 'fake';
+        });
+
+        afterAll(() => {
+            jest.restoreAllMocks()
+            process.env = OLD_ENV;
+        });
+
         describe("upload valid image", () => {
-            // test("Return status: 200", async () => {
-            //     const putObjectMock = jest.fn(() => "s3 upload - placeholder for unit testing.");
-            //     const awsMock = jest.spyOn(AWS.S3, 'upload');
-            //     awsMock.mockImplementation(() => {
-            //       return {
-            //         batchGet: async (params, callback) => {
-            //             callback(null, putObjectMock(params));  
-            //         }
-            //       }
-            //     });
+            test("Return status: 500 (InvalidAccessKeyId)", async () => {
+
+                const response = await request(app)
+                    .post("/image/")
+                    .set('Authorization', `Bearer ${token}`)
+                    .set('Content-Type', 'multipart/form-data')
+                    .field('userID', '123')
+                    .field('imageLat', 40.580955)
+                    .field('imageLon', -87.095783)
+                    .attach('image', path.join(__dirname, './testImage.jpeg'));
                 
+                expect(response.statusCode).toBe(500);
+                expect(response.body.message).toBe('Error uploading image to S3: InvalidAccessKeyId');
+            })
+        })
 
-            //     const data = {
-            //         userID: 123,
-            //         imageLat: 40.580955,
-            //         imageLon: -87.095783,
-            //         image: new File(["(⌐□_□)"], "testimage.png", { type: "image/png" })
-            //     }
-    
-            //     const response = await request(app).post("/image/")
-            //         .set('Authorization', `Bearer ${token}`)
-            //         .send(data);
+        describe("upload invalid image (coordinates out of bound)", () => {
+            test("Return status: 500 (InvalidAccessKeyId)", async () => {
 
-            //     expect(response.statusCode).toBe(200);
-    
-            // })
+                const response = await request(app)
+                    .post("/image/")
+                    .set('Authorization', `Bearer ${token}`)
+                    .set('Content-Type', 'multipart/form-data')
+                    .field('userID', '123')
+                    .field('imageLat', 123123.580955)
+                    .field('imageLon', -87.095783)
+                    .attach('image', path.join(__dirname, './testImage.jpeg'));
+                
+                expect(response.statusCode).toBe(500);
+                expect(response.body.message).toBe('Error uploading image to S3: InvalidAccessKeyId');
+            })
+        })
+
+        describe("upload no image", () => {
+            test("Return status: 400 (No image provided)", async () => {
+
+                const response = await request(app)
+                    .post("/image/")
+                    .set('Authorization', `Bearer ${token}`)
+                    .set('Content-Type', 'multipart/form-data')
+                    .field('userID', '123')
+                    .field('imageLat', 123123.580955)
+                    .field('imageLon', -87.095783);
+                
+                expect(response.statusCode).toBe(400);
+                expect(response.body.message).toBe('No image provided');
+            })
         })
     })
 })

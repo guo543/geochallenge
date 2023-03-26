@@ -39,6 +39,11 @@ export const uploadImage = async (req, res) => {
             console.log(err);
             return res.status(400).json({ message: 'Error uploading image' });
         }
+
+        if (req.file === undefined) {
+            return res.status(400).json({ message: 'No image provided' });
+        }
+
         const file = req.file;
         const { imageLat, imageLon, userID } = req.body;
         const key = `${userID}/${Date.now()}-${file.originalname}`;
@@ -55,7 +60,7 @@ export const uploadImage = async (req, res) => {
         s3.upload(params, async (err, data) => {
             if (err) {
                 console.log(err);
-                return res.status(500).json({ message: 'Error uploading image to S3' });
+                return res.status(500).json({ message: 'Error uploading image to S3: ' + err.name });
             }
             try {
                 const result = await Image.create({

@@ -3,8 +3,8 @@ name: Deploy Server to AWS
 on:
   release:
     types: [created]
-  push:
-    branches: ['master']
+  # push:
+  #   branches: ['master']
   
 
 env:
