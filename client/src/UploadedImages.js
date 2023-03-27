@@ -4,7 +4,6 @@ import axios from "axios";
 const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
 
 const UploadedImages = () => {
-
     let [getImageFiles, setImageFiles] = useState(null)
     
     useEffect(() => {
@@ -32,19 +31,16 @@ const UploadedImages = () => {
                     });
                 });
                 setImageFiles(imageFiles);
-
-          
             } catch (err) {
               console.log(err);
             }
         }
-    
         fetchUploadedFiles().catch(console.error);
     }, []);
 
     return (
         <div className="all-uploaded-files">
-            <h2 className="upload-header">Uploaded Images:</h2>
+            {getImageFiles && <h2 className="upload-comp-header">Uploaded Images:</h2>}
             {getImageFiles && getImageFiles.map((image, index) => (
                 index % 5 === 0 && 
                 <div className="file-row" key={index}>

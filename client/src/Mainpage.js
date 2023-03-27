@@ -25,6 +25,11 @@ const MainPage = () => {
           <button className="start-button" onClick={() => {navigate("/gamePage");}}>
             Start
           </button>
+          {(localStorage.getItem('userCredentials') !== null) && (
+              <button className="start-button" onClick={() => {navigate("/uploadPage");}}>
+                Upload Pictures for GeoChallenge
+              </button>
+          )}
         </div>
         <div className="right-side">
           <img

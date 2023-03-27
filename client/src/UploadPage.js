@@ -123,7 +123,7 @@ const UploadPage = () => {
           )}
         </div>
       </div>
-      <UploadedImages />
+      <UploadedImages/>
     </div>
   );
 };
