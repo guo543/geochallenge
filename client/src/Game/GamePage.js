@@ -52,16 +52,33 @@ class GamePage extends Component {
         this.setState ({ streetViewLocation : latLng })
     }
 
-    handleGuess = () => {
+    handleGuess = async (e) => {
         let distance = window.google.maps.geometry.spherical.computeDistanceBetween(this.state.markerLocation, this.state.streetViewLocation);
         distance = distance * MILE_PER_METER; //convert to miles
         distance = distance.toFixed(2);
         this.setState({ distanceFromGuess : distance });
         console.log(distance);
-        this.setState({ score : scoreCalculation(distance)});
+        let calcResult = scoreCalculation(distance)
+        this.setState({ score: calcResult });
         // get position on street view
         // get marker position
-        // calculate distance 
+        // calculate distance
+
+        //if the user is logged in, update the user's score records with the score for this round
+        if (localStorage.getItem("userCredentials") != null) {
+            const formData = new FormData();
+            console.log(calcResult);
+            formData.append('score', calcResult);
+            const testresponse = await axios.patch(BACKEND_ENDPOINT + "/user/" + JSON.parse(localStorage.getItem('userCredentials')).result._id + "/updateScoreRecords",
+                formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userCredentials')).token}`,
+                },
+            });
+            console.log(testresponse);
+        }
+
     };
 
     handleReport = async () => {

@@ -177,8 +177,13 @@ const MainPage = () => {
                                 Hide Past Scores
                             </button>
                             <p style={{ color: "white", fontSize: 17 }}>
-                                This is where scores will be shown.
-                                For now, here is the user's profile picture: {response.data.result.profilePicture}
+                                You have guessed a total of {response.data.result.recordCount} times!<br></br>
+                            </p>
+                            <p style={{ color: "white", fontSize: 17 }}>
+                                Past Scores:<br></br><br></br>
+                                {response.data.result.records.map((record, index) => { 
+                                    return <span>Score {index}: {record}<br></br></span>;
+                                }) }
                             </p>
                         </>
                     )}

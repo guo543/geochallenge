@@ -48,7 +48,7 @@ export const signup = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const result = await User.create({ email, password: hashedPassword, profilePicture: "" });
+        const result = await User.create({ email, password: hashedPassword, profilePicture: "", recordCount: 0 });
         console.log('test after')
 
         const token = jwt.sign({ email: result.email, id: result._id }, "test", {
@@ -147,6 +147,31 @@ export const changeProfilePicture = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(id, user, { new: true });
 
     //console.log("Updated User: " + updatedUser)
+
+    res.json(updatedUser);
+}
+
+export const updateScoreRecords = async (req, res) => {
+    const { id } = req.params;
+
+    const { score } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No user with that id');
+
+    //get the user
+    const user = await User.findById(id);
+
+    console.log("Score: " + score);
+    console.log("Before User: " + user);
+
+    //update score records
+    user.recordCount++;
+    user.records.push(score);
+
+    //save changes
+    const updatedUser = await User.findByIdAndUpdate(id, user, { new: true });
+
+    console.log("Updated User: " + updatedUser)
 
     res.json(updatedUser);
 }
