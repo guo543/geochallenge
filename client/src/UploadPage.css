@@ -4,6 +4,8 @@
   align-items: center;
   padding: 2rem;
   background-color: #1a191f;
+  height: 200vh;
+  width: 100%;
 }
 
 .upload-subheader {
