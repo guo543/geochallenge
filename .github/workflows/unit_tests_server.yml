@@ -1,8 +1,6 @@
-name: Deploy Server to AWS
+name: Unit Tests - Server
 
 on:
-  push:
-    branches: ['katherine-mich-s2']
   pull_request:
     types: [opened, reopened]
 
