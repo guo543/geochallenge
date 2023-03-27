@@ -31,5 +31,7 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+    - name: Install modules
+      run: yarn
     - name: Run Jest Unit tests
-      run: npm test
+      run: yarn test
