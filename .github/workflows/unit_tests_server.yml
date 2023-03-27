@@ -5,7 +5,6 @@ on:
     branches: ['katherine-mich-s2']
   pull_request:
     types: [opened, reopened]
-  
 
 env:
   APP_COMPONENT: server
@@ -19,9 +18,10 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ${{ env.APP_COMPONENT }}
+        working-directory: ./${{ env.APP_COMPONENT }}
 
     steps:
+    - uses: actions/checkout@v3
     - name: Pull Secrets from Github Secrets
       run: ./scripts/create_env.sh
       shell: bash
