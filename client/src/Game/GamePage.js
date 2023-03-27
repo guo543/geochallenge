@@ -67,7 +67,7 @@ class GamePage extends Component {
     handleReport = async () => {
         // TODO: this image id is hard coded for now for testing purposes.
         // remove this once games w/ images are implemented
-        this.imageId = "640d1ca8f9691be1de1e0ec3";
+        // this.imageId = "640d1ca8f9691be1de1e0ec3";
         
         if (this.imageId === null) {
             alert("Unfortunately you cannot report a streetview.");
@@ -95,8 +95,6 @@ class GamePage extends Component {
         } catch (err) {
           console.log(err);
         }
-
-
     }
 
     render () {
