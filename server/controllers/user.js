@@ -161,12 +161,20 @@ export const updateScoreRecords = async (req, res) => {
     //get the user
     const user = await User.findById(id);
 
-    console.log("Score: " + score);
     console.log("Before User: " + user);
 
+    //amount of score records that you want to keep track of
+    let maxRecords = 10;
+
     //update score records
+    if (user.recordCount < maxRecords) {
+        //array is less than the max elements, so add another entry
+        user.records.push(score);
+    } else {
+        //replace the score of the oldest entry in the array with the most recent score
+        user.records[user.recordCount % maxRecords] = score;
+    }
     user.recordCount++;
-    user.records.push(score);
 
     //save changes
     const updatedUser = await User.findByIdAndUpdate(id, user, { new: true });

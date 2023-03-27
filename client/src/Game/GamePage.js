@@ -67,7 +67,6 @@ class GamePage extends Component {
         //if the user is logged in, update the user's score records with the score for this round
         if (localStorage.getItem("userCredentials") != null) {
             const formData = new FormData();
-            console.log(calcResult);
             formData.append('score', calcResult);
             const testresponse = await axios.patch(BACKEND_ENDPOINT + "/user/" + JSON.parse(localStorage.getItem('userCredentials')).result._id + "/updateScoreRecords",
                 formData, {

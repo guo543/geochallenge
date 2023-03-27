@@ -3,6 +3,7 @@ import "./ProfilePage.css";
 import axios from "axios";
 
 let response;
+let maxRecords = 10;
 const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
 
 const MainPage = () => {
@@ -177,14 +178,34 @@ const MainPage = () => {
                                 Hide Past Scores
                             </button>
                             <p style={{ color: "white", fontSize: 17 }}>
-                                You have guessed a total of {response.data.result.recordCount} times!<br></br>
+                                You have guessed a total of <b>{response.data.result.recordCount}</b> times!<br></br>
                             </p>
+
                             <p style={{ color: "white", fontSize: 17 }}>
-                                Past Scores:<br></br><br></br>
-                                {response.data.result.records.map((record, index) => { 
-                                    return <span>Score {index}: {record}<br></br></span>;
-                                }) }
+                                {maxRecords} Most Recent Past Scores:<br></br>
                             </p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Recency</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {response.data.result.records.map((record, index, array) => {
+                                        let scoreIndex = (response.data.result.recordCount - index) % maxRecords - 1;
+                                        if (scoreIndex === -1) {
+                                            scoreIndex = 9;
+                                        }
+                                        return (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{array[scoreIndex]}</td>
+                                            </tr>
+                                        )
+                                    }) }
+                                </tbody>
+                            </table>
                         </>
                     )}
                 </div>
