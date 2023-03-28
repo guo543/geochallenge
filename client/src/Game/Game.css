@@ -12,7 +12,12 @@
     margin-left: 10px;
 }
 
-#streetview-map {
+#streetview {
+    height:100%;
+    width:100%;
+}
+
+#game-image {
     height:100%;
     width:100%;
 }

@@ -34,7 +34,7 @@ class Map extends Component {
             let newmap = new window.google.maps.Map(document.getElementById('map'), {
                 center: MAP_CENTER,
                 zoom: 14,
-                // minZoom: 13,
+                minZoom: 13,
                 disableDefaultUI: true,
                 zoomControl: true,
                 restriction: {

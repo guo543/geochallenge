@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { render } from 'react-dom';
 
 const PURDUE_BOUNDS = {
     north: 40.439251,
@@ -17,7 +16,6 @@ function generateRandomCoordinatePurdue() {
 class StreetView extends Component {
     
     componentDidMount() {
-        // eslint-disable-next-line
         const randomCoordinate = generateRandomCoordinatePurdue();
 
         console.log(randomCoordinate);
@@ -39,7 +37,7 @@ class StreetView extends Component {
     }
     render() {
         return (
-          <div id="streetview-map" />
+          <div id="streetview" />
         );
     }
 }
