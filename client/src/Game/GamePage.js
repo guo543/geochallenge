@@ -63,20 +63,8 @@ class GamePage extends Component {
         this.setState ({ viewLocation : latLng })
     }
 
-    setImage
-
-    fetchImage = async () => {
-        try {
-            const response = await axios.get(`${BACKEND_ENDPOINT}/image/rand`);
-
-            response.data.image
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-        let distance = window.google.maps.geometry.spherical.computeDistanceBetween(this.state.markerLocation, this.state.viewLocation);
     handleGuess = async (e) => {
+        let distance = window.google.maps.geometry.spherical.computeDistanceBetween(this.state.markerLocation, this.state.viewLocation);
         distance = distance * MILE_PER_METER; //convert to miles
         distance = distance.toFixed(2);
         this.setState({ distanceFromGuess : distance });
@@ -144,8 +132,8 @@ class GamePage extends Component {
                     this.state.showGame ?
                     <div className="game-container">
                         <div id="streetview-container">
-                            { showStreetView && <StreetView setViewLocation = { this.setViewLocation } /> }
-                            { showImage && <Image setViewLocation = { this.setViewLocation } /> }
+                            { this.state.showStreetView && <StreetView setViewLocation = { this.setViewLocation } /> }
+                            { this.state.showImage && <Image setViewLocation = { this.setViewLocation } /> }
                             <Map setMarkerLocation = { this.setMarkerLocation }/>
                         </div>
 

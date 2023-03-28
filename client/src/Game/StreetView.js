@@ -16,6 +16,7 @@ function generateRandomCoordinatePurdue() {
 class StreetView extends Component {
     
     componentDidMount() {
+        // eslint-disable-next-line
         const randomCoordinate = generateRandomCoordinatePurdue();
 
         console.log(randomCoordinate);
@@ -33,7 +34,7 @@ class StreetView extends Component {
             }
         )
 
-        this.props.setStreetViewLocation(panorama.getPosition());
+        this.props.setViewLocation(panorama.getPosition());
     }
     render() {
         return (

@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import axios from "axios";
+
+const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
 
 class Image extends Component {
     state = {
@@ -22,28 +25,12 @@ class Image extends Component {
     }
 
     componentDidMount() {
-        this.fetchImage().then()
-        console.log(randomCoordinate);
-
-        const panorama = new window.google.maps.StreetViewPanorama(
-            document.getElementById('streetview-map'),
-            {
-                position: randomCoordinate,
-                disableDefaultUI: true,
-                zoomControl: true,
-                panControl: true,
-                clickToGo: false,
-                showRoadLabels: false,
-                zoom: 0
-            }
-        )
-
-        this.props.setStreetViewLocation(panorama.getPosition());
+        this.fetchImage()
     }
     render() {
         return (
             <div className="file-container2">
-                <img id="game-image" src={file.url} alt="" />
+                <img id="game-image" src={"https://media.wired.com/photos/5a55457ef41e4c2cd9ee6cb5/master/w_2560%2Cc_limit/Doggo-TopArt-104685145.jpg"} alt="" />
             </div>
         );
     }
