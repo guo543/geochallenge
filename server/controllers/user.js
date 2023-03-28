@@ -19,6 +19,8 @@ export const signin = async (req, res) => {
             password,
             existingUser.password
         );
+
+
         if (!isPasswordCorrect)
             return res.status(404).json({ message: "Invalid credentials." });
 
@@ -46,7 +48,7 @@ export const signup = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const result = await User.create({ email, password: hashedPassword, profilePicture: "" });
+        const result = await User.create({ email, password: hashedPassword, profilePicture: "", recordCount: 0 });
         console.log('test after')
 
         const token = jwt.sign({ email: result.email, id: result._id }, "test", {
@@ -145,6 +147,39 @@ export const changeProfilePicture = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(id, user, { new: true });
 
     //console.log("Updated User: " + updatedUser)
+
+    res.json(updatedUser);
+}
+
+export const updateScoreRecords = async (req, res) => {
+    const { id } = req.params;
+
+    const { score } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No user with that id');
+
+    //get the user
+    const user = await User.findById(id);
+
+    console.log("Before User: " + user);
+
+    //amount of score records that you want to keep track of
+    let maxRecords = 10;
+
+    //update score records
+    if (user.recordCount < maxRecords) {
+        //array is less than the max elements, so add another entry
+        user.records.push(score);
+    } else {
+        //replace the score of the oldest entry in the array with the most recent score
+        user.records[user.recordCount % maxRecords] = score;
+    }
+    user.recordCount++;
+
+    //save changes
+    const updatedUser = await User.findByIdAndUpdate(id, user, { new: true });
+
+    console.log("Updated User: " + updatedUser)
 
     res.json(updatedUser);
 }

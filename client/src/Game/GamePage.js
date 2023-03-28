@@ -75,22 +75,38 @@ class GamePage extends Component {
         }
     }
 
-    handleGuess = () => {
         let distance = window.google.maps.geometry.spherical.computeDistanceBetween(this.state.markerLocation, this.state.viewLocation);
+    handleGuess = async (e) => {
         distance = distance * MILE_PER_METER; //convert to miles
         distance = distance.toFixed(2);
         this.setState({ distanceFromGuess : distance });
         console.log(distance);
-        this.setState({ score : scoreCalculation(distance)});
+        let calcResult = scoreCalculation(distance)
+        this.setState({ score: calcResult });
         // get position on street view
         // get marker position
-        // calculate distance 
+        // calculate distance
+
+        //if the user is logged in, update the user's score records with the score for this round
+        if (localStorage.getItem("userCredentials") != null) {
+            const formData = new FormData();
+            formData.append('score', calcResult);
+            const testresponse = await axios.patch(BACKEND_ENDPOINT + "/user/" + JSON.parse(localStorage.getItem('userCredentials')).result._id + "/updateScoreRecords",
+                formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userCredentials')).token}`,
+                },
+            });
+            console.log(testresponse);
+        }
+
     };
 
     handleReport = async () => {
         // TODO: this image id is hard coded for now for testing purposes.
         // remove this once games w/ images are implemented
-        this.imageId = "640d1ca8f9691be1de1e0ec3";
+        // this.imageId = "640d1ca8f9691be1de1e0ec3";
         
         if (this.imageId === null) {
             alert("Unfortunately you cannot report a streetview.");
@@ -118,8 +134,6 @@ class GamePage extends Component {
         } catch (err) {
           console.log(err);
         }
-
-
     }
 
     render () {

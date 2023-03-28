@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./UploadPage.css";
 import UploadedImages from './UploadedImages'
 import EXIF from 'exif-js';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const UploadPage = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem('userCredentials')) {
+      navigate("/")
+    }
+  });
+
   const [selectedFile, setSelectedFile] = useState(null);
   const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
   const MAP_BOUNDS = {
@@ -123,7 +132,7 @@ const UploadPage = () => {
           )}
         </div>
       </div>
-      <UploadedImages />
+      <UploadedImages/>
     </div>
   );
 };
