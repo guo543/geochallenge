@@ -185,12 +185,12 @@ export const updateScoreRecords = async (req, res) => {
 }
 
 export const getScoreRecords = async (req, res) => {
-    const { email } = req.body;
+    const { email } = req.query;
 
     try {
         const existingUser = await User.findOne({ email });
 
-        if (!existingUser)
+        if (!existingUser || existingUser.email !== email)
             return res.status(404).json({ message: "User doesn't exist." });
 
         //TODO: Have some query that gets all score record data for the user with the given email
@@ -200,4 +200,4 @@ export const getScoreRecords = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Something went wrong." });
     }
-};
+}; 

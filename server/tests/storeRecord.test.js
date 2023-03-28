@@ -29,12 +29,10 @@ describe("GET /user/getScoreRecords", () => {
     describe("given existing email", () => {
         test("Return status: 200", async () => {
     
-            // TODO: Why is this POST?
-            const response = await request(app).post("/user/getScoreRecords").send(
-                {
-                    email: "abc@purdue.edu"
-                }
-            )
+            const response = await request(app)
+                .get("/user/getScoreRecords")
+                .query({ email: 'abc@purdue.edu' })
+                .send();
             expect(response.statusCode).toBe(200);
 
             // Check that the score record is consistent with the mock user
@@ -42,6 +40,18 @@ describe("GET /user/getScoreRecords", () => {
             expect(resUserInfo.recordCount === 1);
             expect(resUserInfo.records[0] === 100);
         })
+    })
 
+    describe("given non-existing email", () => {
+        test("Return status: 200", async () => {
+    
+            const response = await request(app)
+                .get("/user/getScoreRecords")
+                .query({ email: 'abasdasdasdc@purdue.edu' })
+                .send();
+
+            expect(response.statusCode).toBe(404);
+            expect(response.body.message === 'User doesn\'t exist.')
+        })
     })
 })
