@@ -30,7 +30,7 @@ class Image extends Component {
     render() {
         return (
             <div className="file-container2">
-                <img id="game-image" src={"https://media.wired.com/photos/5a55457ef41e4c2cd9ee6cb5/master/w_2560%2Cc_limit/Doggo-TopArt-104685145.jpg"} alt="" />
+                <img id="game-image" src={this.state.imageUrl} alt="" />
             </div>
         );
     }

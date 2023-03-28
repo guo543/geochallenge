@@ -38,7 +38,7 @@ class StreetView extends Component {
     }
     render() {
         return (
-          <div id="streetview" />
+          <div id="streetview-map" />
         );
     }
 }

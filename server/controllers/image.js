@@ -91,7 +91,7 @@ export const getImagesByUserId = async (req, res) => {
     res.status(200).json({ message: 'success', images: images });
 }
 
-export const getRandomImage = async () => {
+export const getRandomImage = async (req, res) => {
     try {
         const image = await Image.aggregate([{ $sample : { size : 1}}]);
         res.status(200).json({ message: 'success', image: image });
