@@ -101,7 +101,6 @@ class GamePage extends Component {
                     'Authorization': `Bearer ${userCredentials.token}`,
                 },
             });
-            console.log(response.data);
 
             if (response.status === 200) {
                 alert("Thank you for feedback. We will be looking into this issue. ")
