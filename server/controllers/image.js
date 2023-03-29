@@ -91,6 +91,16 @@ export const getImagesByUserId = async (req, res) => {
     res.status(200).json({ message: 'success', images: images });
 }
 
+export const getRandomImage = async (req, res) => {
+    try {
+        const image = await Image.aggregate([{ $sample : { size : 1}}]);
+        res.status(200).json({ message: 'success', image: image });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Error retrieving image from database'});
+    }
+}
+
 export const uploadProfilePicture = async (req, res) => {
     const s3 = new AWS.S3({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,

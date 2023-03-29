@@ -44,7 +44,7 @@ describe("Test: /image/", () => {
     });
     
     describe("GET /image/", () => {
-        describe("request exsisting image", () => {
+        describe("request existing image", () => {
             test("Return status: 200", async () => {
                 const mock = jest.spyOn(ObjectId, 'isValid')
                     .mockReturnValue(true);
@@ -182,5 +182,19 @@ describe("Test: /image/", () => {
         })
     })
         
+
+    describe("GET /image/rand/", () => {
+        describe("request random image", () => {
+            test("Return status: 200", async () => {
+                jest.spyOn(Image, 'aggregate')
+                    .mockImplementation(() => Promise.resolve( mockImage ));
+                const response = await request(app).get("/image/rand/")
+
+                expect(response.statusCode).toBe(200);
+                expect(response.body.image).toStrictEqual(mockImage);
+            })
+        })
+        afterAll(() => jest.restoreAllMocks());
+    })
 })
 
