@@ -19,6 +19,10 @@ class Image extends Component {
             })
 
             // create toggle of if imageUrl or location does not exist, revert back to street view
+            
+            // This is a callback function for allowing parent (GamePage.js) 
+            // to access the image id for reporting purposes.
+            this.props.onFetchImage(image._id);
         } catch (err) {
             console.log(err);
         }
@@ -29,7 +33,7 @@ class Image extends Component {
     }
     render() {
         return (
-            <div className="file-container2">
+            <div className="file-container2" ref={this.imageId} >
                 <img id="game-image" src={this.state.imageUrl} alt="" />
             </div>
         );
