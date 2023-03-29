@@ -92,11 +92,12 @@ class GamePage extends Component {
     };
 
     handleReport = async () => {
-        // TODO: this image id is hard coded for now for testing purposes.
-        // remove this once games w/ images are implemented
-        // this.imageId = "640d1ca8f9691be1de1e0ec3";
-        
-        if (this.imageId === null) {
+        if (!userCredentials || !userCredentials.token) {
+            alert("Please login to report an image. ");
+            return;   
+        }
+
+        if (!this.imageId) {
             alert("Unfortunately you cannot report a streetview.");
             return;   
         }
@@ -123,6 +124,10 @@ class GamePage extends Component {
         }
     }
 
+    onFetchImageStatus = (imageId) => {
+        this.imageId = imageId;
+    }
+
     render () {
         return (
             <div className="main-page-container">
@@ -132,7 +137,7 @@ class GamePage extends Component {
                     <div className="game-container">
                         <div id="streetview-container">
                             { this.state.showStreetView && <StreetView setViewLocation = { this.setViewLocation } /> }
-                            { this.state.showImage && <Image setViewLocation = { this.setViewLocation } /> }
+                            { this.state.showImage && <Image setViewLocation = { this.setViewLocation } onFetchImage={this.onFetchImageStatus} /> }
                             <Map setMarkerLocation = { this.setMarkerLocation }/>
                         </div>
 
