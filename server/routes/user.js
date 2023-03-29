@@ -21,5 +21,5 @@ router.post("/checkcode", checkcode);
 router.patch("/resetpassword", resetpassword);
 router.patch("/:id/profilePic", auth, changeProfilePicture);
 router.patch("/:id/updateScoreRecords", auth, updateScoreRecords);
-router.post("/getScoreRecords", getScoreRecords);
+router.get("/getScoreRecords", getScoreRecords);
 export default router;

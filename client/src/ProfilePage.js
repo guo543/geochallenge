@@ -20,8 +20,10 @@ const MainPage = () => {
         }
 
         //response is set equal to the current user
-        response = await axios.post(BACKEND_ENDPOINT + "/user/getScoreRecords", {
-            email: JSON.parse(localStorage.getItem('userCredentials')).result.email
+        response = await axios.get(BACKEND_ENDPOINT + "/user/getScoreRecords", {
+            params: {
+                email: JSON.parse(localStorage.getItem('userCredentials')).result.email
+            }
         });
 
         console.log("credentials: " + JSON.parse(localStorage.getItem('userCredentials')).result.profilePicture);

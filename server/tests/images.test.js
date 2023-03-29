@@ -133,5 +133,54 @@ describe("Test: /image/", () => {
             })
         })
     })
+
+    describe("POST /image/uploadprofilepicture : intentionally fail with code 500 (InvalidAccessKeyId) to avoid accessing S3 buckets and timing out", () => {
+        const OLD_ENV = process.env;
+
+        beforeAll(() => {
+            // fail aws APIs intentionally to avoid time out
+            process.env.AWS_ACCESS_KEY_ID = 'fake';
+            process.env.AWS_SECRET_ACCESS_KEY = 'fake';
+        });
+
+        afterAll(() => {
+            jest.restoreAllMocks()
+            process.env = OLD_ENV;
+        });
+
+        describe("upload valid image", () => {
+            test("Return status: 500 (InvalidAccessKeyId)", async () => {
+
+                const response = await request(app)
+                    .post("/image/uploadprofilepicture")
+                    .set('Authorization', `Bearer ${token}`)
+                    .set('Content-Type', 'multipart/form-data')
+                    .field('userID', '123')
+                    .field('imageLat', 40.580955)
+                    .field('imageLon', -87.095783)
+                    .attach('image', path.join(__dirname, './testImage.jpeg'));
+                
+                expect(response.statusCode).toBe(500);
+                expect(response.body.message).toBe('Error uploading image to S3: InvalidAccessKeyId');
+            })
+        })
+
+        describe("upload no image", () => {
+            test("Return status: 400 (No image provided)", async () => {
+
+                const response = await request(app)
+                    .post("/image/uploadprofilepicture")
+                    .set('Authorization', `Bearer ${token}`)
+                    .set('Content-Type', 'multipart/form-data')
+                    .field('userID', '123')
+                    .field('imageLat', 123123.580955)
+                    .field('imageLon', -87.095783);
+                
+                expect(response.statusCode).toBe(400);
+                expect(response.body.message).toBe('No image provided');
+            })
+        })
+    })
+        
 })
 
