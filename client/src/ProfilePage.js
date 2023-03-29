@@ -117,7 +117,7 @@ const MainPage = () => {
             formData.append('imageLon', long);
             let pfpURL = "";
             try {
-                const response = await axios.post(`${BACKEND_ENDPOINT}/image/uploadProfilePicture`, formData, {
+                const response = await axios.post(`${BACKEND_ENDPOINT}/user/uploadProfilePicture`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         'Authorization': `Bearer ${userCredentials.token}`,

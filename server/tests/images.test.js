@@ -134,7 +134,7 @@ describe("Test: /image/", () => {
         })
     })
 
-    describe("POST /image/uploadprofilepicture : intentionally fail with code 500 (InvalidAccessKeyId) to avoid accessing S3 buckets and timing out", () => {
+    describe("POST /user/uploadprofilepicture : intentionally fail with code 500 (InvalidAccessKeyId) to avoid accessing S3 buckets and timing out", () => {
         const OLD_ENV = process.env;
 
         beforeAll(() => {
@@ -152,7 +152,7 @@ describe("Test: /image/", () => {
             test("Return status: 500 (InvalidAccessKeyId)", async () => {
 
                 const response = await request(app)
-                    .post("/image/uploadprofilepicture")
+                    .post("/user/uploadprofilepicture")
                     .set('Authorization', `Bearer ${token}`)
                     .set('Content-Type', 'multipart/form-data')
                     .field('userID', '123')
@@ -169,7 +169,7 @@ describe("Test: /image/", () => {
             test("Return status: 400 (No image provided)", async () => {
 
                 const response = await request(app)
-                    .post("/image/uploadprofilepicture")
+                    .post("/user/uploadprofilepicture")
                     .set('Authorization', `Bearer ${token}`)
                     .set('Content-Type', 'multipart/form-data')
                     .field('userID', '123')
