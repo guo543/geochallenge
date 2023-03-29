@@ -33,7 +33,7 @@ class GamePage extends Component {
             openModal : false,
             modalOpened : false,
             distanceFromGuess : -1,
-            score: 0
+            score: -1
         }
         this.imageId = null;
     }
@@ -137,7 +137,7 @@ class GamePage extends Component {
                             <Map setMarkerLocation = { this.setMarkerLocation }/>
                         </div>
 
-                        { this.state.score > 0 ? 
+                        { this.state.score >= 0 ? 
                             <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
                                 Score: {this.state.score} / 1000
                             </h3>

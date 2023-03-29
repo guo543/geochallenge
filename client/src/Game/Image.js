@@ -12,10 +12,10 @@ class Image extends Component {
         try {
             const response = await axios.get(`${BACKEND_ENDPOINT}/image/rand`);
 
-            let image = response.data.image;
-            this.props.setViewLocation( { lat: image.imageLat, lng: image.imageLon});
+            let image = response.data.image[0];
+            this.props.setViewLocation( { lat: parseFloat(image.imageLat), lng: -parseFloat(image.imageLon)});
             this.setState({
-                imageUrl : image.imageUrl
+                imageUrl : image.imageURL
             })
 
             // create toggle of if imageUrl or location does not exist, revert back to street view
