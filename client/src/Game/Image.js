@@ -33,7 +33,7 @@ class Image extends Component {
     }
     render() {
         return (
-            <div className="file-container2" ref={this.imageId} >
+            <div className="file-container2" >
                 <img id="game-image" src={this.state.imageUrl} alt="" />
             </div>
         );
