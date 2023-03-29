@@ -125,8 +125,6 @@ class GamePage extends Component {
     }
 
     onFetchImageStatus = (imageId) => {
-        console.log("Updated image id to")
-        console.log(imageId);
         this.imageId = imageId;
     }
 
