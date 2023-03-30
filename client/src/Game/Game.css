@@ -10,9 +10,15 @@
     height: 100%;
     width: 100%;
     margin-left: 10px;
+    margin-right: 10px;
 }
 
 #streetview-map {
+    height:100%;
+    width:100%;
+}
+
+#game-image {
     height:100%;
     width:100%;
 }
@@ -41,7 +47,7 @@
     color: #767676;
     text-align: center;
     cursor: pointer;
-    margin-top: 45px;
+    margin-top: 20px;
     height: 5%;
 }
 

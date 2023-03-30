@@ -7,6 +7,7 @@ import {
   checkcode,
   resetpassword,
   changeProfilePicture,
+  updateScoreRecords,
   getScoreRecords,
 } from "../controllers/user.js";
 import auth from "../middleware/auth.js";
@@ -19,5 +20,6 @@ router.post("/verification", verification);
 router.post("/checkcode", checkcode);
 router.patch("/resetpassword", resetpassword);
 router.patch("/:id/profilePic", auth, changeProfilePicture);
-router.post("/getScoreRecords", getScoreRecords);
+router.patch("/:id/updateScoreRecords", auth, updateScoreRecords);
+router.get("/getScoreRecords", getScoreRecords);
 export default router;

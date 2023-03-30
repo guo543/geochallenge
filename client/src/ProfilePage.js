@@ -3,6 +3,7 @@ import "./ProfilePage.css";
 import axios from "axios";
 
 let response;
+let maxRecords = 10;
 const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
 
 const MainPage = () => {
@@ -19,8 +20,10 @@ const MainPage = () => {
         }
 
         //response is set equal to the current user
-        response = await axios.post(BACKEND_ENDPOINT + "/user/getScoreRecords", {
-            email: JSON.parse(localStorage.getItem('userCredentials')).result.email
+        response = await axios.get(BACKEND_ENDPOINT + "/user/getScoreRecords", {
+            params: {
+                email: JSON.parse(localStorage.getItem('userCredentials')).result.email
+            }
         });
 
         console.log("credentials: " + JSON.parse(localStorage.getItem('userCredentials')).result.profilePicture);
@@ -177,9 +180,34 @@ const MainPage = () => {
                                 Hide Past Scores
                             </button>
                             <p style={{ color: "white", fontSize: 17 }}>
-                                This is where scores will be shown.
-                                For now, here is the user's profile picture: {response.data.result.profilePicture}
+                                You have guessed a total of <b>{response.data.result.recordCount}</b> times!<br></br>
                             </p>
+
+                            <p style={{ color: "white", fontSize: 17 }}>
+                                {maxRecords} Most Recent Past Scores:<br></br>
+                            </p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Recency</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {response.data.result.records.map((record, index, array) => {
+                                        let scoreIndex = (response.data.result.recordCount - index) % maxRecords - 1;
+                                        if (scoreIndex === -1) {
+                                            scoreIndex = 9;
+                                        }
+                                        return (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{array[scoreIndex]}</td>
+                                            </tr>
+                                        )
+                                    }) }
+                                </tbody>
+                            </table>
                         </>
                     )}
                 </div>

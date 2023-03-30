@@ -91,6 +91,16 @@ export const getImagesByUserId = async (req, res) => {
     res.status(200).json({ message: 'success', images: images });
 }
 
+export const getRandomImage = async (req, res) => {
+    try {
+        const image = await Image.aggregate([{ $sample : { size : 1}}]);
+        res.status(200).json({ message: 'success', image: image });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Error retrieving image from database'});
+    }
+}
+
 export const uploadProfilePicture = async (req, res) => {
     const s3 = new AWS.S3({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -103,11 +113,15 @@ export const uploadProfilePicture = async (req, res) => {
             console.log(err);
             return res.status(400).json({ message: 'Error uploading image' });
         }
+        
+        if (req.file === undefined) {
+            return res.status(400).json({ message: 'No image provided' });
+        }
+        
         const file = req.file;
-        const { /*imageLat, imageLon,*/ userID } = req.body;
+        const { userID } = req.body;
         const key = `${userID}/${Date.now()}-${file.originalname}`;
         const bucketName = 'useruploadedprofilepictures';
-        //const imageName = file.originalname
         const params = {
             Bucket: bucketName,
             Key: key,
@@ -119,24 +133,10 @@ export const uploadProfilePicture = async (req, res) => {
         s3.upload(params, async (err, data) => {
             if (err) {
                 console.log(err);
-                return res.status(500).json({ message: 'Error uploading image to S3' });
+                return res.status(500).json({ message: 'Error uploading image to S3: ' + err.name });
             } else {
                 return res.status(200).json({ message: 'Image uploaded successfully to S3', image: data.Location });
             }
-            /*try {
-                const result = await Image.create({
-                    name: imageName,
-                    imageLat: imageLat,
-                    imageLon: imageLon,
-                    uploader: userID,
-                    numReports: 0,
-                    imageURL: data.Location
-                });
-                res.status(200).json({ message: 'Image uploaded successfully', image: result });
-            } catch (err) {
-                console.log(err);
-                res.status(500).json({ message: 'Error saving image to database' });
-            }*/
         });
     });
 };
