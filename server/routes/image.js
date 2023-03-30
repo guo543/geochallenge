@@ -1,11 +1,11 @@
 import express from "express";
-import { getImagesByUserId, uploadImage, reportImage } from "../controllers/image.js"
+import { getImagesByUserId, uploadImage, reportImage, getRandomImage } from "../controllers/image.js"
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
 router.get("/", auth, getImagesByUserId);
-// router.get("/rand", getRandomImage);
+router.get("/rand", getRandomImage);
 router.post("/", auth, uploadImage);
 router.patch("/:id/report", auth, reportImage);
 // router.delete("/:id", deleteImage);

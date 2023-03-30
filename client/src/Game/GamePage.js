@@ -3,6 +3,7 @@ import axios from "axios";
 
 import './Game.css';
 import Map from './Map'
+import Image from './Image'
 import StreetView from './StreetView'
 import "../MainPage.css";
 import GuestEnterGameModal from "../components/guestEnterGameModal";
@@ -25,12 +26,14 @@ class GamePage extends Component {
         super(props)
         this.state = {
             showGame : false,
+            showStreetView : false,
+            showImage : false,
             markerLocation : null,
-            streetViewLocation : null,
+            viewLocation : null,
             openModal : false,
             modalOpened : false,
             distanceFromGuess : -1,
-            score: 0
+            score: -1
         }
         this.imageId = null;
     }
@@ -42,18 +45,26 @@ class GamePage extends Component {
         }
     }
     setOpenModal = (state) => { this.setState({ openModal : state })}
-    startGame = () => { this.setState({ showGame : true }) }
+
+    startGame = () => { 
+        let imageOrStreetView = Math.random() < 0.5;
+        this.setState({ 
+            showGame : true,
+            showStreetView : imageOrStreetView,
+            showImage : !imageOrStreetView,
+        }) 
+    }
 
     setMarkerLocation = (latLng) => { 
         this.setState ({ markerLocation : latLng }) 
     }
 
-    setStreetViewLocation = (latLng) => { 
-        this.setState ({ streetViewLocation : latLng })
+    setViewLocation = (latLng) => { 
+        this.setState ({ viewLocation : latLng })
     }
 
     handleGuess = async (e) => {
-        let distance = window.google.maps.geometry.spherical.computeDistanceBetween(this.state.markerLocation, this.state.streetViewLocation);
+        let distance = window.google.maps.geometry.spherical.computeDistanceBetween(this.state.markerLocation, this.state.viewLocation);
         distance = distance * MILE_PER_METER; //convert to miles
         distance = distance.toFixed(2);
         this.setState({ distanceFromGuess : distance });
@@ -81,11 +92,12 @@ class GamePage extends Component {
     };
 
     handleReport = async () => {
-        // TODO: this image id is hard coded for now for testing purposes.
-        // remove this once games w/ images are implemented
-        // this.imageId = "640d1ca8f9691be1de1e0ec3";
-        
-        if (this.imageId === null) {
+        if (!userCredentials || !userCredentials.token) {
+            alert("Please login to report an image. ");
+            return;   
+        }
+
+        if (!this.imageId) {
             alert("Unfortunately you cannot report a streetview.");
             return;   
         }
@@ -112,6 +124,10 @@ class GamePage extends Component {
         }
     }
 
+    onFetchImageStatus = (imageId) => {
+        this.imageId = imageId;
+    }
+
     render () {
         return (
             <div className="main-page-container">
@@ -120,11 +136,12 @@ class GamePage extends Component {
                     this.state.showGame ?
                     <div className="game-container">
                         <div id="streetview-container">
-                            <StreetView setStreetViewLocation = { this.setStreetViewLocation } />
+                            { this.state.showStreetView && <StreetView setViewLocation = { this.setViewLocation } /> }
+                            { this.state.showImage && <Image setViewLocation = { this.setViewLocation } onFetchImage={this.onFetchImageStatus} /> }
                             <Map setMarkerLocation = { this.setMarkerLocation }/>
                         </div>
 
-                        { this.state.score > 0 ? 
+                        { this.state.score >= 0 ? 
                             <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
                                 Score: {this.state.score} / 1000
                             </h3>

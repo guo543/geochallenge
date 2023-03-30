@@ -31,20 +31,21 @@ describe("POST /user/signin", () => {
     })
 
     describe("correct username and password", () => {
+        var password = "12345678";
+        const hashedPassword = bcrypt.hashSync(password, 12);
+
+        let mockUser = {
+            email: "xiong109@purdue.edu",
+            password: hashedPassword,
+            _id: 1
+        }
+
+        jest.spyOn(User, 'findOne')
+            .mockImplementationOnce(() => Promise.resolve( mockUser ))
+        jest.spyOn(jwt, 'sign')
+            .mockReturnValue(null);
+
         test("Return status: 200", async () => {
-            var password = "12345678";
-            const hashedPassword = await bcrypt.hash(password, 12);
-    
-            let mockUser = {
-                email: "xiong109@purdue.edu",
-                password: hashedPassword,
-                _id: 1
-            }
-    
-            jest.spyOn(User, 'findOne')
-                .mockImplementationOnce(() => Promise.resolve( mockUser ))
-            jest.spyOn(jwt, 'sign')
-                .mockReturnValue(null);
             const response = await request(app).post("/user/signin").send(
                 {
                     email: "xiong109@purdue.edu",

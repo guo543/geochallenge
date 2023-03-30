@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { render } from 'react-dom';
 
 const PURDUE_BOUNDS = {
     north: 40.439251,
@@ -35,7 +34,7 @@ class StreetView extends Component {
             }
         )
 
-        this.props.setStreetViewLocation(panorama.getPosition());
+        this.props.setViewLocation(panorama.getPosition());
     }
     render() {
         return (
