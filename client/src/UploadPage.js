@@ -9,7 +9,8 @@ const UploadPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!localStorage.getItem('userCredentials')) {
-      navigate("/")
+      console.log("something")
+      navigate("/loginPage")
     }
   });
 
