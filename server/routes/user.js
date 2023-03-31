@@ -9,6 +9,7 @@ import {
   changeProfilePicture,
   updateScoreRecords,
   getScoreRecords,
+  uploadProfilePicture
 } from "../controllers/user.js";
 import auth from "../middleware/auth.js";
 
@@ -22,4 +23,5 @@ router.patch("/resetpassword", resetpassword);
 router.patch("/:id/profilePic", auth, changeProfilePicture);
 router.patch("/:id/updateScoreRecords", auth, updateScoreRecords);
 router.get("/getScoreRecords", getScoreRecords);
+router.post("/uploadprofilepicture", auth, uploadProfilePicture);
 export default router;
