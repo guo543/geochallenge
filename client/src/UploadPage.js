@@ -76,10 +76,9 @@ const UploadPage = () => {
         const lat = allMetaData.GPSLatitude[0].numerator / allMetaData.GPSLatitude[0].denominator +
           allMetaData.GPSLatitude[1].numerator / allMetaData.GPSLatitude[1].denominator / 60 +
           allMetaData.GPSLatitude[2].numerator / allMetaData.GPSLatitude[2].denominator / 3600;
-        var long = allMetaData.GPSLongitude[0].numerator / allMetaData.GPSLongitude[0].denominator +
+        const long = allMetaData.GPSLongitude[0].numerator / allMetaData.GPSLongitude[0].denominator +
           allMetaData.GPSLongitude[1].numerator / allMetaData.GPSLongitude[1].denominator / 60 +
           allMetaData.GPSLongitude[2].numerator / allMetaData.GPSLongitude[2].denominator / 3600;
-        long = -long
         if (lat < MAP_BOUNDS.south || lat > MAP_BOUNDS.north || -long < MAP_BOUNDS.west || -long > MAP_BOUNDS.east) {
           alert("Please upload an image with GPS coordinates within the bounds of Purdue University.");
           return;
@@ -99,7 +98,6 @@ const UploadPage = () => {
             },
           });
           console.log(response.data);
-          alert("Upload success");
         } catch (err) {
           console.log(err);
         }
