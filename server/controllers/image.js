@@ -71,7 +71,46 @@ export const uploadImage = async (req, res) => {
                     numReports: 0,
                     imageURL: data.Location
                 });
-                res.status(200).json({ message: 'Image uploaded successfully', image: result });
+
+                const rek = new AWS.Rekognition({
+                    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+                    region: 'us-east-2'
+                });
+                
+                rek.detectModerationLabels({
+                    Image: {
+                        "S3Object": { 
+                            "Bucket": bucketName,
+                            "Name": key
+                        }
+                    }
+                }, (err, data) => {
+                    if (err) {
+                        console.log(err)
+                        res.status(502).json({message: 'Failed to detect inappropriate content from uploaded image. '})
+                    } else {
+                        const moderationTags = data['ModerationLabels'];
+                        if (moderationTags.length > 0 && moderationTags[0]['Confidence'] > 85) {
+                            console.log("check1")
+                            s3.deleteObject({
+                                Bucket: bucketName,
+                                Key: key
+                            }, (err, data) => {
+                                if (err) {
+                                    console.log(err);
+                                    res.status(502).json({message: 'Failed to delete inappropriate content. '})
+                                } else {
+                                    console.log("check2")
+                                    res.status(400).json({message: 'Inappropiate image detected. Image removed from database. '})
+                                }
+                            })        
+                        } else {
+                            res.status(200).json({ message: 'Image uploaded successfully', image: result });
+                        }
+                    }
+                })
+
             } catch (err) {
                 console.log(err);
                 res.status(500).json({ message: 'Error saving image to database' });
