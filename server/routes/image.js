@@ -9,6 +9,6 @@ router.get("/rand", getRandomImage);
 router.post("/", auth, uploadImage);
 router.patch("/:id/report", auth, reportImage);
 // router.delete("/:id", deleteImage);
-
+router.patch("/:id/updateDifficultyLevel");
 
 export default router;

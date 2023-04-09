@@ -24,4 +24,6 @@ router.patch("/:id/profilePic", auth, changeProfilePicture);
 router.patch("/:id/updateScoreRecords", auth, updateScoreRecords);
 router.get("/getScoreRecords", getScoreRecords);
 router.post("/uploadprofilepicture", auth, uploadProfilePicture);
+router.get("/:id/getHighScores");
+
 export default router;
