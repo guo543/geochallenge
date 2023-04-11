@@ -97,12 +97,20 @@ const UploadPage = () => {
               'Authorization': `Bearer ${userCredentials.token}`,
             },
           });
+
+          if (response.status == 200) {
+            alert("Successfully uploaded image. Happy GeoChallenging!")
+          } else {
+            alert(response.data.message);
+          }
           console.log(response.data);
         } catch (err) {
           console.log(err);
         }
 
       });
+
+
       setSelectedFile(null);
     } else {
       alert("Please select the photo you want to upload. ");
