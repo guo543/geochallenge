@@ -89,6 +89,11 @@ class GamePage extends Component {
             console.log(testresponse);
         }
 
+        if (this.state.showImage) {
+            //TODO make sure the correct backend query is called to change the image's difficulty score
+            console.log("Id of image to have score changed: " + this.imageId);
+        }
+
     };
 
     handleReport = async () => {

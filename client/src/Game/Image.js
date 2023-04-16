@@ -10,7 +10,29 @@ class Image extends Component {
 
     fetchImage = async () => {
         try {
-            const response = await axios.get(`${BACKEND_ENDPOINT}/image/rand`);
+
+            const response;
+
+            if (localStorage.getItem("userCredentials") != null) {
+                //if logged in, get an image based on the user's average score
+
+                //response is set equal to the current user
+                response = await axios.get(BACKEND_ENDPOINT + "/user/getScoreRecords", {
+                    params: {
+                        email: JSON.parse(localStorage.getItem('userCredentials')).result.email
+                    }
+                });
+
+                console.log("User's avg score: " + response.data.result.averageScore);
+
+                //TODO make sure the correct backend query is called to give an image based on user's average score, NOT randomly
+                //if user's average score is -1, they are a new player and should be given a simple image
+                response = await axios.get(`${BACKEND_ENDPOINT}/image/rand`);
+
+            } else {
+                //if not logged in, get a completely random image
+                response = await axios.get(`${BACKEND_ENDPOINT}/image/rand`);
+            }
 
             let image = response.data.image[0];
             this.props.setViewLocation( { lat: parseFloat(image.imageLat), lng: -parseFloat(image.imageLon)});
