@@ -182,7 +182,11 @@ const MainPage = () => {
                             <p style={{ color: "white", fontSize: 17 }}>
                                 You have guessed a total of <b>{response.data.result.recordCount}</b> times!<br></br>
                             </p>
-
+                            {response.data.result.averageScore !== -1 && (
+                                <p style={{ color: "white", fontSize: 17 }}>
+                                    Your overall average score is <b>{response.data.result.averageScore}</b>.<br></br>
+                                </p>
+                            )}
                             <p style={{ color: "white", fontSize: 17 }}>
                                 {maxRecords} Most Recent Past Scores:<br></br>
                             </p>

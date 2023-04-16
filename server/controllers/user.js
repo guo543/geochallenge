@@ -50,7 +50,7 @@ export const signup = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const result = await User.create({ email, password: hashedPassword, profilePicture: "", recordCount: 0 });
+        const result = await User.create({ email, password: hashedPassword, profilePicture: "", recordCount: 0, averageScore: -1 });
         console.log('test after')
 
         const token = jwt.sign({ email: result.email, id: result._id }, "test", {
@@ -177,6 +177,15 @@ export const updateScoreRecords = async (req, res) => {
         user.records[user.recordCount % maxRecords] = score;
     }
     user.recordCount++;
+
+    //update user's average score
+    if (user.averageScore == -1) {
+        //if this is the first guess made, the score will be the average
+        user.averageScore = score;
+    } else {
+        //update the average with the new score accounted for
+        user.averageScore = ((user.recordCount - 1) / user.recordCount) * user.averageScore + (1 / user.recordCount) * score;
+    }
 
     //save changes
     const updatedUser = await User.findByIdAndUpdate(id, user, { new: true });
