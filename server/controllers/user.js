@@ -252,3 +252,12 @@ export const uploadProfilePicture = async (req, res) => {
         });
     });
 };
+
+export const getLeaderBoardScores = async (req, res) => {
+    // findAll()
+    const allUsers = await User.find({});
+
+    console.log(allUsers);
+
+    res.status(200).json({ users: allUsers });
+}

@@ -7,7 +7,11 @@ const userSchema = mongoose.Schema({
     recordCount: Number,
     records: [Number],
     averageScore: Number,
-    id: { type: String }
+    id: { type: String },
+    createdAt: {
+        type: Date,
+        default: new Date()
+    }
 });
 
 export default mongoose.model('User', userSchema);
