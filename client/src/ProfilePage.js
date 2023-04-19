@@ -155,10 +155,10 @@ const MainPage = () => {
     };
 
     return (
-        <div className="main-page-container">
+        <div className="profile-page-container">
             <div className="middle-container">
                 <div className="left-side">
-                    <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
+                    <h3 className="big-text">
                         Email: {JSON.parse(localStorage.getItem('userCredentials')).result.email}
                     </h3>
                     {!showScores && (
@@ -216,7 +216,7 @@ const MainPage = () => {
                     )}
                 </div>
                 <div className="right-side">
-                    <p style={{ color: "white", fontSize: 30 }}>
+                    <p className="big-text">
                         Profile Picture
                     </p>
                     {(localStorage.getItem('profilePicture') === null && JSON.parse(localStorage.getItem('userCredentials')).result.profilePicture === "") && (
