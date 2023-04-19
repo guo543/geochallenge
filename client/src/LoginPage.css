@@ -21,9 +21,10 @@
 
 .icon-container {
   margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
 }
 .globe-icon {
-  margin-left: 115px;
   width: 30%;
   height: auto;
 }
