@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
     profilePicture: String,
     recordCount: Number,
     records: [Number],
+    averageScore: Number,
     id: { type: String }
 });
 

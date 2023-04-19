@@ -49,23 +49,23 @@ const Leaderboard = () => {
     }
 
   }, [highlightedUser, leaderboardData, recordsPerPage]);
-
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = leaderboardData.slice(indexOfFirstRecord, indexOfLastRecord);
   const totalPages = Math.ceil(leaderboardData.length / recordsPerPage);
   let pageButtonRangeStart = 1;
   let pageButtonRangeEnd = totalPages;
-  if (totalPages > 10) {
-    if (currentPage <= 6) {
-      pageButtonRangeEnd = 10;
-    } else if (currentPage >= totalPages - 5) {
-      pageButtonRangeStart = totalPages - 9;
+  if (totalPages > 5) {
+    if (currentPage <= 3) {
+      pageButtonRangeEnd = 5;
+    } else if (currentPage >= totalPages - 2) {
+      pageButtonRangeStart = totalPages - 4;
     } else {
-      pageButtonRangeStart = currentPage - 5;
-      pageButtonRangeEnd = currentPage + 4;
+      pageButtonRangeStart = currentPage - 2;
+      pageButtonRangeEnd = currentPage + 2;
     }
   }
+  
 
   return (
     <div className="Leaderboard">
@@ -135,7 +135,7 @@ const Leaderboard = () => {
           .map((pageNum) => (
             <button key={pageNum} onClick={() => setCurrentPage(pageNum)} className={pageNum === currentPage ? "active" : ""}>{pageNum}</button>
           ))}
-        <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 10)}>...</button>
+        <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 5)}>...</button>
       </div>
 
     </div>
