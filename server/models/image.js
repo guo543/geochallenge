@@ -7,6 +7,7 @@ const imageSchema = mongoose.Schema({
     numReports: { type: Number, required: true },
     uploader: { type: String, required: true },
     imageURL: {type:String,required:true},
+    flagStatus: {type:String,required:false},
     id: { type: String }
 });
 

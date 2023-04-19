@@ -98,7 +98,7 @@ const UploadPage = () => {
             },
           });
 
-          if (response.status == 200) {
+          if (response.status === 200) {
             alert("Successfully uploaded image. Happy GeoChallenging!")
           } else {
             alert(response.data.message);
