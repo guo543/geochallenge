@@ -18,5 +18,7 @@ router.patch("/:id/report", auth, reportImage);
 router.get("/flagged", getFlagged);
 router.post("/flagged", setFlagged);
 
+// router.delete("/:id", deleteImage);
+router.patch("/:id/updateDifficultyLevel");
 
 export default router;
