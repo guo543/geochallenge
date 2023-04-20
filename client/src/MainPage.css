@@ -36,13 +36,11 @@
 }
 
 .start-button {
-  width: 70%;
-  font-size: 18px;
-  margin-top: 5%;
-  font-weight: bold;
-  background-color: #c2b04a;
-  color: #202124;
-  border-radius: 5px;
+  background-color: #e5a102;
+  color: #fff;
+  margin-top: 10%;
+  border-radius: 12px;
+  text-align: center;
   cursor: pointer;
 }
 
