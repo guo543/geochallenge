@@ -260,12 +260,17 @@ export const getLeaderBoardScores = async (req, res) => {
     const result = [];
 
     allUsers.forEach((user) => {
-        if (user.averageScore !== -1) {
+        if (user.averageScore !== 1) {
             const createdAt = user.createdAt;
+            var profilePicture = user.profilePicture
+            if (profilePicture === ""){
+                profilePicture = "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png";
+            }
             const membmerSince = createdAt.getMonth() + "-" + createdAt.getDate() + "-" + createdAt.getFullYear();
             result.push({
                 user: user.email,
                 score: user.averageScore,
+                profilePicture: profilePicture,
                 memberSince: membmerSince
             });
 
