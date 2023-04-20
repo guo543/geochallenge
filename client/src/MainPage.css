@@ -1,86 +1,81 @@
 .main-page-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100%;
-}
-
-.header {
-  display: flex;
-  width: 100%;
-  height: 10%;
-  background-color: black;
-  color: white;
-  align-items: center;
-  justify-content: center;
-}
-
-.middle-container {
-  display: flex;
   width: 100%;
   height: 100%;
-  background-color: #1a191f;
-  justify-content: center;
 }
-.bottom-container {
-  display: flex;
+
+.content {
+  flex:1;
   width: 100%;
-  height: 20%;
+  height: 100%;
+  display: flex;
+  align-items: center;
   background-color: #1a191f;
 }
 
-.left-side {
-  display: flex;
-  width: 20%;
-  height: 60%;
-  background-color: #1a191f;
+.left-part {
+  flex: 1;
+  padding: 20px;
   color: white;
-  flex-direction: column;
-  justify-content: space-around;
-  margin-top: 95px;
-  margin-left: 150px;
 }
+.left-part-conent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.left-part h3 
+{
+  font-size: 26px;
+  color: #c2b04a;
+}
+
+.left-part p {
+  margin-top: 10%;
+  font-size: 18px;
+}
+
 .start-button {
-  background-color: #e5a102;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 20px;
-  text-align: center;
+  width: 70%;
+  font-size: 18px;
+  margin-top: 5%;
+  font-weight: bold;
+  background-color: #c2b04a;
+  color: #202124;
+  border-radius: 5px;
   cursor: pointer;
+}
+
+.start-button:hover {
+  background-color: #a79839;
+}
+
+.right-part {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  color: white;
+
 }
 .purdue-campus {
-  width: 60%;
-  height: auto;
-  margin-left: 150px;
-  margin-bottom: 40px;
-  margin-top: 90px;
+  align-self: center;
+  margin-top: 5%;
+  width: 100%; 
+  object-fit: contain; 
 }
-.right-side {
+.contact{
+  width: 100%;
+  height: 100px;
   display: flex;
-  width: 80%;
-  height: 100%;
-  flex-direction: column;
-  background-color: #1a191f;
-  color: white;
+  flex-direction: row;
   align-items: center;
-  margin-top: 20px;
-}
-.contact {
-  display: flex;
-  flex-direction: row;
-  margin-top: 40px;
-  margin-left: 600px;
-}
-.icon-container {
-  display: flex;
-  flex-direction: row;
-  margin-left: 40px;
 }
 .clickable-icon {
-  width: 35px;
-  height: 35px;
-  border-radius: 15px;
-  margin: 15px;
-  margin-top: 25px;
   cursor: pointer;
+  padding-right: 1%;
+  padding-left: 1%;
+  max-width: 30%;
+  max-height: 30%;
+  object-fit: contain;
 }
