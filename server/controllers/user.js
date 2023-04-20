@@ -257,7 +257,22 @@ export const getLeaderBoardScores = async (req, res) => {
     // findAll()
     const allUsers = await User.find({});
 
-    console.log(allUsers);
+    const result = [];
 
-    res.status(200).json({ users: allUsers });
+    allUsers.forEach((user) => {
+        if (user.averageScore !== -1) {
+            const createdAt = user.createdAt;
+            const membmerSince = createdAt.getMonth() + "-" + createdAt.getDate() + "-" + createdAt.getFullYear();
+            result.push({
+                user: user.email,
+                score: user.averageScore,
+                memberSince: membmerSince
+            });
+
+        }
+        
+    })
+    // console.log(result);
+
+    res.status(200).json({ scores: result });
 }
