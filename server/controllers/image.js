@@ -63,15 +63,52 @@ export const uploadImage = async (req, res) => {
                 return res.status(500).json({ message: 'Error uploading image to S3: ' + err.name });
             }
             try {
-                const result = await Image.create({
-                    name: imageName,
-                    imageLat: imageLat,
-                    imageLon: imageLon,
-                    uploader: userID,
-                    numReports: 0,
-                    imageURL: data.Location
+
+                const rek = new AWS.Rekognition({
+                    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+                    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+                    region: 'us-east-2'
                 });
-                res.status(200).json({ message: 'Image uploaded successfully', image: result });
+                
+                rek.detectModerationLabels({
+                    Image: {
+                        "S3Object": { 
+                            "Bucket": bucketName,
+                            "Name": key
+                        }
+                    }
+                }, async (err, data) => {
+                    if (err) {
+                        console.log(err)
+                        res.status(502).json({message: 'Failed to detect inappropriate content from uploaded image. '})
+                    } else {
+                        const moderationTags = data['ModerationLabels'];
+                        if (moderationTags.length > 0 && moderationTags[0]['Confidence'] > 85) {
+                            console.log("check1")
+                            s3.deleteObject({
+                                Bucket: bucketName,
+                                Key: key
+                            }, (err, data) => {
+                                if (err) {
+                                    res.status(502).json({message: 'Failed to delete inappropriate content. '})
+                                } else {
+                                    res.status(400).json({message: 'Inappropiate image detected. Image removed from database. '})
+                                }
+                            })        
+                        } else {
+                            const result = await Image.create({
+                                name: imageName,
+                                imageLat: imageLat,
+                                imageLon: imageLon,
+                                uploader: userID,
+                                numReports: 0,
+                                imageURL: data.Location
+                            });
+                            res.status(200).json({ message: 'Image uploaded successfully', image: result });
+                        }
+                    }
+                })
+
             } catch (err) {
                 console.log(err);
                 res.status(500).json({ message: 'Error saving image to database' });
@@ -99,4 +136,52 @@ export const getRandomImage = async (req, res) => {
         console.log(err);
         res.status(500).json({ message: 'Error retrieving image from database'});
     }
+}
+
+// Returns info abt if a image is flagged & pending approval
+export const getFlagged = async (req, res) => {
+    const { imageID } = req.query;
+    if (!imageID) {
+        res.status(400).send("query params missing.");
+        return;
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(imageID)) {
+        return res.status(404).send('Image with id ' + imageID + ' does not exist.');
+    }
+    
+    const images = await Image.findOne({_id: imageID}, {flagStatus: 1 });
+
+    if (!images.flagStatus || images.flagStatus == 'clear') {
+        res.status(200).json({ message: 'success', flagStatus: 'clear' });
+    } else {
+        res.status(200).json({ message: 'success', flagStatus: 'flagged' });
+    }
+}
+
+// set the flagStatus field to either 'flagged' or 'clear'
+export const setFlagged = async (req, res) => {
+    const { imageID, flagStatus } = req.query;
+    if (!imageID || !flagStatus) {
+        res.status(400).send("query params missing.");
+        return;
+    }
+
+    if (!['flagged', 'clear'].includes(flagStatus)) {
+        res.status(400).send("query param flagStatus must be one of : \'flagged\' \'clear\' ");
+        return;
+    }
+    
+    if (!mongoose.Types.ObjectId.isValid(imageID)) {
+        return res.status(404).send('Image with id ' + imageID + ' does not exist.');
+    }
+
+    try {
+        await Image.updateOne({_id: imageID}, { $set: {flagStatus: flagStatus } });
+    } catch (err) {
+        res.status(503).send("Failed to update image flag status");
+        return;
+    }
+
+    res.status(200).json({ message: 'success', imageID: imageID, flagStatus: flagStatus });
 }
