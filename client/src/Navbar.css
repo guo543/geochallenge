@@ -7,7 +7,7 @@
   float: right;
   color: #f2f2f2;
   text-align: center;
-  padding: 14px 14px;
+  padding: 14px min(2vw, 14px);
   text-decoration: none;
   font-size: 17px;
 }
@@ -47,3 +47,26 @@
   text-decoration: none;
   font-size: 15px;
 }
+
+@media (max-width: 768px) {
+  .nav-bar-email {
+      display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-bar-profile-picture {
+      display: none;
+  }
+}
+
+/* @media (max-width: 550px) {
+  .Navbar a {
+    float: right;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 14px;
+    text-decoration: none;
+    font-size: 14px;
+  }
+} */
