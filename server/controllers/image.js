@@ -199,3 +199,7 @@ export const getUnapprovedImage = async (req, res) => {
         res.status(500).json({ message: 'Error retrieving image from database'});
     }
 }
+
+export const updateDifficultyLevel = async(req, res) => {
+    res.json({ message: "sucess" });
+}

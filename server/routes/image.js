@@ -7,7 +7,8 @@ import {
     getRandomImage,
     getFlagged,
     setFlagged,
-    getUnapprovedImage
+    getUnapprovedImage,
+    updateDifficultyLevel
 } from "../controllers/image.js"
 
 const router = express.Router();
@@ -21,6 +22,6 @@ router.post("/flagged", setFlagged);
 
 router.get("/unapproved", getUnapprovedImage);
 // router.delete("/:id", deleteImage);
-router.patch("/:id/updateDifficultyLevel");
+router.patch("/:id/updateDifficultyLevel", updateDifficultyLevel);
 
 export default router;
