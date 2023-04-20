@@ -1,0 +1,18 @@
+.approval-page-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    background-color: #1a191f;
+}
+#approval-image {
+    padding: 20px;
+    height:50vh;
+    width:100vh;
+}
+
+#approval-buttons-container {
+    display: flex;
+    flex-direction: row;
+}

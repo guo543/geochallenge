@@ -27,6 +27,7 @@ function Navbar() {
             </>
         )}
         <Link to="/leaderboardPage">Leaderboard</Link>
+        <Link to="/approvalPage">Approval</Link>
         <Link to="/gamePage">Game</Link>
         <a href="/">Home</a>
         {localStorage.getItem("userCredentials") != null && (

@@ -6,7 +6,8 @@ import {
     reportImage, 
     getRandomImage,
     getFlagged,
-    setFlagged
+    setFlagged,
+    getUnapprovedImage
 } from "../controllers/image.js"
 
 const router = express.Router();
@@ -18,6 +19,7 @@ router.patch("/:id/report", auth, reportImage);
 router.get("/flagged", getFlagged);
 router.post("/flagged", setFlagged);
 
+router.get("/unapproved", getUnapprovedImage);
 // router.delete("/:id", deleteImage);
 router.patch("/:id/updateDifficultyLevel");
 

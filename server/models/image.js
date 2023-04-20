@@ -8,6 +8,7 @@ const imageSchema = mongoose.Schema({
     uploader: { type: String, required: true },
     imageURL: {type:String,required:true},
     flagStatus: {type:String,required:false},
+    approved: {type:Boolean, required: true},
     id: { type: String }
 });
 

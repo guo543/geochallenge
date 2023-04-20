@@ -12,6 +12,7 @@ import LeaderBoardPage from "./LeaderBoardPage";
 import UploadPage from "./UploadPage";
 import ProfilePage from "./ProfilePage";
 import reportWebVitals from "./reportWebVitals";
+import ApprovalPage from "./Approval/ApprovalPage";
 
 export default function App() {
     return (
@@ -23,6 +24,7 @@ export default function App() {
                     <Route path="registerPage" element={<RegisterPage />} />
                     <Route path="forgotPasswordPage" element={<ForgotPasswordPage />} />
                     <Route path="gamePage" element={<GamePage />} />
+                    <Route path="approvalPage" element={<ApprovalPage/>} />
                     <Route path="uploadPage" element={<UploadPage />} />
                     <Route path="profilePage" element={<ProfilePage />} />
                     <Route path="leaderboardPage" element={<LeaderBoardPage />} />

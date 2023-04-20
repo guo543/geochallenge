@@ -102,6 +102,7 @@ export const uploadImage = async (req, res) => {
                                 imageLon: imageLon,
                                 uploader: userID,
                                 numReports: 0,
+                                approved: false,
                                 imageURL: data.Location
                             });
                             res.status(200).json({ message: 'Image uploaded successfully', image: result });
@@ -130,7 +131,10 @@ export const getImagesByUserId = async (req, res) => {
 
 export const getRandomImage = async (req, res) => {
     try {
-        const image = await Image.aggregate([{ $sample : { size : 1}}]);
+        const image = await Image.aggregate([
+            { $match : { approved : true} },
+            { $sample: { size : 1 } }
+        ]);    
         res.status(200).json({ message: 'success', image: image });
     } catch (err) {
         console.log(err);
@@ -184,4 +188,14 @@ export const setFlagged = async (req, res) => {
     }
 
     res.status(200).json({ message: 'success', imageID: imageID, flagStatus: flagStatus });
+}
+
+export const getUnapprovedImage = async (req, res) => {
+    try {
+        const image = await Image.find({ "approved" : false }).sort({"_id":1}).limit(1);
+        res.status(200).json({ message: 'success', image: image });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Error retrieving image from database'});
+    }
 }

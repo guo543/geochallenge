@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
 
-const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
 
 class Image extends Component {
     state = {
@@ -10,10 +9,17 @@ class Image extends Component {
 
     fetchImage = async () => {
         try {
-            const response = await axios.get(`${BACKEND_ENDPOINT}/image/rand`);
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_ENDPOINT}/image/rand`);
 
             let image = response.data.image[0];
+            console.log("Image failed...")
+            if (image === undefined) {
+                this.props.cancelImageMode();
+                return;
+            }            
+
             this.props.setViewLocation( { lat: parseFloat(image.imageLat), lng: -parseFloat(image.imageLon)});
+
             this.setState({
                 imageUrl : image.imageURL
             })
