@@ -1,4 +1,4 @@
-.main-page-container {
+.profile-page-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -6,6 +6,7 @@
 }
 
 .header {
+  flex: 1;
   display: flex;
   width: 100%;
   height: 10%;
@@ -16,6 +17,7 @@
 }
 
 .middle-container {
+  flex: 1;
   display: flex;
   width: 100%;
   height: 100%;
@@ -23,6 +25,7 @@
   justify-content: center;
 }
 .bottom-container {
+  flex: 1;
   display: flex;
   width: 100%;
   height: 20%;
@@ -30,15 +33,17 @@
 }
 
 .left-side {
-  display: flex;
-  width: 30%;
-  height: 60%;
-  background-color: #1a191f;
-  color: white;
-  flex-direction: column;
-  justify-content: space-around;
-  margin-top: 50px;
-  margin-left: 150px;
+    flex: 1;
+    display: flex;
+    width: 30%;
+    height: 60%;
+    background-color: #1a191f;
+    color: white;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 50px;
+    margin-left: 5px;
+    object-fit: contain;
 }
 
 .button {
@@ -48,11 +53,12 @@
 .profile-picture {
   width: 30%;
   height: auto;
-  margin-left: 150px;
+  margin-left: 0px;
   margin-bottom: 40px;
   margin-top: 0px;
 }
 .right-side {
+  flex: 1;
   display: flex;
   width: 80%;
   height: 100%;
@@ -61,6 +67,11 @@
   color: white;
   align-items: center;
   margin-top: 20px;
+}
+
+.big-text {
+  font-size: 4vw;
+  color: goldenrod;
 }
 
 .icon-container {
