@@ -52,7 +52,14 @@ class GamePage extends Component {
             showGame : true,
             showStreetView : imageOrStreetView,
             showImage : !imageOrStreetView,
-        }) 
+        });
+    }
+
+    cancelImageMode = () => {
+        this.setState({
+            showStreetView : true,
+            showImage : false
+        });
     }
 
     setMarkerLocation = (latLng) => { 
@@ -135,14 +142,16 @@ class GamePage extends Component {
 
     render () {
         return (
-            <div className="main-page-container">
+            <div className="game-page-container">
                 {this.state.openModal && <GuestEnterGameModal closeModal={this.setOpenModal}/>}
                 {
                     this.state.showGame ?
                     <div className="game-container">
                         <div id="streetview-container">
                             { this.state.showStreetView && <StreetView setViewLocation = { this.setViewLocation } /> }
-                            { this.state.showImage && <Image setViewLocation = { this.setViewLocation } onFetchImage={this.onFetchImageStatus} /> }
+                            { this.state.showImage && <Image setViewLocation = { this.setViewLocation }
+                                                            onFetchImage={this.onFetchImageStatus}
+                                                            cancelImageMode={this.cancelImageMode} /> }
                             <Map setMarkerLocation = { this.setMarkerLocation }/>
                         </div>
 

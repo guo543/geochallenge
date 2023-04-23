@@ -252,3 +252,32 @@ export const uploadProfilePicture = async (req, res) => {
         });
     });
 };
+
+export const getLeaderBoardScores = async (req, res) => {
+    // findAll()
+    const allUsers = await User.find({});
+
+    const result = [];
+
+    allUsers.forEach((user) => {
+        if (user.averageScore !== 1) {
+            const createdAt = user.createdAt;
+            var profilePicture = user.profilePicture
+            if (profilePicture === ""){
+                profilePicture = "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png";
+            }
+            const membmerSince = createdAt.getMonth() + "-" + createdAt.getDate() + "-" + createdAt.getFullYear();
+            result.push({
+                user: user.email,
+                score: user.averageScore,
+                profilePicture: profilePicture,
+                memberSince: membmerSince
+            });
+
+        }
+        
+    })
+    // console.log(result);
+
+    res.status(200).json({ scores: result });
+}

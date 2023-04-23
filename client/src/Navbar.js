@@ -27,6 +27,7 @@ function Navbar() {
             </>
         )}
         <Link to="/leaderboardPage">Leaderboard</Link>
+        <Link to="/approvalPage">Approval</Link>
         <Link to="/gamePage">Game</Link>
         <a href="/">Home</a>
         {localStorage.getItem("userCredentials") != null && (
@@ -39,12 +40,12 @@ function Navbar() {
                 />
             )}
             {(localStorage.getItem('profilePicture') !== null) && (
-                <img className="profile-picture" src={localStorage.getItem('profilePicture')} alt="" />
+                <img className="nav-bar-profile-picture" src={localStorage.getItem('profilePicture')} alt="" />
             )}
             {(localStorage.getItem('profilePicture') === null && JSON.parse(localStorage.getItem('userCredentials')).result.profilePicture !== "") && (
-                <img className="profile-picture" src={JSON.parse(localStorage.getItem('userCredentials')).result.profilePicture} alt="" />
+                <img className="nav-bar-profile-picture" src={JSON.parse(localStorage.getItem('userCredentials')).result.profilePicture} alt="" />
             )}
-            <b>{JSON.parse(localStorage.getItem('userCredentials')).result.email}</b>
+            <b className="nav-bar-email">{JSON.parse(localStorage.getItem('userCredentials')).result.email}</b>
             </>
         )}
       </nav>

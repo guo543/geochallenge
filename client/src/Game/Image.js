@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
 
-const BACKEND_ENDPOINT = process.env.REACT_APP_BACKEND_ENDPOINT;
 
 class Image extends Component {
     state = {
@@ -17,7 +16,7 @@ class Image extends Component {
                 //if logged in, get an image based on the user's average score
 
                 //response is set equal to the current user
-                response = await axios.get(BACKEND_ENDPOINT + "/user/getScoreRecords", {
+                response = await axios.get(process.env.REACT_APP_BACKEND_ENDPOINT + "/user/getScoreRecords", {
                     params: {
                         email: JSON.parse(localStorage.getItem('userCredentials')).result.email
                     }
@@ -27,15 +26,22 @@ class Image extends Component {
 
                 //TODO make sure the correct backend query is called to give an image based on user's average score, NOT randomly
                 //if user's average score is -1, they are a new player and should be given a simple image
-                response = await axios.get(`${BACKEND_ENDPOINT}/image/rand`);
+                response = await axios.get(`${process.env.REACT_APP_BACKEND_ENDPOINT}/image/rand`);
 
             } else {
                 //if not logged in, get a completely random image
-                response = await axios.get(`${BACKEND_ENDPOINT}/image/rand`);
+                response = await axios.get(`${process.env.REACT_APP_BACKEND_ENDPOINT}/image/rand`);
             }
 
             let image = response.data.image[0];
+            console.log("Image failed...")
+            if (image === undefined) {
+                this.props.cancelImageMode();
+                return;
+            }            
+
             this.props.setViewLocation( { lat: parseFloat(image.imageLat), lng: -parseFloat(image.imageLon)});
+
             this.setState({
                 imageUrl : image.imageURL
             })
