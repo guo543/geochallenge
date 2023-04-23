@@ -10,7 +10,7 @@ class Image extends Component {
     fetchImage = async () => {
         try {
 
-            const response;
+            let response = null;
 
             if (localStorage.getItem("userCredentials") != null) {
                 //if logged in, get an image based on the user's average score
