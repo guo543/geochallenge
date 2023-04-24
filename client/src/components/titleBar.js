@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function TitleBar() {
     const navigate = useNavigate();
     return (
-        <section className="parent">
+        <section className="titlebar-parent">
             <p className="title-text" style={{ color: "white", fontSize: 24, fontWeight: 'bold'}}>
               GeoChallenge
             </p>
