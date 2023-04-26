@@ -96,14 +96,16 @@ const UploadPage = () => {
               'Content-Type': 'multipart/form-data',
               'Authorization': `Bearer ${userCredentials.token}`,
             },
+            validateStatus: function (status) {
+              return status === 200 || status === 400;
+            },
           });
-
-          if (response.status === 200) {
-            alert("Successfully uploaded image. Happy GeoChallenging!")
+          
+          if (response.status === 400) {
+            alert(response.data.message)
           } else {
-            alert(response.data.message);
+            alert("Successfully uploaded image. Happy GeoChallenging!")
           }
-          console.log(response.data);
         } catch (err) {
           console.log(err);
         }
