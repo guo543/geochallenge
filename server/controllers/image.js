@@ -268,19 +268,20 @@ const getDifficultyLevelForImage = (score) => {
 export const updateDifficultyLevel = async(req, res) => {
     const { score } = req.body;
     const { id } = req.params;
+    // console.log(req.body);
     console.log(score);
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No image with that id');
 
     const image = await Image.findById(id);
 
-    console.log(image.averageGuessScore);
-
     if (image.averageGuessScore === -1) {
         image.averageGuessScore = score;
     } else {
         image.averageGuessScore = (image.averageGuessScore + score) / 2;
     }
+
+    console.log(image.averageGuessScore);
 
     const newDifficultyLevel = getDifficultyLevelForImage(image.averageGuessScore);
     image.difficultyLevel = newDifficultyLevel;

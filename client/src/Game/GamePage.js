@@ -96,6 +96,18 @@ class GamePage extends Component {
             console.log(testresponse);
         }
 
+        if (this.state.showImage) {
+            console.log("Image");
+            const formData = new FormData();
+            formData.append('score', calcResult);
+            const testresponse = await axios.patch(BACKEND_ENDPOINT + "/image/" + this.imageId + "/updateDifficultyLevel", formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            console.log(testresponse);
+        }
+
     };
 
     handleReport = async () => {

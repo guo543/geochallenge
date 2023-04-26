@@ -9,7 +9,20 @@ class Image extends Component {
 
     fetchImage = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_BACKEND_ENDPOINT}/image/rand`);
+            var response = undefined;
+            if (localStorage.getItem("userCredentials") == null) {
+                response = await axios.get(`${process.env.REACT_APP_BACKEND_ENDPOINT}/image/rand`);
+            } else {
+                // console.log(localStorage.getItem("userCredentials"));
+                const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_ENDPOINT}/user/${JSON.parse(localStorage.getItem("userCredentials")).result._id}`);
+                console.log(data);
+                response = await axios.get(`${process.env.REACT_APP_BACKEND_ENDPOINT}/image/randWithScore?averageScore=${data.averageScore}`,
+                    {headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userCredentials')).token}`,
+                    }}
+                );
+            }
 
             let image = response.data.image[0];
             console.log("Image failed...")

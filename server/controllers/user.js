@@ -157,6 +157,8 @@ export const updateScoreRecords = async (req, res) => {
     const { id } = req.params;
 
     const { score } = req.body;
+    console.log(score);
+    console.log(req.body);
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No user with that id');
 
@@ -280,4 +282,12 @@ export const getLeaderBoardScores = async (req, res) => {
     // console.log(result);
 
     res.status(200).json({ scores: result });
+}
+
+export const getUser = async (req, res) => {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    res.json(user);
 }
