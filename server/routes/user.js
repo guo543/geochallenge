@@ -10,7 +10,8 @@ import {
   updateScoreRecords,
   getScoreRecords,
   uploadProfilePicture,
-  getLeaderBoardScores
+  getLeaderBoardScores,
+  getUser
 } from "../controllers/user.js";
 import auth from "../middleware/auth.js";
 
@@ -26,5 +27,6 @@ router.patch("/:id/updateScoreRecords", auth, updateScoreRecords);
 router.get("/getScoreRecords", getScoreRecords);
 router.post("/uploadprofilepicture", auth, uploadProfilePicture);
 router.get("/getLeaderBoardScores", getLeaderBoardScores);
+router.get("/:id", getUser);
 
 export default router;
