@@ -165,8 +165,8 @@ class GamePage extends Component {
                         </button>
                     </div>
                     :
-                    <div className="middle-container">
-                        <div className="left-side">
+                    <div className="game-page-middle-container">
+                        <div className="game-page-left-side">
                             <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
                             The Ultimate Purdue Geography Gaming
                             </h3>
@@ -174,7 +174,7 @@ class GamePage extends Component {
                                     Start
                             </button>
                         </div>
-                        <div className="right-side">
+                        <div className="game-page-right-side">
                             <img
                                 className="purdue-campus"
                                 src={require("../assets/Purdue Campus.jpg")}

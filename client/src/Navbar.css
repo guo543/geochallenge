@@ -9,7 +9,7 @@
   text-align: center;
   padding: 14px min(2vw, 14px);
   text-decoration: none;
-  font-size: 17px;
+  font-size: min(3vw, 17px);
 }
 
 .Navbar Link {
