@@ -8,13 +8,15 @@ import {
     getFlagged,
     setFlagged,
     getUnapprovedImage,
-    updateDifficultyLevel
+    updateDifficultyLevel,
+    getRandomImageWithScore
 } from "../controllers/image.js"
 
 const router = express.Router();
 
 router.get("/", auth, getImagesByUserId);
 router.get("/rand", getRandomImage);
+router.get("/randWithScore", auth, getRandomImageWithScore);
 router.post("/", auth, uploadImage);
 router.patch("/:id/report", auth, reportImage);
 router.get("/flagged", getFlagged);

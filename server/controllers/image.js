@@ -142,6 +142,48 @@ export const getRandomImage = async (req, res) => {
     }
 }
 
+const getDifficultyLevel = (score) => {
+    if (score > 666) {
+        return 4;
+    }
+
+    if (score > 333) {
+        return 3;
+    }
+
+    return 2;
+}
+
+export const getRandomImageWithScore = async (req, res) => {
+    const averageScore = req.query.averageScore;
+    console.log(averageScore);
+    const targetDifficulty = getDifficultyLevel(averageScore);
+    console.log(targetDifficulty);
+
+    try {
+        const image = await Image.aggregate([
+            { $match : { approved : true} },
+            { $match : { $and: [
+                {difficultyLevel: { $lte: targetDifficulty + 1 }},
+                {difficultyLevel: { $gte: targetDifficulty - 1 }}
+            ]}},
+            { $sample: { size : 1 } }
+        ]);
+
+        if (image.length === 0) {
+            image = await Image.aggregate([
+                { $match : { approved : true} },
+                { $sample: { size : 1 } }
+            ]);
+        }
+
+        res.status(200).json({ message: 'success', image: image });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Error retrieving image from database'});
+    }
+}
+
 // Returns info abt if a image is flagged & pending approval
 export const getFlagged = async (req, res) => {
     const { imageID } = req.query;
@@ -200,6 +242,47 @@ export const getUnapprovedImage = async (req, res) => {
     }
 }
 
+const getDifficultyLevelForImage = (score) => {
+    if (score >= 800) {
+        return 1;
+    }
+
+    if (score >= 600) {
+        return 2;
+    }
+
+    if (score >= 400) {
+        return 3;
+    }
+
+    if (score >= 200) {
+        return 4;
+    }
+
+    return 5;
+}
+
 export const updateDifficultyLevel = async(req, res) => {
-    res.json({ message: "sucess" });
+    const { score } = req.body;
+    const { id } = req.params;
+    console.log(score);
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No image with that id');
+
+    const image = await Image.findById(id);
+
+    console.log(image.averageGuessScore);
+
+    if (image.averageGuessScore === -1) {
+        image.averageGuessScore = score;
+    } else {
+        image.averageGuessScore = (image.averageGuessScore + score) / 2;
+    }
+
+    const newDifficultyLevel = getDifficultyLevelForImage(image.averageGuessScore);
+    image.difficultyLevel = newDifficultyLevel;
+
+    const updatedImage = await Image.findByIdAndUpdate(id, image, { new: true });
+
+    res.json({ message: "success", updatedImage });
 }
