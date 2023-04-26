@@ -48,14 +48,17 @@
   font-size: 15px;
 }
 
-@media (max-width: 768px) {
+@media all and (orientation:portrait) { 
   .nav-bar-email {
       display: none;
   }
-}
-
-@media (max-width: 600px) {
-  .nav-bar-profile-picture {
+  .Navbar img {
       display: none;
   }
+
+.Navbar a {
+  padding: 14px min(1vw, 14px);
+  font-size: min(3vw, 17px);
 }
+}
+

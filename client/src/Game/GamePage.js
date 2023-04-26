@@ -167,10 +167,10 @@ class GamePage extends Component {
                     :
                     <div className="game-page-middle-container">
                         <div className="game-page-left-side">
-                            <h3 style={{ color: "#C2B04A", fontSize: 30 }}>
+                            <h3 className="game-page-start-text" style={{ color: "#C2B04A", fontSize: 30 }}>
                             The Ultimate Purdue Geography Gaming
                             </h3>
-                            <button className="start-button" onClick={ this.startGame }>
+                            <button className="game-page-start-button" onClick={ this.startGame }>
                                     Start
                             </button>
                         </div>
