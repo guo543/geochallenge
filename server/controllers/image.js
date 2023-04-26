@@ -142,6 +142,48 @@ export const getRandomImage = async (req, res) => {
     }
 }
 
+const getDifficultyLevel = (score) => {
+    if (score > 666) {
+        return 4;
+    }
+
+    if (score > 333) {
+        return 3;
+    }
+
+    return 2;
+}
+
+export const getRandomImageWithScore = async (req, res) => {
+    const averageScore = req.query.averageScore;
+    console.log(averageScore);
+    const targetDifficulty = getDifficultyLevel(averageScore);
+    console.log(targetDifficulty);
+
+    try {
+        const image = await Image.aggregate([
+            { $match : { approved : true} },
+            { $match : { $and: [
+                {difficultyLevel: { $lte: targetDifficulty + 1 }},
+                {difficultyLevel: { $gte: targetDifficulty - 1 }}
+            ]}},
+            { $sample: { size : 1 } }
+        ]);
+
+        if (image.length === 0) {
+            image = await Image.aggregate([
+                { $match : { approved : true} },
+                { $sample: { size : 1 } }
+            ]);
+        }
+
+        res.status(200).json({ message: 'success', image: image });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Error retrieving image from database'});
+    }
+}
+
 // Returns info abt if a image is flagged & pending approval
 export const getFlagged = async (req, res) => {
     const { imageID } = req.query;
