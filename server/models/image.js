@@ -10,7 +10,8 @@ const imageSchema = mongoose.Schema({
     flagStatus: {type:String,required:false},
     approved: {type:Boolean, required: true},
     id: { type: String },
-    difficultyLevel: { type: Number, default: 3 }
+    difficultyLevel: { type: Number, default: 3 },
+    averageGuessScore: { type: Number, default: -1 }
 });
 
 export default mongoose.model('Image', imageSchema);
