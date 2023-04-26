@@ -62,6 +62,7 @@ export const uploadImage = async (req, res) => {
                 console.log(err);
                 return res.status(500).json({ message: 'Error uploading image to S3: ' + err.name });
             }
+            const imageURL = data.Location;
             try {
 
                 const rek = new AWS.Rekognition({
@@ -84,7 +85,8 @@ export const uploadImage = async (req, res) => {
                     } else {
                         const moderationTags = data['ModerationLabels'];
                         if (moderationTags.length > 0 && moderationTags[0]['Confidence'] > 85) {
-                            console.log("check1")
+                            console.log("Moderation labels detected. ");
+                            console.log(data['ModerationLabels']);
                             s3.deleteObject({
                                 Bucket: bucketName,
                                 Key: key
@@ -94,8 +96,9 @@ export const uploadImage = async (req, res) => {
                                 } else {
                                     res.status(400).json({message: 'Inappropiate image detected. Image removed from database. '})
                                 }
-                            })        
+                            }) 
                         } else {
+                            console.log("image url: " + data.Location)
                             const result = await Image.create({
                                 name: imageName,
                                 imageLat: imageLat,
@@ -103,7 +106,7 @@ export const uploadImage = async (req, res) => {
                                 uploader: userID,
                                 numReports: 0,
                                 approved: false,
-                                imageURL: data.Location
+                                imageURL: imageURL
                             });
                             res.status(200).json({ message: 'Image uploaded successfully', image: result });
                         }
