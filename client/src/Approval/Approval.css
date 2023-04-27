@@ -4,7 +4,9 @@
     width: 100%;
     height: 100%;
     align-items: center;
+    justify-content: center;
     background-color: #1a191f;
+    position: fixed;
 }
 #approval-image {
     padding: 20px;
@@ -15,4 +17,10 @@
 #approval-buttons-container {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    padding: 20px;
+}
+
+#no-images {
+    padding: 30px;
 }

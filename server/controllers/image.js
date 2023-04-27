@@ -245,6 +245,39 @@ export const getUnapprovedImage = async (req, res) => {
     }
 }
 
+export const deleteImage = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No image with that id');
+
+        const response = await Image.deleteOne({ "_id" : id });
+        
+        res.status(200).json({ message: 'success' });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Error deleting image from database'});
+    }
+}
+
+export const setApproved = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No image with that id');
+    
+        const image = await Image.findById(id);
+    
+        image.approved = true;
+        const updatedImage = await Image.findByIdAndUpdate(id, image, { new: true });
+    
+        res.status(200).json(updatedImage);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Error approving image in database'});
+    }
+}
+
 const getDifficultyLevelForImage = (score) => {
     if (score >= 800) {
         return 1;
