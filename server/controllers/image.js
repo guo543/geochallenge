@@ -164,7 +164,7 @@ export const getRandomImageWithScore = async (req, res) => {
     console.log(targetDifficulty);
 
     try {
-        const image = await Image.aggregate([
+        var image = await Image.aggregate([
             { $match : { approved : true} },
             { $match : { $and: [
                 {difficultyLevel: { $lte: targetDifficulty + 1 }},
@@ -299,7 +299,7 @@ const getDifficultyLevelForImage = (score) => {
 }
 
 export const updateDifficultyLevel = async(req, res) => {
-    const { score } = req.body;
+    const score = Number(req.body.score);
     const { id } = req.params;
     // console.log(req.body);
     console.log(score);

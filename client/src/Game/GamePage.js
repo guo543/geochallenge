@@ -47,7 +47,7 @@ class GamePage extends Component {
     setOpenModal = (state) => { this.setState({ openModal : state })}
 
     startGame = () => { 
-        let imageOrStreetView = false// Math.random() < 0.5;
+        let imageOrStreetView = Math.random() < 0.5;
         this.setState({ 
             showGame : true,
             showStreetView : imageOrStreetView,
